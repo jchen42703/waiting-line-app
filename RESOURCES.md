@@ -1,11 +1,19 @@
 # Resources
 
+## Javascript
+
 - https://www.codecademy.com/learn/introduction-to-javascript
   - Intro to JS basics in an interactive manner
   - [JS in 100 seconds](https://www.youtube.com/watch?v=DHjqpvDnNGE)
 - https://javascript.info/async
   - Promises, Async/Await (Essential)
 - [What is a REST API?](https://www.youtube.com/watch?v=SLwpqD8n3d0)
+
+## Git
+
+- [Git & GitHub Crash Course For Beginners](https://www.youtube.com/watch?v=SWYqp7iY_Tc)
+- [Intermediate Git](https://www.youtube.com/watch?v=Uszj_k0DGsg)
+  - Not super necessary, but really important for work
 
 ## Frontend
 
