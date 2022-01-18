@@ -31,3 +31,10 @@ The flow consists of:
 2. Once you have finished, ask someone for a code review.
    1. The code review should be mainly to make sure that the code actually works as intended, is tested, and is properly formatted.
 3. Once the reviewer gives the okay, the reviewer should merge the pull request.
+
+# Testing
+
+Generally, follow the convention outlined here: https://medium.com/@JeffLombardJr/organizing-tests-in-jest-17fc431ff850
+
+- Unit tests should be in the same directory as where the file is and should have the `unit.test.js` suffix
+- Integration tests should be in a separate `tests` directory and should have the `int.test.js` suffix
