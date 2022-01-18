@@ -4,7 +4,7 @@ This doc goes over coding standards, the PR process, and other miscellaneous thi
 
 The stack consists of:
 
-- `npm 16.13.2` LTS
+- `node 16.13.2` LTS
 
   - https://nodejs.org/en/
 
