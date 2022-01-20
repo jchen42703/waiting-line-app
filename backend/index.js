@@ -8,6 +8,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 require("dotenv").config(envConfig);
+// initializes the db connection pool
+require("./lib/db/mongodb")();
 
 const app = express();
 
