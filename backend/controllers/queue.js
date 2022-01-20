@@ -1,10 +1,19 @@
 const express = require("express");
-
+const { Queue } = require("../lib//models/queue");
+const { v4: uuidv4 } = require("uuid");
 const router = express.Router();
 
 // Initializes a queue that holds the user data.
+// The queue is a document inside of the mongodb database collection.
 router.post("/create", async (req, res) => {
-  res.json({ queueId: "queue id" });
+  const qId = uuidv4();
+  await Queue.create({
+    queueId: qId,
+    adminId: req.body.adminId,
+    queue: [],
+  });
+
+  res.json({ queueId: qId });
 });
 
 // Posts user data to join a specified active queue
