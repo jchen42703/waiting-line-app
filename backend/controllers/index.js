@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-// router.use(require("./userRoot"));
+router.use("/queue", require("./queue.js"));
 
 // temp endpoint
 router.get("/", (req, res) => {
