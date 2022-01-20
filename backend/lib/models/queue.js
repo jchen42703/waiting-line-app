@@ -5,6 +5,7 @@ const queueSchema = new mongoose.Schema(
   {
     queueId: String,
     adminId: String,
+    canJoin: Boolean, // whether users are allowed to join the queue
     queue: [userSchema],
   },
   { collection: "queues" }

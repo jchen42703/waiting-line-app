@@ -1,6 +1,8 @@
 const express = require("express");
 const { Queue } = require("../lib//models/queue");
 const { v4: uuidv4 } = require("uuid");
+const log = require("../lib/log")();
+
 const router = express.Router();
 
 // Initializes a queue that holds the user data.
@@ -10,6 +12,7 @@ router.post("/create", async (req, res) => {
   await Queue.create({
     queueId: qId,
     adminId: req.body.adminId,
+    canJoin: true,
     queue: [],
   });
 
@@ -18,7 +21,18 @@ router.post("/create", async (req, res) => {
 
 // Posts user data to join a specified active queue
 router.post("/join", async (req, res) => {
-  res.json({ userId: "user id" });
+  const userId = uuidv4();
+  const user = {
+    userId: userId,
+    initQTime: new Date(),
+  };
+
+  await Queue.findOneAndUpdate(
+    { queueId: req.body.queueId },
+    { $push: { queue: user } }
+  );
+
+  res.json({ userId: userId });
 });
 
 // Gets the users progress in queue
