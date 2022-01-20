@@ -37,12 +37,31 @@ router.post("/join", async (req, res) => {
 
 // Gets the users progress in queue
 router.get("/progress", async (req, res) => {
-  res.json({
-    userId: "user id",
-    queueId: "queue id",
-    currPlace: 4,
-    total: 10,
-  });
+  // Gets the queue that the queried user should be in
+  const qDoc = await Queue.findOne({ queueId: req.query.queueId });
+
+  const qLength = qDoc.queue.length;
+  var currPlace = -1;
+  // Get the user's current spot in line
+  for (let i = 0; i < qLength; i++) {
+    if (qDoc.queue[i].userId === req.query.userId) {
+      currPlace = i + 1; // + 1 because i is 0 indexed
+      break;
+    }
+  }
+
+  if (currPlace === -1) {
+    res.status(400).json({
+      error: `user ${req.query.userId} does not exist in queue ${req.query.queueId}`,
+    });
+  } else {
+    res.json({
+      userId: req.query.userId,
+      queueId: req.query.queueId,
+      currPlace: currPlace,
+      total: qLength,
+    });
+  }
 });
 
 module.exports = router;
