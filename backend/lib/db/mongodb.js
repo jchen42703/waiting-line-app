@@ -2,16 +2,18 @@ const mongoose = require("mongoose");
 const log = require("../log")();
 
 // Creates and returns a mongoose.Connection
-async function createMongoConnection() {
+async function initMongoConnection() {
   const db = mongoose.createConnection(process.env.MONGO_URI);
-  db.on("error", () => {
-    log.error("MongoDB connection error. Please make sure MongoDB is running.");
-    process.exit(1);
-  });
-  db.once("open", () => {
-    log.info("connected to mongo");
-  });
-  return db;
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+      log.info("successfully connected to mongodb");
+    })
+    .catch((err) => {
+      log.error(
+        "MongoDB connection error. Please make sure MongoDB is running: " + err
+      );
+    });
 }
 
-module.exports = createMongoConnection;
+module.exports = initMongoConnection;
