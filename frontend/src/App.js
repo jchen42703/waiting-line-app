@@ -1,14 +1,15 @@
 import "./App.css";
 import { useState } from "react";
+import "./styles/styles.scss";
 
 const StatusMessage = (props) => {
   // props: {
   //   status: boolean
   // }
   if (props.statusValue) {
-    return <p>Success!</p>;
+    return <button>Success</button>;
   } else {
-    return <p>Error :(</p>;
+    return <button>Error</button>;
   }
 };
 
