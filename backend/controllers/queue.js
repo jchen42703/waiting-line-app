@@ -35,6 +35,24 @@ router.post("/join", async (req, res) => {
   res.json({ userId: userId });
 });
 
+// Posts user data to join a specified active queue
+router.post("/pop", async (req, res) => {
+  const body = req.body;
+  console.log(body);
+  // const userId = uuidv4();
+  // const user = {
+  //   userId: userId,
+  //   initQTime: new Date(),
+  // };
+
+  // await Queue.findOneAndUpdate(
+  //   { queueId: req.body.queueId },
+  //   { $push: { queue: user } }
+  // );
+
+  res.json("hello world");
+});
+
 // Gets the users progress in queue
 router.get("/progress", async (req, res) => {
   // Gets the queue that the queried user should be in
