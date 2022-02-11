@@ -1,5 +1,13 @@
 # Getting Started with Create React App
 
+## Installation
+
+https://stackoverflow.com/questions/47607602/how-to-add-a-tailwind-css-rule-to-css-checker
+
+https://nerdcave.com/tailwind-cheat-sheet
+
+# Scripts
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
