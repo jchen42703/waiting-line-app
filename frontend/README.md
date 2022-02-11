@@ -4,7 +4,15 @@
 
 https://stackoverflow.com/questions/47607602/how-to-add-a-tailwind-css-rule-to-css-checker
 
-https://nerdcave.com/tailwind-cheat-sheet
+## Stack
+
+- React
+- SCSS
+- Tailwind
+  - https://nerdcave.com/tailwind-cheat-sheet
+- DaisyUI
+  - Theming: https://daisyui.com/docs/default-themes
+- Redux (?)
 
 # Scripts
 
