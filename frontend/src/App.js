@@ -7,7 +7,7 @@ const StatusMessage = (props) => {
   //   status: boolean
   // }
   if (props.statusValue) {
-    return <button>Success</button>;
+    return <button>{props.textInsideButton}</button>;
   } else {
     return <button>Error</button>;
   }
@@ -15,6 +15,7 @@ const StatusMessage = (props) => {
 
 const App = () => {
   const [status, setStatus] = useState(false);
+  const [queueId, setQueueId] = useState("");
 
   const handleClick = async () => {
     const payload = {
@@ -27,6 +28,7 @@ const App = () => {
       );
       console.log("data: ", data);
       setStatus(true);
+      setQueueId(data.queueId);
     } catch (err) {
       console.log("err: ", err);
       setStatus(false);
@@ -52,7 +54,11 @@ const App = () => {
     <div className="App">
       <button onClick={handleClick}>Create queue</button>
       <p>Status: {JSON.stringify(status)}</p>
-      <StatusMessage statusValue={status}></StatusMessage>
+      <p>{queueId}</p>
+      <StatusMessage
+        statusValue={status}
+        textInsideButton={queueId}
+      ></StatusMessage>
     </div>
   );
 };
