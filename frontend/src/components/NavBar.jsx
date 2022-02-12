@@ -1,4 +1,10 @@
-import { Box, Flex, useColorModeValue, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  useColorModeValue,
+  IconButton,
+  Button,
+} from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import NavDrawer from "./Drawer";
 import { Link as RouteLink } from "react-router-dom";
@@ -16,7 +22,18 @@ export default function Nav() {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex h={16} alignItems={"center"} justifyContent={"flex-start"}>
             <NavDrawer></NavDrawer>
-            <Box paddingLeft={4}>Queue App</Box>
+            <Link as={RouteLink} to="/">
+              <Button
+                paddingLeft={4}
+                paddingTop={1}
+                _hover={{ bg: "transparent" }}
+                _active={{
+                  bg: "transparent",
+                }}
+              >
+                CSDS 393 Queue App
+              </Button>
+            </Link>
           </Flex>
           {/* To maintain compatibility w/chakra ui attributes */}
           <Link as={RouteLink} to="/settings">
