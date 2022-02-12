@@ -9,12 +9,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/passport": "^1.0.7",
+    "connect-mongodb-session": "^3.1.1",
     "cors": "^2.8.5",
     "dotenv": "^14.2.0",
+    "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-oauth2-jwt-bearer": "^1.1.0",
     "express-openid-connect": "^2.5.2",
+    "express-session": "^1.17.2",
     "mongoose": "^6.1.7",
+    "passport": "^0.5.2",
+    "passport-google-oidc": "^0.1.0",
     "uuid": "^8.3.2",
     "winston": "^3.4.0"
   },
