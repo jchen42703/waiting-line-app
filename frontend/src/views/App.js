@@ -1,4 +1,5 @@
 import "../styles/styles.scss";
+import "focus-visible/dist/focus-visible";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./auth/Login";
 import Dashboard from "./dashboard/dashboard";
@@ -7,7 +8,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 export default function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider resetCSS={true}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
