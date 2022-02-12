@@ -1,9 +1,11 @@
 import { Box, Flex, useColorModeValue, IconButton } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import NavDrawer from "./Drawer";
+import { Link as RouteLink } from "react-router-dom";
+import { Link } from "@chakra-ui/react";
+
 /**
- * Last example of:
- * https://chakra-templates.dev/navigation/navbar
+ * The navigation bar that opens up a side bar with the queues
  *
  * @returns
  */
@@ -16,7 +18,10 @@ export default function Nav() {
             <NavDrawer></NavDrawer>
             <Box paddingLeft={4}>Queue App</Box>
           </Flex>
-          <IconButton icon={<SettingsIcon />}></IconButton>
+          {/* To maintain compatibility w/chakra ui attributes */}
+          <Link as={RouteLink} to="/settings">
+            <IconButton icon={<SettingsIcon />}></IconButton>
+          </Link>
         </Flex>
       </Box>
     </>
