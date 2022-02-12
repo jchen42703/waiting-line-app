@@ -18,8 +18,9 @@ import {
   Select,
   Textarea,
   useDisclosure,
+  IconButton,
 } from "@chakra-ui/react";
-import { AddIcon } from "@chakra-ui/icons";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 export default function NavDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -27,9 +28,12 @@ export default function NavDrawer() {
 
   return (
     <>
-      <Button leftIcon={<AddIcon />} colorScheme="teal" onClick={onOpen}>
-        Create user
-      </Button>
+      <IconButton
+        aria-label="Open drawer"
+        icon={<HamburgerIcon />}
+        onClick={onOpen}
+      />
+
       <Drawer
         isOpen={isOpen}
         placement="left"

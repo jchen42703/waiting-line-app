@@ -1,20 +1,6 @@
-import {
-  Box,
-  Flex,
-  Avatar,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
-  useDisclosure,
-  useColorModeValue,
-  Stack,
-  Center,
-  IconButton,
-} from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { Box, Flex, useColorModeValue, IconButton } from "@chakra-ui/react";
+import { SettingsIcon } from "@chakra-ui/icons";
+import NavDrawer from "./Drawer";
 /**
  * Last example of:
  * https://chakra-templates.dev/navigation/navbar
@@ -22,13 +8,15 @@ import { HamburgerIcon } from "@chakra-ui/icons";
  * @returns
  */
 export default function Nav() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <IconButton aria-label="Search database" icon={<HamburgerIcon />} />
-          <Box>Logo</Box>
+          <Flex h={16} alignItems={"center"} justifyContent={"flex-start"}>
+            <NavDrawer></NavDrawer>
+            <Box paddingLeft={4}>Queue App</Box>
+          </Flex>
+          <IconButton icon={<SettingsIcon />}></IconButton>
         </Flex>
       </Box>
     </>
