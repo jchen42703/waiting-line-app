@@ -34,6 +34,17 @@ router.post("/join", async (req, res) => {
 
   res.json({ userId: userId });
 });
+router.post("/pop", async (req, res) => {
+  try {
+    const poppedUser = await Queue.findOneAndUpdate(
+      { queueId: req.body.queueId },
+      { $pop: { queue: -1 } }
+    );
+    res.json({ userId: poppedUser.queue[0].userId });
+  } catch (err) {
+    res.status(404).json({ error: "Queue is empty" });
+  }
+});
 
 // Gets the users progress in queue
 router.get("/progress", async (req, res) => {
