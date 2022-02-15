@@ -22,6 +22,8 @@
   - https://reactjs.org/tutorial/tutorial.html
   - Or just look up youtube tutorials
   - [React in 100 seconds](https://www.youtube.com/watch?v=Tn6-PIqc4UM)
+  - Testing
+    - https://reactjs.org/docs/testing-recipes.html#data-fetching
 
 - HTML/CSS
 
