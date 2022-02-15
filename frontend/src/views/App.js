@@ -6,13 +6,13 @@ import Dashboard from "./dashboard/dashboard";
 import Home from "./home/Home";
 import SettingsPage from "./settings/settings";
 import { ChakraProvider } from "@chakra-ui/react";
-import Nav from "../components/NavBar";
+import NavBar from "../components/NavBar";
 
 export default function App() {
   return (
     <ChakraProvider resetCSS={true}>
       <BrowserRouter>
-        <Nav></Nav>
+        <NavBar></NavBar>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="dashboard" element={<Dashboard />} />
