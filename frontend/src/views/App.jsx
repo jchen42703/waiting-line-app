@@ -7,6 +7,7 @@ import Home from "./home/Home";
 import SettingsPage from "./settings/settings";
 import { ChakraProvider } from "@chakra-ui/react";
 import AdminNavBar from "../components/AdminNavBar";
+import UserSignupPage from "./users/UserSignupPage";
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="login" element={<Login />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="users/:queueId" element={<UserSignupPage />} />
         </Routes>{" "}
       </BrowserRouter>
     </ChakraProvider>
