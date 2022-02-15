@@ -14,10 +14,16 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { config } from "../lib/config";
+import { Navigate } from "react-router-dom";
 
 export default function SignUpWindow(props) {
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const finalRef = React.useRef();
+
+  const [redirectState, setRedirectState] = React.useState({
+    shouldRedirect: false,
+    userId: "",
+  });
 
   const handleSubmit = async () => {
     console.log(
@@ -45,8 +51,18 @@ export default function SignUpWindow(props) {
     });
     const value = await response.json(); // parses JSON response into native JavaScript objects
     console.log(value);
+
+    setRedirectState({
+      shouldRedirect: true,
+      userId: value.userId,
+    });
   };
 
+  if (redirectState.shouldRedirect) {
+    console.log("redirects!");
+    const redirectPath = `/users/${props.queueId}/${redirectState.userId}`;
+    return <Navigate to={redirectPath} />;
+  }
   return (
     <>
       <Modal
