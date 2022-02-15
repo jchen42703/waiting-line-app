@@ -1,3 +1,7 @@
+import { useParams } from "react-router-dom";
+import SignUpWindow from "../../components/userSignUpModal";
 export default function UserSignupPage(props) {
-  return <h1>User sign up page</h1>;
+  let { queueId } = useParams();
+  console.log(queueId);
+  return <SignUpWindow queueId={queueId}></SignUpWindow>;
 }

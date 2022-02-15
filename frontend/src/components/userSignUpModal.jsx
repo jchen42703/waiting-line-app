@@ -13,8 +13,9 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
+import { config } from "../lib/config";
 
-export default function SignUpWindow() {
+export default function SignUpWindow(props) {
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const finalRef = React.useRef();
 
@@ -27,11 +28,27 @@ export default function SignUpWindow() {
       "\nphone number: ",
       document.getElementById("phone-num").value
     );
+
+    const data = {
+      queueId: props.queueId,
+    };
+    // Default options are marked with *
+    const response = await fetch(`${config.hostUrl}/api/queue/join`, {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+    const value = await response.json(); // parses JSON response into native JavaScript objects
+    console.log(value);
   };
 
   return (
     <>
-      <p>scan code</p>
       <Modal
         closeOnOverlayClick={false}
         finalFocusRef={finalRef}
