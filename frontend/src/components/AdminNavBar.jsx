@@ -15,7 +15,7 @@ import { Link } from "@chakra-ui/react";
  *
  * @returns
  */
-export default function NavBar() {
+export default function AdminNavBar() {
   // this needs to be here because react hooks must be called in the same order
   // in every render
   const navBg = useColorModeValue("gray.100", "gray.900");
