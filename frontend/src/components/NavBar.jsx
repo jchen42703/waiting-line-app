@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { SettingsIcon } from "@chakra-ui/icons";
 import NavDrawer from "./Drawer";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, useLocation } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
 
 /**
@@ -15,10 +15,22 @@ import { Link } from "@chakra-ui/react";
  *
  * @returns
  */
-export default function Nav() {
+export default function NavBar() {
+  // this needs to be here because react hooks must be called in the same order
+  // in every render
+  const navBg = useColorModeValue("gray.100", "gray.900");
+
+  // conditionally render based on route
+  // navbar should only render for admin routes
+  const location = useLocation();
+  console.log(location);
+  if (location.pathname.match("/users/*")) {
+    return null;
+  }
+
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box bg={navBg} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex h={16} alignItems={"center"} justifyContent={"flex-start"}>
             <NavDrawer></NavDrawer>
