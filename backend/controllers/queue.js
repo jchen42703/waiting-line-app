@@ -45,7 +45,7 @@ router.post("/pop", async (req, res) => {
       { queueId: req.body.queueId },
       { $pop: { queue: -1 } }
     );
-    if (poppedUser == null) {
+    if (!poppedUser) {
       res.status(404).json({ error: "queueId invalid" });
     } else if (poppedUser.queue.length < 1) {
       res.status(404).json({ error: "Queue is empty" });
