@@ -37,18 +37,18 @@ router.post("/join", async (req, res) => {
 
 router.post("/pop", async (req, res) => {
   if (req.body.queueId === undefined) {
-    res.status(404).json({ error: "JSON is undefined" });
+    res.status(400).json({ error: "JSON is undefined" });
   } else if (!req.body.queueId) {
-    res.status(404).json({ error: "JSON is null" });
+    res.status(400).json({ error: "JSON is null" });
   } else {
     const poppedUser = await Queue.findOneAndUpdate(
       { queueId: req.body.queueId },
       { $pop: { queue: -1 } }
     );
     if (!poppedUser) {
-      res.status(404).json({ error: "queueId invalid" });
+      res.status(400).json({ error: "queueId invalid" });
     } else if (poppedUser.queue.length < 1) {
-      res.status(404).json({ error: "Queue is empty" });
+      res.status(400).json({ error: "Queue is empty" });
     } else {
       res.json({ userId: poppedUser.queue[0].userId });
     }
