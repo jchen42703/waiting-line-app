@@ -35,6 +35,26 @@ router.post("/join", async (req, res) => {
   res.json({ userId: userId });
 });
 
+router.post("/pop", async (req, res) => {
+  if (req.body.queueId === undefined) {
+    res.status(400).json({ error: "JSON is undefined" });
+  } else if (!req.body.queueId) {
+    res.status(400).json({ error: "JSON is null" });
+  } else {
+    const poppedUser = await Queue.findOneAndUpdate(
+      { queueId: req.body.queueId },
+      { $pop: { queue: -1 } }
+    );
+    if (!poppedUser) {
+      res.status(400).json({ error: "queueId invalid" });
+    } else if (poppedUser.queue.length < 1) {
+      res.status(400).json({ error: "Queue is empty" });
+    } else {
+      res.json({ userId: poppedUser.queue[0].userId });
+    }
+  }
+});
+
 // Gets the users progress in queue
 router.get("/progress", async (req, res) => {
   // Gets the queue that the queried user should be in
