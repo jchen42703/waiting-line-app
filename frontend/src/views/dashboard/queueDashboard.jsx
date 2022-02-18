@@ -1,14 +1,29 @@
 import { useParams } from "react-router-dom";
+import { Box, Button, Center, Flex, Spacer } from "@chakra-ui/react";
 
 export default function QueueDashboard() {
   let { queueId } = useParams();
   console.log(queueId);
 
   return (
-    <main style={{ padding: "1rem 0" }}>
-      <h2>Queue Dashboard</h2>
-      <button className="btn btn-primary">daisyUI Button</button>
-      <button className="btn btn-secondary">daisyUI Button</button>
-    </main>
+    <>
+      <Flex flexDirection={"column"} justifyContent={"center"} my="3" mx="16">
+        {/* Header + Buttons */}
+        <Flex flexDirection={"row"} justifyContent={"space-between"}>
+          {/* <Box>
+            <h1>Queue Dashboard</h1>
+          </Box> */}
+          <Flex flexDirection={"column"}>
+            <Box>Queue Name</Box>
+            <Box>Users</Box>
+          </Flex>
+
+          <Flex flexDirection={"row"}>
+            <Button>Next User</Button>
+            <Button>Delete User</Button>
+          </Flex>
+        </Flex>
+      </Flex>
+    </>
   );
 }
