@@ -11,7 +11,7 @@ https://stackoverflow.com/questions/47607602/how-to-add-a-tailwind-css-rule-to-c
 - Tailwind
   - https://nerdcave.com/tailwind-cheat-sheet
 - DaisyUI
-  - Theming: https://daisyui.com/docs/default-themes
+  - Theming: npm
 - Redux (?)
 
 # Scripts
