@@ -1,21 +1,30 @@
-import { Router } from 'express';
+import { Request, Response, Router } from 'express';
 import { Queue } from '../lib/models/queue';
 import { randomUUID } from 'crypto';
 
 export const queueRouter = Router();
 
+interface POSTCreate {
+  adminId: string;
+}
+
+interface POSTCreateResp {
+  queueId: string;
+}
 // Initializes a queue that holds the user data.
 // The queue is a document inside of the mongodb database collection.
-queueRouter.post('/create', async (req, res) => {
+queueRouter.post('/create', async (req: Request, res: Response) => {
+  const body: POSTCreate = req.body;
+
   const qId = randomUUID();
   await Queue.create({
     queueId: qId,
-    adminId: req.body.adminId,
+    adminId: body.adminId,
     canJoin: true,
     queue: [],
   });
 
-  res.json({ queueId: qId });
+  res.json({ queueId: qId } as POSTCreateResp);
 });
 
 // Posts user data to join a specified active queue
