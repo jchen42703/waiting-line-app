@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx jest --coverage"
+    "start": "tsc -p tsconfig.release.json && nodemon build/src/index.js",
+    "clean": "rimraf coverage build tmp",
+    "prebuild": "npm run lint",
+    "build": "tsc -p tsconfig.release.json",
+    "build:watch": "tsc -w -p tsconfig.release.json",
+    "lint": "eslint . --ext .ts,.tsx",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch"
   },
   "author": "",
   "license": "ISC",
@@ -14,11 +21,23 @@
     "express": "^4.17.2",
     "express-oauth2-jwt-bearer": "^1.1.0",
     "express-openid-connect": "^2.5.2",
-    "mongoose": "^6.1.7",
-    "uuid": "^8.3.2",
-    "winston": "^3.4.0"
+    "mongoose": "^6.2.2",
+    "pino": "^7.8.0"
   },
   "devDependencies": {
-    "jest": "^27.4.7"
+    "@types/jest": "~27.0.2",
+    "@types/node": "^16.11.25",
+    "@typescript-eslint/eslint-plugin": "~5.7.0",
+    "@typescript-eslint/parser": "~5.7.0",
+    "eslint": "~8.4.1",
+    "eslint-config-prettier": "~8.3.0",
+    "eslint-plugin-jest": "~25.3.0",
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.15",
+    "prettier": "~2.5.1",
+    "rimraf": "~3.0.2",
+    "ts-jest": "~27.1.1",
+    "tsutils": "~3.21.0",
+    "typescript": "~4.5.3"
   }
 }
