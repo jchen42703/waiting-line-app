@@ -3,36 +3,41 @@ import {
   FormLabel,
   Button,
   Input,
-  Modal,
-  ModalOverlay,
-  ModalHeader,
-  ModalContent,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-  useDisclosure,
+  Box,
+  Flex,
+  Stack,
+  Heading,
+  Text,
+  FormErrorMessage,
+  InputGroup,
+  InputLeftAddon,
 } from "@chakra-ui/react";
 import React from "react";
 import { config } from "../lib/config";
 import { Navigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import InputMask from "react-input-mask";
 
 export default function SignUpWindow(props) {
-  const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
-  const finalRef = React.useRef();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm();
 
   const [redirectState, setRedirectState] = React.useState({
     shouldRedirect: false,
     userId: "",
   });
 
-  const handleSubmit = async () => {
+  const onSubmit = async () => {
     console.log(
       "name: ",
       document.getElementById("name").value,
       "\nemail: ",
       document.getElementById("email").value,
       "\nphone number: ",
-      document.getElementById("phone-num").value
+      document.getElementById("phone").value.match(/[0-9]/g).join("")
     );
 
     const data = {
@@ -63,46 +68,67 @@ export default function SignUpWindow(props) {
     const redirectPath = `/users/${props.queueId}/${redirectState.userId}`;
     return <Navigate to={redirectPath} />;
   }
-  return (
-    <>
-      <Modal
-        closeOnOverlayClick={false}
-        finalFocusRef={finalRef}
-        isOpen={isOpen}
-        onClose={onClose}
-        size="sm"
-      >
-        <ModalOverlay />
-        <ModalContent>
-          {/*<ModalHeader textAlign="Center">User Information</ModalHeader>*/}
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl isRequired>
-              <FormLabel mt={10} htmlFor="name">
-                Name
-              </FormLabel>
-              <Input id="name" placeholder="Name" />
-              <FormLabel mt={3} htmlFor="email">
-                Email
-              </FormLabel>
-              <Input id="email" placeholder="Email" htmlSize={20} />
-              <FormLabel mt={3} htmlFor="phone-num">
-                Phone Number
-              </FormLabel>
-              <Input id="phone-num" placeholder="Phone Number" />
-            </FormControl>
-          </ModalBody>
 
-          <ModalFooter alignSelf="Center">
-            <Button mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="teal" type="submit" onClick={handleSubmit}>
-              Submit
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+  return (
+    <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.100"}>
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Sign up to join the queue</Heading>
+          <Text fontSize={"xl"} color={"gray.600"}>
+            description ... e.g. queue name
+          </Text>
+        </Stack>
+        <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Stack spacing={4}>
+              <FormControl isRequired>
+                <FormLabel htmlFor="name">Name</FormLabel>
+                <Input id="name" placeholder="Name" />
+              </FormControl>
+              <FormControl isRequired isInvalid={errors.email}>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input
+                  id="email"
+                  placeholder="Email"
+                  {...register("email", {
+                    pattern: {
+                      value: /.[@]./,
+                      message: <p>Please enter a valid email address</p>,
+                    },
+                  })}
+                />
+                <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
+              </FormControl>
+              <FormControl isRequired isInvalid={errors.phone}>
+                <FormLabel htmlFor="phone">Phone Number</FormLabel>
+
+                <InputGroup>
+                  <InputLeftAddon children="+1" />
+                  <Input
+                    id="phone"
+                    placeholder="Phone Number"
+                    as={InputMask}
+                    mask="(***) ***-****"
+                    maskChar={null}
+                    {...register("phone", {
+                      pattern: {
+                        value: /\d{4}/g,
+                        message: <p>Please enter a valid phone number</p>,
+                      },
+                    })}
+                  />
+                </InputGroup>
+
+                <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
+              </FormControl>
+
+              <Button mt={3} colorScheme="teal" type="submit">
+                Join
+              </Button>
+            </Stack>
+          </form>
+        </Box>
+      </Stack>
+    </Flex>
   );
 }
