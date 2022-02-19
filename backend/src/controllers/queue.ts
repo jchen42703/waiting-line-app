@@ -4,17 +4,18 @@ import { randomUUID } from 'crypto';
 
 export const queueRouter = Router();
 
-interface POSTCreate {
+interface POSTCreateReq {
   adminId: string;
 }
 
 interface POSTCreateResp {
   queueId: string;
 }
+
 // Initializes a queue that holds the user data.
 // The queue is a document inside of the mongodb database collection.
 queueRouter.post('/create', async (req: Request, res: Response) => {
-  const body: POSTCreate = req.body;
+  const body: POSTCreateReq = req.body;
 
   const qId = randomUUID();
   await Queue.create({
