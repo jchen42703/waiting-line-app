@@ -64,4 +64,24 @@ router.get("/progress", async (req, res) => {
   }
 });
 
+//delete users from the queue
+router.delete("/delete", async (req, res) => {
+  const qDoc = await Queue.findOne({ queueId: req.query.queueId });
+  if (!qDoc) {
+    res.json({
+      emptyMessage: "queueId is empty",
+    });
+  } else {
+    const qLength = qDoc.queue.length;
+    for (i = 0; i <= qLength; i++) {
+      if (qDoc.queue[i].userId === req.queue.userId) {
+        for (j = qLength - i; j <= qLength; j++) {
+          qDoc.queue[i] = qDoc.queue[i + 1];
+          qDoc.queue[j] = qDoc.queue[j + 1];
+        }
+      }
+    }
+  }
+});
+
 module.exports = router;
