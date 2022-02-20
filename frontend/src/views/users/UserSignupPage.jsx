@@ -50,33 +50,47 @@ export default function UserSignupPage(props) {
     };
 
     // Default options are marked with *
-    await fetch(`${config.hostUrl}/api/queue/join`, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    })
-      .then((response) => {
-        console.log(response.json());
-        setRedirectState({
-          shouldRedirect: true,
-          userId: response.json().userId,
-        });
-      })
-      .catch((err) => {
-        toast({
-          position: "top",
-          title: err.message,
-          description: "There is a problem on the server side",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
+    try {
+      const resp = await fetch(`${config.hostUrl}/api/queue/join`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
       });
+      const respBody = await resp.json();
+      console.log("respbody: ", respBody);
+      setRedirectState({
+        shouldRedirect: true,
+        userId: respBody.userId,
+      });
+    } catch (e) {
+      let message; // string
+      if (e instanceof Error) {
+        message = e.message;
+      } else if (typeof e === "string") {
+        message = e;
+      } else {
+        message = "unknown error";
+      }
+
+      // use logger to log error: console.log is temp
+      console.log(message);
+
+      // Show error message on 400 (operational errors)
+      // Don't show error messages on 500 (server)
+      toast({
+        position: "top",
+        title:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   if (redirectState.shouldRedirect) {
@@ -87,17 +101,6 @@ export default function UserSignupPage(props) {
 
   return (
     <>
-      {/* <Box display={display}>
-        <Alert status="error">
-          <AlertIcon />
-          <AlertTitle>{error}</AlertTitle>
-          <AlertDescription>
-            There is a problem on the server side
-          </AlertDescription>
-          <CloseButton position="absolute" right="8px" top="8px" />
-        </Alert>
-      </Box> */}
-
       <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.100"}>
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
