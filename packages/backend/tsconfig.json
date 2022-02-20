@@ -17,7 +17,8 @@
     "noImplicitThis": false,
     "strictNullChecks": false,
     "outDir": "./dist",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "include": ["src/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "typings"]
