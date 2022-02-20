@@ -1,0 +1,18 @@
+{
+  "name": "waiting-line-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Joseph Chen, Benson Jin, Di Zhou, Jalen Xu, David Tang",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "lerna run --parallel start"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0",
+    "typescript": "^4.5.5"
+  }
+}

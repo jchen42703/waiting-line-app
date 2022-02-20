@@ -2,52 +2,56 @@
 
 App for queuing users with a simple scan of a QR code
 
-# Getting Started
+# Migrating from the Previous Repository
 
-## Frontend
-
-To install the dependencies:
+Start off by installing lerna and nuking your old code:
 
 ```
-cd frontend
-npm install .
+npx lerna clean -y
 ```
 
-To start a test app environment:
+(`npx lerna` will automatically prompt you to install lerna.)
+
+Then, check that you have `yarn` installed by running:
 
 ```
-npm start
+yarn -v
 ```
 
-- the dev environment should be at `localhost:3000`
-
-To test:
+If it shows a version (i.e. 1.22.17 (must be < 2)), then you're good! Otherwise, run:
 
 ```
-npm test
+npm install -g yarn
 ```
 
-## Backend
+to install `yarn`.
 
-To install the dependencies:
-
-```
-cd backend
-npm install .
-```
-
-To start the server:
+Then, simply run:
 
 ```
-node index.js
+yarn install
 ```
 
-If you want the server to restart on a code change, use `nodemon` instead of `node`.
+Then,
 
 ```
-// To install nodemon
-npm install -g nodemon
+yarn start
+```
 
-// then run:
-nodemon index.js
+When you run `yarn start` in the root directory, this starts BOTH the frontend and backend.
+
+**But, if you want to only start one of them, do:**
+
+```
+cd packages/backend
+yarn install
+yarn start
+```
+
+OR
+
+```
+cd packages/frontend
+yarn install
+yarn start
 ```
