@@ -2,7 +2,7 @@ import { Request, Response, Router } from 'express';
 import { Queue } from '../lib/models/queue';
 import { randomUUID } from 'crypto';
 
-export const queueRouter = Router();
+const queueRouter = Router();
 
 interface POSTCreateReq {
   adminId: string;
@@ -92,3 +92,5 @@ queueRouter.get('/progress', async (req, res) => {
     });
   }
 });
+
+export default queueRouter;
