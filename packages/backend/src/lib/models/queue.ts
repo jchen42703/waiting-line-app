@@ -1,6 +1,6 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema } from "mongoose";
 
-import { userSchema } from './user';
+import { userSchema } from "./user";
 
 export const queueSchema = new Schema(
   {
@@ -9,7 +9,7 @@ export const queueSchema = new Schema(
     canJoin: Boolean, // whether users are allowed to join the queue
     queue: [userSchema],
   },
-  { collection: 'queues' },
+  { collection: "queues" },
 );
 
-export const Queue = model('Queue', queueSchema);
+export const Queue = model("Queue", queueSchema);

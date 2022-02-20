@@ -1,6 +1,6 @@
-import { Request, Response, Router } from 'express';
-import { Queue } from '../lib/models/queue';
-import { randomUUID } from 'crypto';
+import { Request, Response, Router } from "express";
+import { Queue } from "../lib/models/queue";
+import { randomUUID } from "crypto";
 
 export const queueRouter = Router();
 
@@ -14,7 +14,7 @@ interface POSTCreateResp {
 
 // Initializes a queue that holds the user data.
 // The queue is a document inside of the mongodb database collection.
-queueRouter.post('/create', async (req: Request, res: Response) => {
+queueRouter.post("/create", async (req: Request, res: Response) => {
   const body: POSTCreateReq = req.body;
 
   const qId = randomUUID();
@@ -29,7 +29,7 @@ queueRouter.post('/create', async (req: Request, res: Response) => {
 });
 
 // Posts user data to join a specified active queue
-queueRouter.post('/join', async (req, res) => {
+queueRouter.post("/join", async (req, res) => {
   const userId = randomUUID();
   const user = {
     userId: userId,
@@ -44,20 +44,20 @@ queueRouter.post('/join', async (req, res) => {
   res.json({ userId: userId });
 });
 
-queueRouter.post('/pop', async (req, res) => {
+queueRouter.post("/pop", async (req, res) => {
   if (req.body.queueId === undefined) {
-    res.status(400).json({ error: 'JSON is undefined' });
+    res.status(400).json({ error: "JSON is undefined" });
   } else if (!req.body.queueId) {
-    res.status(400).json({ error: 'JSON is null' });
+    res.status(400).json({ error: "JSON is null" });
   } else {
     const poppedUser = await Queue.findOneAndUpdate(
       { queueId: req.body.queueId },
       { $pop: { queue: -1 } },
     );
     if (!poppedUser) {
-      res.status(400).json({ error: 'queueId invalid' });
+      res.status(400).json({ error: "queueId invalid" });
     } else if (poppedUser.queue.length < 1) {
-      res.status(400).json({ error: 'Queue is empty' });
+      res.status(400).json({ error: "Queue is empty" });
     } else {
       res.json({ userId: poppedUser.queue[0].userId });
     }
@@ -65,7 +65,7 @@ queueRouter.post('/pop', async (req, res) => {
 });
 
 // Gets the users progress in queue
-queueRouter.get('/progress', async (req, res) => {
+queueRouter.get("/progress", async (req, res) => {
   // Gets the queue that the queried user should be in
   const qDoc = await Queue.findOne({ queueId: req.query.queueId });
 
