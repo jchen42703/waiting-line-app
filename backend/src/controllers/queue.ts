@@ -104,33 +104,40 @@ queueRouter.post('/pop', async (req: Request, res: Response) => {
 });
 
 // Gets the users progress in queue
-queueRouter.get('/progress', async (req: Request, res: Response) => {
-  const query: POSTProgressReq = req.query;
-  // Gets the queue that the queried user should be in
-  const qDoc = await Queue.findOne({
-    queueId: query.queueId,
-  });
-
-  const qLength: number = qDoc.queue.length;
-  var currPlace: number = -1;
-  // Get the user's current spot in line
-  for (let i: number = 0; i < qLength; i++) {
-    if (qDoc.queue[i].userId === query.userId) {
-      currPlace = i + 1; // + 1 because i is 0 indexed
-      break;
-    }
-  }
-
-  if (currPlace === -1) {
-    res.status(400).json({
-      error: `user ${query.userId} does not exist in queue ${query.queueId}`,
-    } as POSTProgressRes);
-  } else {
-    res.json({
-      userId: query.userId,
+queueRouter.get(
+  '/progress',
+  async (
+    req: Request<unknown, unknown, unknown, POSTProgressReq>,
+    res: Response,
+  ) => {
+    const query: POSTProgressReq = req.query;
+    // Gets the queue that the queried user should be in
+    const qDoc: IQueue = await Queue.findOne({
       queueId: query.queueId,
-      currPlace: currPlace,
-      total: qLength,
-    } as POSTProgressRes);
-  }
-});
+    });
+
+    const qLength: number = qDoc.queue.length;
+    var currPlace: number = -1;
+    // Get the user's current spot in line
+    for (let i: number = 0; i < qLength; i++) {
+      const qDocUser: IUser = qDoc.queue[i];
+      if (qDocUser.userId === query.userId) {
+        currPlace = i + 1; // + 1 because i is 0 indexed
+        break;
+      }
+    }
+
+    if (currPlace === -1) {
+      res.status(400).json({
+        error: `user ${query.userId} does not exist in queue ${query.queueId}`,
+      } as POSTProgressRes);
+    } else {
+      res.json({
+        userId: query.userId,
+        queueId: query.queueId,
+        currPlace: currPlace,
+        total: qLength,
+      } as POSTProgressRes);
+    }
+  },
+);
