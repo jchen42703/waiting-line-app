@@ -9,6 +9,7 @@ import QueueDashboard from "./dashboard/queueDashboard";
 import SettingsPage from "./settings/settings";
 import AdminNavBar from "../components/AdminNavBar";
 import UserSignupPage from "./users/UserSignupPage";
+import UserWaitingPage from "./users/UserWaitingPage";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="login" element={<Login />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="users/:queueId" element={<UserSignupPage />} />
+          <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />
         </Routes>{" "}
       </BrowserRouter>
     </ChakraProvider>
