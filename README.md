@@ -55,3 +55,35 @@ cd packages/frontend
 yarn install
 yarn start
 ```
+
+## Installing New Packages
+
+In root:
+
+```
+# Install packageName into packages/backend
+npx lerna add packageName packages/backend
+
+# Install packageName into packages/frontend
+npx lerna add packageName packages/frontend
+
+# To install into everything (including shared-dto)
+npx lerna add packageName packages/*
+
+# For devDependencies
+npx lerna add --dev packageName packages/*
+```
+
+OR you can just do regular `yarn add packageName`:
+
+```
+# Install packageName into backend
+cd packages/backend
+yarn add packageName
+
+# Install packageName into frontend
+cd packages/frontend
+yarn add packageName
+```
+
+A quick way to refresh your node_modules is to run `npx lerna clean -y`.
