@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import passport from "passport";
 import { setupPassport } from "../lib/passport";
 
-const CLIENT_URL = "http://localhost:3000/";
+const CLIENT_URL = process.env.CLIENT_URL;
 
 function createAuthRouter() {
   setupPassport();

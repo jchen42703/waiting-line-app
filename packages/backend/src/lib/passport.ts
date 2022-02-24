@@ -3,8 +3,8 @@ import { Strategy as GithubStrategy } from "passport-github2";
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import passport from "passport";
 
-const GOOGLE_CLIENT_ID = "your id";
-const GOOGLE_CLIENT_SECRET = "your id";
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 const GITHUB_CLIENT_ID = "your id";
 const GITHUB_CLIENT_SECRET = "your id";
@@ -18,7 +18,7 @@ export function setupPassport() {
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: "/auth/google/callback",
+        callbackURL: "/api/auth/google/callback",
       },
       function (accessToken, refreshToken, profile, done) {
         done(null, profile);
@@ -31,7 +31,7 @@ export function setupPassport() {
       {
         clientID: GITHUB_CLIENT_ID,
         clientSecret: GITHUB_CLIENT_SECRET,
-        callbackURL: "/auth/github/callback",
+        callbackURL: "/api/auth/github/callback",
       },
       function (accessToken, refreshToken, profile, done) {
         done(null, profile);
@@ -44,7 +44,7 @@ export function setupPassport() {
       {
         clientID: FACEBOOK_APP_ID,
         clientSecret: FACEBOOK_APP_SECRET,
-        callbackURL: "/auth/facebook/callback",
+        callbackURL: "/api/auth/facebook/callback",
       },
       function (accessToken, refreshToken, profile, done) {
         done(null, profile);
