@@ -10,6 +10,7 @@ function createAuthRouter() {
   const authRouter = Router();
 
   authRouter.get("/login/success", (req: Request, res: Response) => {
+    console.log(req.user);
     if (req.user) {
       res.status(200).json({
         success: true,
