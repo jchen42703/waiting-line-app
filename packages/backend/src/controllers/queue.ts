@@ -96,7 +96,7 @@ function createQueueRouter() {
           return next(new HttpException(400, "bad queueId"));
         }
       } catch (e) {
-        return next(new HttpException(400, "join failed"));
+        return next(new HttpException(500, "join failed"));
       }
 
       res.json({ userId: userId });
@@ -108,25 +108,33 @@ function createQueueRouter() {
     async (
       req: Request<unknown, POSTPopRes, POSTPopReq, unknown>,
       res: Response<POSTPopRes, unknown>,
+      next: NextFunction,
     ) => {
-      const body = req.body;
-      if (body.queueId === undefined) {
-        res.status(400).json({ error: "JSON is undefined" });
-      } else if (!body.queueId) {
-        res.status(400).json({ error: "JSON is null" });
-      } else {
+      // TODO: Add operation to pop a specific user when userId is specified
+      const { queueId } = req.body;
+      if (!queueId || typeof queueId !== "string") {
+        // res.status(400).json({ error: "JSON is undefined" });
+        return next(new HttpException(400, "queueId must be a string"));
+      }
+
+      try {
         const popFirstInQueue: IQueue = await Queue.findOneAndUpdate(
-          { queueId: body.queueId },
+          { queueId: queueId },
           { $pop: { queue: -1 } },
         );
         if (!popFirstInQueue) {
-          res.status(400).json({ error: "queueId invalid" });
-        } else if (popFirstInQueue.queue.length < 1) {
-          res.status(400).json({ error: "Queue is empty" });
-        } else {
-          const poppedUser: IUser = popFirstInQueue.queue[0];
-          res.json({ userId: poppedUser.userId });
+          return next(new HttpException(400, "queueId invalid"));
         }
+
+        if (popFirstInQueue.queue.length < 1) {
+          return next(new HttpException(400, "Queue is empty"));
+        }
+
+        // sucess
+        const poppedUser: IUser = popFirstInQueue.queue[0];
+        return res.json({ userId: poppedUser.userId });
+      } catch (e) {
+        return next(new HttpException(500, `Could not pop for ${queueId}`));
       }
     },
   );
