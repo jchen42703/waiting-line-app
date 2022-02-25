@@ -20,8 +20,8 @@ interface POSTPopReq {
 }
 
 interface POSTPopRes {
-  userId: string;
-  error: string;
+  userId?: string;
+  error?: string;
 }
 
 interface GETProgressReq {
@@ -30,11 +30,11 @@ interface GETProgressReq {
 }
 
 interface GETProgressRes {
-  error: string;
-  queueId: string;
-  userId: string;
-  currPlace: number;
-  total: number;
+  error?: string;
+  queueId?: string;
+  userId?: string;
+  currPlace?: number;
+  total?: number;
 }
 
 export {
