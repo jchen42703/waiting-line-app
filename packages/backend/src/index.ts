@@ -5,6 +5,7 @@ import "dotenv/config";
 import router from "./controllers";
 import cookieSession from "cookie-session";
 import passport from "passport";
+import errorMiddleware from "./middleware/error";
 
 // initializes the db connection pool
 initMongoConnection();
@@ -31,6 +32,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/api", router);
+
+app.use(errorMiddleware); // catch-all for server errors
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
