@@ -1,8 +1,16 @@
 import { Request, Response, Router } from "express";
 import { Queue } from "../lib/models/queue";
 import { randomUUID } from "crypto";
-import { Schema } from "mongoose";
-import { User } from "../lib/models/user";
+import {
+  POSTCreateReq,
+  POSTCreateRes,
+  POSTJoinReq,
+  POSTJoinRes,
+  POSTPopReq,
+  POSTPopRes,
+  GETProgressReq,
+  GETProgressRes,
+} from "@waiting-line-app/shared-dto/queue";
 
 export const queueRouter: Router = Router();
 
@@ -17,37 +25,6 @@ interface IUser {
   initQTime: Date;
 }
 
-interface POSTCreateReq {
-  adminId: string;
-}
-interface POSTCreateRes {
-  queueId: string;
-}
-interface POSTJoinReq {
-  queueId: string;
-}
-interface POSTJoinRes {
-  userId: string;
-}
-interface POSTPopReq {
-  queueId: string;
-  userId: string;
-}
-interface POSTPopRes {
-  userId: string;
-  error: string;
-}
-interface POSTProgressReq {
-  queueId: string;
-  userId: string;
-}
-interface POSTProgressRes {
-  error: string;
-  queueId: string;
-  userId: string;
-  currPlace: number;
-  total: number;
-}
 // Initializes a queue that holds the user data.
 // The queue is a document inside of the mongodb database collection.
 queueRouter.post("/create", async (req: Request, res: Response) => {
@@ -107,10 +84,10 @@ queueRouter.post("/pop", async (req: Request, res: Response) => {
 queueRouter.get(
   "/progress",
   async (
-    req: Request<unknown, unknown, unknown, POSTProgressReq>,
+    req: Request<unknown, unknown, unknown, GETProgressReq>,
     res: Response,
   ) => {
-    const query: POSTProgressReq = req.query;
+    const query: GETProgressReq = req.query;
     // Gets the queue that the queried user should be in
     const qDoc: IQueue = await Queue.findOne({
       queueId: query.queueId,
@@ -130,14 +107,14 @@ queueRouter.get(
     if (currPlace === -1) {
       res.status(400).json({
         error: `user ${query.userId} does not exist in queue ${query.queueId}`,
-      } as POSTProgressRes);
+      } as GETProgressRes);
     } else {
       res.json({
         userId: query.userId,
         queueId: query.queueId,
         currPlace: currPlace,
         total: qLength,
-      } as POSTProgressRes);
+      } as GETProgressRes);
     }
   },
 );
