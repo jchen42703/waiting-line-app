@@ -73,17 +73,31 @@ function createQueueRouter() {
     async (
       req: Request<unknown, POSTJoinRes, POSTJoinReq, unknown>,
       res: Response<POSTJoinRes, unknown>,
+      next: NextFunction,
     ) => {
+      // Input validation
+      const queueId = req.body.queueId;
+      if (!queueId || typeof queueId !== "string") {
+        return next(new HttpException(400, "queueId must be a string"));
+      }
+
       const userId: string = randomUUID();
       const user: IUser = {
         userId: userId,
         initQTime: new Date(),
       };
 
-      await Queue.findOneAndUpdate(
-        { queueId: req.body.queueId },
-        { $push: { queue: user } },
-      );
+      try {
+        const qDoc: IQueue = await Queue.findOneAndUpdate(
+          { queueId: req.body.queueId },
+          { $push: { queue: user } },
+        );
+        if (!qDoc) {
+          return next(new HttpException(400, "bad queueId"));
+        }
+      } catch (e) {
+        return next(new HttpException(400, "join failed"));
+      }
 
       res.json({ userId: userId });
     },
