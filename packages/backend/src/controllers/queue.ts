@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { Queue } from "../lib/models/queue";
 import { randomUUID } from "crypto";
 import {
@@ -11,20 +11,21 @@ import {
   GETProgressReq,
   GETProgressRes,
 } from "@waiting-line-app/shared-dto/queue";
+import { HttpException } from "../lib/errors";
+
+interface IQueue {
+  queueId: string;
+  adminId: string;
+  canJoin: boolean;
+  queue: IUser[];
+}
+interface IUser {
+  userId: string;
+  initQTime: Date;
+}
 
 function createQueueRouter() {
   const queueRouter: Router = Router();
-
-  interface IQueue {
-    queueId: string;
-    adminId: string;
-    canJoin: boolean;
-    queue: IUser[];
-  }
-  interface IUser {
-    userId: string;
-    initQTime: Date;
-  }
 
   // Initializes a queue that holds the user data.
   // The queue is a document inside of the mongodb database collection.
@@ -33,14 +34,34 @@ function createQueueRouter() {
     async (
       req: Request<unknown, POSTCreateRes, POSTCreateReq, unknown>,
       res: Response<POSTCreateRes, unknown>,
+      next: NextFunction,
     ) => {
+      const adminId = req.body.adminId;
+      // validation
+      if (!adminId || typeof adminId !== "string") {
+        return next(new HttpException(400, "adminId must be a string"));
+      }
+
+      // TODO: Check database that the admin id is valid
+      // For now, let's assume that it is valid
+      const adminExists = true;
+      if (!adminExists) {
+        return next(new HttpException(400, "invalid adminId"));
+      }
+
       const qId: string = randomUUID();
-      await Queue.create({
-        queueId: qId,
-        adminId: req.body.adminId,
-        canJoin: true,
-        queue: [],
-      });
+      try {
+        await Queue.create({
+          queueId: qId,
+          adminId: req.body.adminId,
+          canJoin: true,
+          queue: [],
+        });
+      } catch (e) {
+        return next(
+          new HttpException(500, `Could not create queue for ${adminId}`),
+        );
+      }
 
       res.json({ queueId: qId });
     },
