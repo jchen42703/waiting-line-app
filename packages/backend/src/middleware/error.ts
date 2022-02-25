@@ -20,16 +20,14 @@ const errorMiddleware: ErrorRequestHandler = (
 ) => {
   // just in-case we accidentally send a regular error instead of an HTTPException
   const status = error instanceof HttpException ? error.status : 500;
+  const message = error.message || "Something went wrong";
+
   // only log when server error
   if (status >= 500) {
     logger.info(`server error for req: ${stringifyReq(req)})}`);
     logger.error(error);
-    return res.status(status).json({
-      message: "Something went wrong.",
-    });
   }
 
-  const message = error.message || "Something went wrong";
   return res.status(status).json({
     message: message,
   });
