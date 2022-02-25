@@ -5,7 +5,6 @@
  *
  * Server errors will be exempt (throw 500+ for those errors).
  */
-interface OperationalErrResp {
-  status: number;
+export interface OperationalErrResp {
   message: string;
 }
