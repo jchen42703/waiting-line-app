@@ -21,73 +21,88 @@ interface IQueue {
   queue: IUser[];
 }
 interface IUser {
-  userId: String;
+  userId: string;
   initQTime: Date;
 }
 
 // Initializes a queue that holds the user data.
 // The queue is a document inside of the mongodb database collection.
-queueRouter.post("/create", async (req: Request, res: Response) => {
-  const body: POSTCreateReq = req.body;
+queueRouter.post(
+  "/create",
+  async (
+    req: Request<unknown, POSTCreateRes, POSTCreateReq, unknown>,
+    res: Response<POSTCreateRes, unknown>,
+  ) => {
+    const qId: string = randomUUID();
+    await Queue.create({
+      queueId: qId,
+      adminId: req.body.adminId,
+      canJoin: true,
+      queue: [],
+    });
 
-  const qId: string = randomUUID();
-  await Queue.create({
-    queueId: qId,
-    adminId: body.adminId,
-    canJoin: true,
-    queue: [],
-  });
-
-  res.json({ queueId: qId } as POSTCreateRes);
-});
+    res.json({ queueId: qId });
+  },
+);
 
 // Posts user data to join a specified active queue
-queueRouter.post("/join", async (req: Request, res: Response) => {
-  const userId: string = randomUUID();
-  const user: IUser = {
-    userId: userId,
-    initQTime: new Date(),
-  };
+queueRouter.post(
+  "/join",
+  async (
+    req: Request<unknown, POSTJoinRes, POSTJoinReq, unknown>,
+    res: Response<POSTJoinRes, unknown>,
+  ) => {
+    const userId: string = randomUUID();
+    const user: IUser = {
+      userId: userId,
+      initQTime: new Date(),
+    };
 
-  const body: POSTJoinReq = req.body;
-  await Queue.findOneAndUpdate(
-    { queueId: body.queueId },
-    { $push: { queue: user } },
-  );
-
-  res.json({ userId: userId } as POSTJoinRes);
-});
-
-queueRouter.post("/pop", async (req: Request, res: Response) => {
-  const body: POSTPopReq = req.body;
-  if (body.queueId === undefined) {
-    res.status(400).json({ error: "JSON is undefined" } as POSTPopRes);
-  } else if (!body.queueId) {
-    res.status(400).json({ error: "JSON is null" } as POSTPopRes);
-  } else {
-    const popFirstInQueue: IQueue = await Queue.findOneAndUpdate(
-      { queueId: body.queueId },
-      { $pop: { queue: -1 } },
+    await Queue.findOneAndUpdate(
+      { queueId: req.body.queueId },
+      { $push: { queue: user } },
     );
-    if (!popFirstInQueue) {
-      res.status(400).json({ error: "queueId invalid" } as POSTPopRes);
-    } else if (popFirstInQueue.queue.length < 1) {
-      res.status(400).json({ error: "Queue is empty" } as POSTPopRes);
+
+    res.json({ userId: userId });
+  },
+);
+
+queueRouter.post(
+  "/pop",
+  async (
+    req: Request<unknown, POSTPopRes, POSTPopReq, unknown>,
+    res: Response<POSTPopRes, unknown>,
+  ) => {
+    const body = req.body;
+    if (body.queueId === undefined) {
+      res.status(400).json({ error: "JSON is undefined" });
+    } else if (!body.queueId) {
+      res.status(400).json({ error: "JSON is null" });
     } else {
-      const poppedUser: IUser = popFirstInQueue.queue[0];
-      res.json({ userId: poppedUser.userId } as POSTPopRes);
+      const popFirstInQueue: IQueue = await Queue.findOneAndUpdate(
+        { queueId: body.queueId },
+        { $pop: { queue: -1 } },
+      );
+      if (!popFirstInQueue) {
+        res.status(400).json({ error: "queueId invalid" });
+      } else if (popFirstInQueue.queue.length < 1) {
+        res.status(400).json({ error: "Queue is empty" });
+      } else {
+        const poppedUser: IUser = popFirstInQueue.queue[0];
+        res.json({ userId: poppedUser.userId });
+      }
     }
-  }
-});
+  },
+);
 
 // Gets the users progress in queue
 queueRouter.get(
   "/progress",
   async (
-    req: Request<unknown, unknown, unknown, GETProgressReq>,
-    res: Response,
+    req: Request<unknown, GETProgressRes, unknown, GETProgressReq>,
+    res: Response<GETProgressRes, unknown>,
   ) => {
-    const query: GETProgressReq = req.query;
+    const query = req.query;
     // Gets the queue that the queried user should be in
     const qDoc: IQueue = await Queue.findOne({
       queueId: query.queueId,
@@ -107,14 +122,14 @@ queueRouter.get(
     if (currPlace === -1) {
       res.status(400).json({
         error: `user ${query.userId} does not exist in queue ${query.queueId}`,
-      } as GETProgressRes);
+      });
     } else {
       res.json({
         userId: query.userId,
         queueId: query.queueId,
         currPlace: currPlace,
         total: qLength,
-      } as GETProgressRes);
+      });
     }
   },
 );
