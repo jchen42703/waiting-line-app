@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { queueRouter } from "./queue";
+import createQueueRouter from "./queue";
 
 const router = Router();
 
-router.use("/queue", queueRouter);
+router.use("/queue", createQueueRouter());
 
 // temp endpoint
 router.get("/", (req, res) => {
