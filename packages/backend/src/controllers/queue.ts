@@ -145,35 +145,42 @@ function createQueueRouter() {
     async (
       req: Request<unknown, GETProgressRes, unknown, GETProgressReq>,
       res: Response<GETProgressRes, unknown>,
+      next: NextFunction,
     ) => {
       const query = req.query;
       // Gets the queue that the queried user should be in
-      const qDoc: IQueue = await Queue.findOne({
-        queueId: query.queueId,
-      });
-
-      const qLength: number = qDoc.queue.length;
-      var currPlace: number = -1;
-      // Get the user's current spot in line
-      for (let i: number = 0; i < qLength; i++) {
-        const qDocUser: IUser = qDoc.queue[i];
-        if (qDocUser.userId === query.userId) {
-          currPlace = i + 1; // + 1 because i is 0 indexed
-          break;
-        }
-      }
-
-      if (currPlace === -1) {
-        res.status(400).json({
-          error: `user ${query.userId} does not exist in queue ${query.queueId}`,
-        });
-      } else {
-        res.json({
-          userId: query.userId,
+      try {
+        const qDoc: IQueue = await Queue.findOne({
           queueId: query.queueId,
-          currPlace: currPlace,
-          total: qLength,
         });
+        const qLength: number = qDoc.queue.length;
+        var currPlace: number = -1;
+        // Get the user's current spot in line
+        for (let i: number = 0; i < qLength; i++) {
+          const qDocUser: IUser = qDoc.queue[i];
+          if (qDocUser.userId === query.userId) {
+            currPlace = i + 1; // + 1 because i is 0 indexed
+            break;
+          }
+        }
+
+        if (currPlace === -1) {
+          return next(
+            new HttpException(
+              400,
+              `user ${query.userId} does not exist in queue ${query.queueId}`,
+            ),
+          );
+        } else {
+          return res.json({
+            userId: query.userId,
+            queueId: query.queueId,
+            currPlace: currPlace,
+            total: qLength,
+          });
+        }
+      } catch (e) {
+        return next(new HttpException(500, `invalid queueId`));
       }
     },
   );
