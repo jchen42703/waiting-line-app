@@ -48,14 +48,14 @@ We also organize our stories and tasks on the board:
 
 **TLDR; Similar to last time**
 
-| Student | What has been done                                               | What remains                                                                                               |
-| ------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| Joseph  | <ul><li>Converted backend to TypeScript</li></ul>                | <ul><li>Setting up a valid ID check before creating queue</li><li>Standardizing the color scheme</li></ul> |
-| Benson  | <ul><li>Setup OAuth 2.0 using passport</li></ul>                 | <ul><li>Creatimng authentication cookie that's parsable by the backend</li></ul>                           |
-| Jody    | <ul><li>Created a user signup page for joining a queue</li></ul> | <ul><li>Working on a user waiting line page</li><li>Learn TypeScript</li></ul>                             |
-| Daniel  | <ul><li>Finished queue admin dashboard wireframe</li></ul>       | <ul><li>Add functionality to queue admin dashboard components </li><li>Learn TypeScript</li> </ul>         |
-| David   | <ul><li>Worked on delete user from queue endpoint</li></ul>      | <ul><li>Continue working on delete user from queue endpoint</li></ul>                                      |
-| Jalen   | <ul><li>Finished the pop user from queue endpoint</li></ul>      | <ul><li>Add interfaces to queue for readability </li></ul>                                                 |
+| Student | What has been done                                                    | What remains                                                                                                                                             |
+| ------- | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Joseph  | <ul><li>Converted backend to TypeScript</li></ul>                     | <ul><li>Setting up a valid ID check before creating queue</li><li>Standardizing the color scheme</li></ul>                                               |
+| Benson  | <ul><li>Setup OAuth 2.0 using passport</li></ul>                      | <ul><li>Creating authentication cookie that's parsable by the backend</li></ul>                                                                          |
+| Jody    | <ul><li>Created a user signup page for joining a queue</li></ul>      | <ul><li>Working on a user waiting line page</li><li>Learn TypeScript</li></ul>                                                                           |
+| Daniel  | <ul><li>Finished queue admin dashboard wireframe</li></ul>            | <ul><li>Add functionality to queue admin dashboard components </li><li>Learn TypeScript</li> </ul>                                                       |
+| David   | <ul><li>Worked on delete user from queue endpoint</li></ul>           | <ul><li>Continue working on delete user from queue endpoint</li></ul>                                                                                    |
+| Jalen   | <ul><li>Finished interfaces & typing for assigned endpoints</li></ul> | <ul><li>Adding an endpoint that retrieves a list of users in a queue</li><li>Adding an endpoint that retrieves a list of queueIDs for an admin</li></ul> |
 
 **Problems Faced:**
 
