@@ -1,4 +1,4 @@
-# CSDS 393: Bi-Weekly Progress Report 2
+# CSDS 393: Bi-Weekly Progress Report 3
 
 **Current Scrum Master:** Daniel Lee (dkl40@case.edu)
 
