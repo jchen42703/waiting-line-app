@@ -18,6 +18,7 @@ import { config } from "../../lib/config";
 import { Navigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
+import validator from "validator";
 
 export default function UserSignupPage(props) {
   let { queueId } = useParams();
@@ -42,7 +43,7 @@ export default function UserSignupPage(props) {
       "\nemail: ",
       document.getElementById("email").value,
       "\nphone number: ",
-      document.getElementById("phone").value.match(/\d/g).join("")
+      document.getElementById("phone").value.match(/\d/g).join(""),
     );
 
     const data = {
@@ -106,7 +107,7 @@ export default function UserSignupPage(props) {
           <Stack align={"center"}>
             <Heading fontSize={"4xl"}>Sign up to join the queue</Heading>
             <Text fontSize={"xl"} color={"gray.600"}>
-              description ... e.g. queue name
+              Please fill out this form to join Queue1
             </Text>
           </Stack>
           <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
@@ -123,10 +124,9 @@ export default function UserSignupPage(props) {
                     id="email"
                     placeholder="Email"
                     {...register("email", {
-                      pattern: {
-                        value: /.[@]./,
-                        message: "Please enter a valid email address", // JS only: <p>error message</p> TS only support string
-                      },
+                      validate: (v) =>
+                        validator.isEmail(v) === true ||
+                        "Please enter a valid email address",
                     })}
                   />
                   <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -144,10 +144,9 @@ export default function UserSignupPage(props) {
                       mask="(***) ***-****"
                       maskChar={null}
                       {...register("phone", {
-                        pattern: {
-                          value: /[(]\d{3}[)]\s\d{3}[-]\d{4}/,
-                          message: "Please enter a valid phone number", // JS only: <p>error message</p> TS only support string
-                        },
+                        validate: (v) =>
+                          validator.isMobilePhone(v) === true ||
+                          "Please enter a valid phone number",
                       })}
                     />
                   </InputGroup>
