@@ -6,7 +6,6 @@
 
 - Joseph Chen (jxc1598@case.edu)
 - Benson Jin (bxj155@case.edu)
-- Daniel Lee (dkl40@case.edu)
 - Di Zhou (dxz266@case.edu)
 - Zhongyuan Tang (zxt139@case.edu)
 - Jalen Xu (jalen.xu@case.edu)
@@ -15,11 +14,11 @@
 
 We manage the user stories and individual tasks through Jira and the Jira backlog.
 
-![](images/backlog-3-18-22.PNG)
+![](images/backlog-3-18-22.png)
 
 We also organize our stories and tasks on the board:
 
-![](images/board-3-18-22.PNG)
+![](images/board-3-18-22.png)
 
 ## Assigned Stories
 
