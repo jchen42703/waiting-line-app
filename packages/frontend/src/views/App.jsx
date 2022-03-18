@@ -44,14 +44,16 @@ export default function App() {
         <AdminNavBar></AdminNavBar>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
+          {/* <Route
             path="dashboard"
             element={user ? <Dashboard /> : <Navigate to="/login" />}
           />
           <Route
             path="dashboard/:queueId"
             element={user ? <QueueDashboard /> : <Navigate to="/login" />}
-          />
+          /> */}
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="dashboard/:queueId" element={<QueueDashboard />} />
           <Route
             path="login"
             element={user ? <Navigate to="/dashboard" /> : <Login />}
