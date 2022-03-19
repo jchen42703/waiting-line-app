@@ -5,6 +5,7 @@ import "dotenv/config";
 import router from "./controllers";
 import cookieSession from "cookie-session";
 import passport from "passport";
+import cookieParser from "cookie-parser";
 
 // initializes the db connection pool
 initMongoConnection();
@@ -22,10 +23,12 @@ app.use(
 app.use(
   cookieSession({
     name: "session",
-    keys: ["lama"],
+    keys: [process.env.COOKIE_SECRET],
     maxAge: 24 * 60 * 60 * 100,
   }),
 );
+
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(passport.initialize());
 app.use(passport.session());
