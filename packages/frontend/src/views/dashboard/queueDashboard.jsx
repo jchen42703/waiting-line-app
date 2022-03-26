@@ -12,6 +12,8 @@ export default function QueueDashboard() {
     return setToggle(!deleteToggleState);
   };
 
+  const handleNextUser = async () => {};
+
   return (
     <>
       <Flex flexDirection={"column"} justifyContent={"center"} my="3" mx="16">
