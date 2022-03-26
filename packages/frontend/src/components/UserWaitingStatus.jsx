@@ -34,13 +34,12 @@ export default function UserWaitingwaitingStatus(props) {
   return (
     <Box
       backgroundColor="white"
-      p={4}
+      p={6}
       rounded="lg"
       shadow="lg"
       w="90%"
       maxW="60ch"
       minW="35ch"
-      top="50"
       direction={"column"}
       textAlign="center"
     >
@@ -48,14 +47,21 @@ export default function UserWaitingwaitingStatus(props) {
       <Text fontSize="5xl">
         {waitingStatus.placeInQ}/{waitingStatus.totPeopleInQ}
       </Text>
-      <Progress colorScheme="teal" w="100%" height="24px" value={80} />
-      <Text mt={4}>Estimated waiting waitingTime </Text>
+      <Progress
+        colorScheme="teal"
+        w="100%"
+        mt={4}
+        height="24px"
+        value={(100 * waitingStatus.placeInQ) / waitingStatus.totPeopleInQ}
+      />
+
+      <Text mt={8}>Estimated waiting waitingTime </Text>
       <Text fontSize={"2xl"}>{waitingStatus.estimatedwaitingTime} min</Text>
       <Text mt={4}>You have waited for </Text>
       <Text fontSize={"xl"}> {timeElapsed}</Text>
       <Text mt={4}>You joined this queue at </Text>
       <Text fontSize={"xl"}> {waitingStatus.waitingTimeJoined}</Text>
-      <Text mt={10} fontSize={"sm"} color="gray.500">
+      <Text mt={8} fontSize={"sm"} color="gray.500">
         Last updated: {lastUpdated.toLocaleString("en-US")}
       </Text>
     </Box>

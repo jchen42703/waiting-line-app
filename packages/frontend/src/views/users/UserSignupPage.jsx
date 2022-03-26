@@ -30,6 +30,8 @@ export default function UserSignupPage(props) {
     formState: { errors },
   } = useForm();
 
+  const [loading, setLoading] = useState(false);
+
   const [redirectState, setRedirectState] = useState({
     shouldRedirect: false,
     userId: "",
@@ -37,6 +39,7 @@ export default function UserSignupPage(props) {
   const toast = useToast(); // A toast to show some errors
 
   const onSubmit = async () => {
+    setLoading(true);
     console.log(
       "name: ",
       document.getElementById("name").value,
@@ -69,6 +72,7 @@ export default function UserSignupPage(props) {
         userId: respBody.userId,
       });
     } catch (e) {
+      setLoading(false);
       let message; // string
       if (e instanceof Error) {
         message = e.message;
@@ -105,8 +109,8 @@ export default function UserSignupPage(props) {
       <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.100"}>
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Sign up to join the queue</Heading>
-            <Text fontSize={"xl"} color={"gray.600"}>
+            <Heading fontSize={"4xl"}>Sign up to join</Heading>
+            <Text align={"center"} fontSize={"xl"} color={"gray.600"}>
               Please fill out this form to join Queue1
             </Text>
           </Stack>
@@ -154,7 +158,13 @@ export default function UserSignupPage(props) {
                   <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
                 </FormControl>
 
-                <Button mt={3} colorScheme="teal" type="submit">
+                <Button
+                  isLoading={loading}
+                  loadingText="Joining"
+                  mt={3}
+                  colorScheme="teal"
+                  type="submit"
+                >
                   Join
                 </Button>
               </Stack>

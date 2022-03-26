@@ -11,15 +11,19 @@ import {
   Heading,
   Spacer,
   Text,
+  useToast,
+  toast,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
+import { config } from "../../lib/config";
 import { useParams } from "react-router-dom";
 import UserWaitingStatus from "../../../src/components/UserWaitingStatus";
 
 export default function UserWaitingPage(props) {
   let { queueId, userId } = useParams();
-
+  const toast = useToast(); // A toast to show some errors
+  const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const exitRef = React.useRef();
 
@@ -32,7 +36,53 @@ export default function UserWaitingPage(props) {
   };
 
   const exitQueue = async () => {
-    console.log("Exit the queue");
+    // fetch
+    // setLoading(true);
+    // const data = {
+    //   userId: props.userId,
+    //   queueId: props.queueId,
+    // };
+    // //Default options are marked with *
+    // try {
+    //   const resp = await fetch(`${config.hostUrl}/api/queue/deleteUser`, {
+    //     method: "POST", // *GET, POST, PUT, DELETE, etc.
+    //     mode: "cors", // no-cors, *cors, same-origin
+    //     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    //     credentials: "same-origin", // include, *same-origin, omit
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data), // body data type must match "Content-Type" header
+    //   });
+    //   const respBody = await resp.json();
+    //   console.log("respbody: ", respBody);
+    // } catch (e) {
+    //   setLoading(false);
+    //   let message; // string
+    //   if (e instanceof Error) {
+    //     message = e.message;
+    //   } else if (typeof e === "string") {
+    //     message = e;
+    //   } else {
+    //     message = "unknown error";
+    //   }
+
+    //   // use logger to log error: console.log is temp
+    //   console.log(message);
+
+    //   // Show error message on 400 (operational errors)
+    //   // Don't show error messages on 500 (server)
+    //   toast({
+    //     position: "top",
+    //     title:
+    //       "Woops! Looks like something went wrong with our servers. Please try again.",
+    //     status: "error",
+    //     duration: 9000,
+    //     isClosable: true,
+    //   });
+    // }
+
+    console.log("Exited");
   };
 
   return (
@@ -52,7 +102,7 @@ export default function UserWaitingPage(props) {
           maxW="60ch"
           minW="35ch"
           backgroundColor="white"
-          p={4}
+          p={6}
           rounded="lg"
           shadow="lg"
           w="90%"
@@ -69,9 +119,11 @@ export default function UserWaitingPage(props) {
           </Flex>
 
           <Button
-            w="100%"
+            w="50%"
+            alignItems={"center"}
             onClick={onOpen}
             mt={4}
+            ml="25%"
             colorScheme="red"
             variant="outline"
           >
@@ -80,7 +132,9 @@ export default function UserWaitingPage(props) {
         </Box>
 
         <AlertDialog
+          size="xs"
           isOpen={isOpen}
+          isCentered
           leastDestructiveRef={exitRef}
           onClose={onClose}
         >
@@ -91,15 +145,21 @@ export default function UserWaitingPage(props) {
               </AlertDialogHeader>
 
               <AlertDialogBody>
-                If you click "Yes", you'll exit the queue. This action cannot be
-                undone.
+                If you click "Exit", you'll exit the queue. This action cannot
+                be undone.
               </AlertDialogBody>
 
               <AlertDialogFooter>
-                <Button ref={exitRef} onClick={exitQueue}>
+                <Button
+                  isLoading={loading}
+                  loadingText="Exiting"
+                  w={20}
+                  ref={exitRef}
+                  onClick={exitQueue}
+                >
                   Exit
                 </Button>
-                <Button colorScheme="teal" onClick={onClose} ml={3}>
+                <Button w={20} colorScheme="teal" onClick={onClose} ml={3}>
                   Stay
                 </Button>
               </AlertDialogFooter>
