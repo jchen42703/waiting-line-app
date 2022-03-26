@@ -1,7 +1,6 @@
 import { Request, Response, Router } from "express";
 import passport from "passport";
 import { setupPassport } from "../lib/passport";
-import cookieParser from "cookie-parser";
 
 const CLIENT_URL = process.env.CLIENT_URL;
 

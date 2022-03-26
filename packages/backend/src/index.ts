@@ -6,7 +6,7 @@ import router from "./controllers";
 import cookieSession from "cookie-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
-
+import cookieValidator from "./middlewares/cookieValidator";
 // initializes the db connection pool
 initMongoConnection();
 
@@ -32,6 +32,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cookieValidator);
 
 app.use("/api", router);
 

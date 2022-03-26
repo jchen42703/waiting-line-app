@@ -20,6 +20,18 @@ const getAdmins = (Admin) => () => {
   return Admin.find({});
 };
 
+const validateAdmin =
+  (Admin) =>
+  async ({ adminId }) => {
+    const admin = await Admin.findById(adminId);
+
+    return (
+      admin !== undefined &&
+      admin !== null &&
+      admin["_id"].toString() == adminId
+    );
+  };
+
 const getAdminByEmail =
   (Admin) =>
   async ({ email }) => {
@@ -31,5 +43,6 @@ export const AdminService = (Admin) => {
     addAdmin: addAdmin(Admin),
     getAdmins: getAdmins(Admin),
     getAdminByEmail: getAdminByEmail(Admin),
+    validateAdmin: validateAdmin(Admin),
   };
 };
