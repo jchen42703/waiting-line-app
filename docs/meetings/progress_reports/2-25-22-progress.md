@@ -1,4 +1,12 @@
+<<<<<<< HEAD
+
+# Bi-Weekly Progress Report
+
+=======
+
 # CSDS 393: Bi-Weekly Progress Report 2
+
+> > > > > > > origin/main
 
 **Current Scrum Master:** Benson Jin (bxj155@case.edu)
 
