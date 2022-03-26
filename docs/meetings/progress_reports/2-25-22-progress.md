@@ -1,4 +1,12 @@
+<<<<<<< HEAD
+
 # Bi-Weekly Progress Report
+
+=======
+
+# CSDS 393: Bi-Weekly Progress Report 2
+
+> > > > > > > origin/main
 
 **Current Scrum Master:** Benson Jin (bxj155@case.edu)
 
@@ -14,11 +22,11 @@
 
 We manage the user stories and individual tasks through Jira and the Jira backlog.
 
-![](images/backlog-2-25-22-1.png)
+![](images/backlog-2-25-22-1.PNG)
 
 We also organize our stories and tasks in epics on the roadmap:
 
-![](images/roadmap-2-25-22.png)
+![](images/roadmap-2-25-22.PNG)
 
 ## Assigned Stories
 
