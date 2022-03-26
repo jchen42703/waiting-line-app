@@ -6,6 +6,22 @@ const cookieValidator = async (
   res: Response,
   next: NextFunction,
 ) => {
+  // Whitelisting urls that don't need to authenticated
+  const whitelist = [
+    "/api/queue/progress",
+    "/api/queue/join",
+    "/api/auth/login",
+    "/api/auth/logout",
+  ];
+
+  // req.url is the full requested url
+  // (i.e. /api/queue/progress?queueId=db6bdf75-7ffd-4d68-ac54-74df2e2153fc&userId=4f1dab1b-028f-4233-ae31-2a84fc140758)
+  for (let i = 0; i < whitelist.length; i++) {
+    if (req.url.includes(whitelist[i])) {
+      return next();
+    }
+  }
+
   // parse the admin id and check against the database
   const adminId = req.signedCookies["adminId"];
   const isAdmin = await AdminService.validateAdmin({ adminId });
@@ -14,8 +30,9 @@ const cookieValidator = async (
   if (isAdmin) {
     return next();
   }
+
   // otherwise unauthorized
-  res.status(401).json({ error: "Invalid cookies" });
+  return res.status(401).json({ error: "Invalid cookies" });
 };
 
 export default cookieValidator;
