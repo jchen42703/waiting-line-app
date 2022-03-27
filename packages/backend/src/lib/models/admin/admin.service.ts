@@ -29,7 +29,7 @@ const validateAdmin = async ({ adminId }) => {
   const admin = await Admin.findById(adminId);
 
   return (
-    admin !== undefined && admin !== null && admin["_id"].toString() == adminId
+    admin !== undefined && admin !== null && admin["_id"].toString() === adminId
   );
 };
 
