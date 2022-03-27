@@ -1,13 +1,12 @@
-interface POSTCreateReq {
-  adminId: string;
-}
-
 interface POSTCreateRes {
   queueId: string;
 }
 
 interface POSTJoinReq {
   queueId: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
 }
 
 interface POSTJoinRes {
@@ -20,8 +19,7 @@ interface POSTPopReq {
 }
 
 interface POSTPopRes {
-  userId?: string;
-  error?: string;
+  userId: string;
 }
 
 interface GETProgressReq {
@@ -30,15 +28,13 @@ interface GETProgressReq {
 }
 
 interface GETProgressRes {
-  error?: string;
-  queueId?: string;
-  userId?: string;
-  currPlace?: number;
-  total?: number;
+  queueId: string;
+  userId: string;
+  currPlace: number;
+  total: number;
 }
 
 export {
-  POSTCreateReq,
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,

@@ -12,7 +12,7 @@ function createAuthRouter() {
   authRouter.get("/login/success", (req: Request, res: Response) => {
     if (req.user) {
       var options = {
-        maxAge: 1000 * 60 * 15, // would expire after 15 minutes
+        maxAge: 1000 * 60 * 60 * 24, // would expire after 1 day
         httpOnly: true, // The cookie only accessible by the web server
         signed: true,
       };
