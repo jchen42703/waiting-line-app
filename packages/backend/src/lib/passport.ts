@@ -2,7 +2,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import { randomUUID } from "crypto";
-import AdminService from "./models/admin/admin";
+import { getAdminByEmail, addAdmin } from "./models/admin/admin";
 import passport from "passport";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -31,11 +31,11 @@ export function setupPassport() {
         const familyName = profile.name.familyName;
         const provider = profile.provider;
 
-        const currentAdmin = await AdminService.getAdminByEmail({ email });
+        const currentAdmin = await getAdminByEmail({ email });
 
         // if doesnt exist add to database
         if (!currentAdmin) {
-          const newAdmin = await AdminService.addAdmin({
+          const newAdmin = await addAdmin({
             id: randomUUID(),
             email,
             firstName: givenName,
@@ -75,11 +75,11 @@ export function setupPassport() {
 
         const provider = "facebook";
 
-        const currentAdmin = await AdminService.getAdminByEmail({ email });
+        const currentAdmin = await getAdminByEmail({ email });
 
         // if doesnt exist add to database
         if (!currentAdmin) {
-          const newAdmin = await AdminService.addAdmin({
+          const newAdmin = await addAdmin({
             id: randomUUID(),
             email,
             firstName: givenName,

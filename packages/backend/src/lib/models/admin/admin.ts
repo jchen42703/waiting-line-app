@@ -1,4 +1,2 @@
-import { Admin } from "./admin.model";
-import { AdminService } from "./admin.service";
-
-export default AdminService(Admin);
+export * from "./admin.model";
+export * from "./admin.service";
