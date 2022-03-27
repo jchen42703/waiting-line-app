@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import AdminService from "../lib/models/admin/admin";
+import { validateAdmin } from "../lib/models/admin";
 
 const cookieValidator = async (
   req: Request,
@@ -24,7 +24,7 @@ const cookieValidator = async (
 
   // parse the admin id and check against the database
   const adminId = req.signedCookies["adminId"];
-  const isAdmin = await AdminService.validateAdmin({ adminId });
+  const isAdmin = await validateAdmin({ adminId });
 
   // call next
   if (isAdmin) {

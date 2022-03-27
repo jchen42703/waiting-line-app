@@ -2,7 +2,7 @@ import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 import { Strategy as FacebookStrategy } from "passport-facebook";
 import { randomUUID } from "crypto";
-import { getAdminByEmail, addAdmin } from "./models/admin/admin";
+import { getAdminByEmail, addAdmin } from "./models/admin";
 import passport from "passport";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
