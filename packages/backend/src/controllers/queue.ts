@@ -12,7 +12,7 @@ import {
 } from "@waiting-line-app/shared-dto/queue";
 import { IQueue, IUser } from "@waiting-line-app/shared-dto/db";
 import { HttpException } from "../lib/errors";
-import { getUserProgress, Queue } from "../lib/models/queue";
+import { addUserToQueue, getUserProgress, Queue } from "../lib/models/queue";
 
 function createQueueRouter() {
   const queueRouter: Router = Router();
@@ -39,7 +39,7 @@ function createQueueRouter() {
         return next(new HttpException(400, "invalid adminId"));
       }
 
-      const qId: string = randomUUID();
+      const qId: string = `q-${randomUUID()}`;
       try {
         await Queue.create({
           queueId: qId,
@@ -71,7 +71,7 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const userId = randomUUID();
+      const userId = `u-${randomUUID()}`;
       const user: IUser = {
         userId,
         joinQTime: Date.now(),
@@ -79,14 +79,17 @@ function createQueueRouter() {
         email,
         phoneNumber,
       };
+      const adminId: string = req.signedCookies["adminId"];
 
       try {
-        const qDoc: IQueue = await Queue.findOneAndUpdate(
-          { queueId: queueId },
-          { $push: { queue: user } },
-        );
+        const qDoc = await addUserToQueue({ adminId, queueId, user });
         if (!qDoc) {
-          return next(new HttpException(400, "bad queueId"));
+          return next(
+            new HttpException(
+              400,
+              "could not find queue with associated adminId",
+            ),
+          );
         }
       } catch (e) {
         return next(new HttpException(500, "join failed"));

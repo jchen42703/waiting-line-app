@@ -1,4 +1,4 @@
-import { IQueue } from "@waiting-line-app/shared-dto/db";
+import { IQueue, IUser } from "@waiting-line-app/shared-dto/db";
 import { Queue } from "../queue";
 
 /**
@@ -43,4 +43,21 @@ async function getUserProgress(queueId: string, userId: string) {
   };
 }
 
-export { getQueue, getUserProgress };
+async function addUserToQueue({
+  adminId,
+  queueId,
+  user,
+}: {
+  adminId: string;
+  queueId: string;
+  user: IUser;
+}) {
+  const qDoc: IQueue = await Queue.findOneAndUpdate(
+    { queueId, adminId },
+    { $push: { queue: user } },
+  );
+
+  return qDoc;
+}
+
+export { addUserToQueue, getQueue, getUserProgress };
