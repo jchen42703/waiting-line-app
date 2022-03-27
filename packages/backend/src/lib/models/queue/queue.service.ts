@@ -54,6 +54,14 @@ interface addUserToQueueOpts {
  * @returns the queue
  */
 async function addUserToQueue({ queueId, user }: addUserToQueueOpts) {
+  if (typeof user.userId !== "string") {
+    throw new Error("userId must be a string");
+  }
+
+  if (user.userId.length === 0) {
+    throw new Error("userId must not be an empty string");
+  }
+
   const qDoc: IQueue = await Queue.findOneAndUpdate(
     { queueId },
     { $push: { queue: user } },

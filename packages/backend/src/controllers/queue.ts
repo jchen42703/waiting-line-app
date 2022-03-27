@@ -79,10 +79,9 @@ function createQueueRouter() {
         email,
         phoneNumber,
       };
-      const adminId: string = req.signedCookies["adminId"];
 
       try {
-        const qDoc = await addUserToQueue({ adminId, queueId, user });
+        const qDoc = await addUserToQueue({ queueId, user });
         if (!qDoc) {
           return next(
             new HttpException(
