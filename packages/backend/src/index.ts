@@ -7,7 +7,7 @@ import cookieSession from "cookie-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import cookieValidator from "./middlewares/cookieValidator";
-import errorMiddleware from "./middleware/error";
+import errorMiddleware from "./middlewares/error";
 
 // initializes the db connection pool
 initMongoConnection();
