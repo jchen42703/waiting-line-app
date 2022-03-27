@@ -43,17 +43,19 @@ async function getUserProgress(queueId: string, userId: string) {
   };
 }
 
-async function addUserToQueue({
-  adminId,
-  queueId,
-  user,
-}: {
-  adminId: string;
+interface addUserToQueueOpts {
   queueId: string;
   user: IUser;
-}) {
+}
+
+/**
+ * Simple wrapper to add a user to a queue (not a protected endpoint)
+ * @param opts
+ * @returns the queue
+ */
+async function addUserToQueue({ queueId, user }: addUserToQueueOpts) {
   const qDoc: IQueue = await Queue.findOneAndUpdate(
-    { queueId, adminId },
+    { queueId },
     { $push: { queue: user } },
   );
 
