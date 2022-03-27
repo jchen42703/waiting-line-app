@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { randomUUID } from "crypto";
 import {
-  POSTCreateReq,
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
@@ -27,28 +26,21 @@ function createQueueRouter() {
   queueRouter.post(
     "/create",
     async (
-      req: Request<unknown, POSTCreateRes, POSTCreateReq, unknown>,
+      req: Request<unknown, POSTCreateRes, unknown, unknown>,
       res: Response<POSTCreateRes, unknown>,
       next: NextFunction,
     ) => {
-      const adminId = req.body.adminId;
+      const adminId = req.signedCookies["adminId"];
       // validation
       if (!adminId || typeof adminId !== "string") {
         return next(new HttpException(400, "adminId must be a string"));
-      }
-
-      // TODO: Check database that the admin id is valid
-      // For now, let's assume that it is valid
-      const adminExists = true;
-      if (!adminExists) {
-        return next(new HttpException(400, "invalid adminId"));
       }
 
       const qId: string = `q-${randomUUID()}`;
       try {
         await Queue.create({
           queueId: qId,
-          adminId: req.body.adminId,
+          adminId: adminId,
           canJoin: true,
           queue: [],
         });
