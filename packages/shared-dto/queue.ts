@@ -8,6 +8,9 @@ interface POSTCreateRes {
 
 interface POSTJoinReq {
   queueId: string;
+  name: string;
+  email: string;
+  phoneNumber: string;
 }
 
 interface POSTJoinRes {

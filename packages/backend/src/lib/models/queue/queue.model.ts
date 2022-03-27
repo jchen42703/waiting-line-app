@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-import { userSchema } from "./user";
+import { userSchema } from "../user";
 
 export const queueSchema = new Schema(
   {

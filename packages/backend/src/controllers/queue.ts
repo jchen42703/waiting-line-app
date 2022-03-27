@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { Queue } from "../lib/models/queue";
 import { randomUUID } from "crypto";
 import {
   POSTCreateReq,
@@ -11,18 +10,9 @@ import {
   GETProgressReq,
   GETProgressRes,
 } from "@waiting-line-app/shared-dto/queue";
+import { IQueue, IUser } from "@waiting-line-app/shared-dto/db";
 import { HttpException } from "../lib/errors";
-
-interface IQueue {
-  queueId: string;
-  adminId: string;
-  canJoin: boolean;
-  queue: IUser[];
-}
-interface IUser {
-  userId: string;
-  initQTime: Date;
-}
+import { getUserProgress, Queue } from "../lib/models/queue";
 
 function createQueueRouter() {
   const queueRouter: Router = Router();
@@ -76,20 +66,23 @@ function createQueueRouter() {
       next: NextFunction,
     ) => {
       // Input validation
-      const queueId = req.body.queueId;
+      const { queueId, name, email, phoneNumber } = req.body;
       if (!queueId || typeof queueId !== "string") {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const userId: string = randomUUID();
+      const userId = randomUUID();
       const user: IUser = {
-        userId: userId,
-        initQTime: new Date(),
+        userId,
+        joinQTime: Date.now(),
+        name,
+        email,
+        phoneNumber,
       };
 
       try {
         const qDoc: IQueue = await Queue.findOneAndUpdate(
-          { queueId: req.body.queueId },
+          { queueId: queueId },
           { $push: { queue: user } },
         );
         if (!qDoc) {
@@ -147,38 +140,26 @@ function createQueueRouter() {
       res: Response<GETProgressRes, unknown>,
       next: NextFunction,
     ) => {
-      const query = req.query;
+      const { queueId, userId } = req.query;
       // Gets the queue that the queried user should be in
       try {
-        const qDoc: IQueue = await Queue.findOne({
-          queueId: query.queueId,
-        });
-        const qLength: number = qDoc.queue.length;
-        var currPlace: number = -1;
-        // Get the user's current spot in line
-        for (let i: number = 0; i < qLength; i++) {
-          const qDocUser: IUser = qDoc.queue[i];
-          if (qDocUser.userId === query.userId) {
-            currPlace = i + 1; // + 1 because i is 0 indexed
-            break;
-          }
-        }
+        const { currPlace, qLength } = await getUserProgress(queueId, userId);
 
         if (currPlace === -1) {
           return next(
             new HttpException(
               400,
-              `user ${query.userId} does not exist in queue ${query.queueId}`,
+              `user ${userId} does not exist in queue ${queueId}`,
             ),
           );
-        } else {
-          return res.json({
-            userId: query.userId,
-            queueId: query.queueId,
-            currPlace: currPlace,
-            total: qLength,
-          });
         }
+
+        return res.json({
+          userId,
+          queueId,
+          currPlace,
+          total: qLength,
+        });
       } catch (e) {
         return next(new HttpException(500, `invalid queueId`));
       }
