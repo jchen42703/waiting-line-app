@@ -10,9 +10,14 @@ import {
   GETProgressReq,
   GETProgressRes,
 } from "@waiting-line-app/shared-dto/queue";
-import { IQueue, IUser } from "@waiting-line-app/shared-dto/db";
+import { IUser } from "@waiting-line-app/shared-dto/db";
 import { HttpException } from "../lib/errors";
-import { addUserToQueue, getUserProgress, Queue } from "../lib/models/queue";
+import {
+  addUserToQueue,
+  getUserProgress,
+  popFirstFromQueue,
+  Queue,
+} from "../lib/models/queue";
 
 function createQueueRouter() {
   const queueRouter: Router = Router();
@@ -83,12 +88,7 @@ function createQueueRouter() {
       try {
         const qDoc = await addUserToQueue({ queueId, user });
         if (!qDoc) {
-          return next(
-            new HttpException(
-              400,
-              "could not find queue with associated adminId",
-            ),
-          );
+          return next(new HttpException(400, "could not find queue"));
         }
       } catch (e) {
         return next(new HttpException(500, "join failed"));
@@ -112,21 +112,19 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
+      const adminId: string = req.signedCookies["adminId"];
       try {
-        const popFirstInQueue: IQueue = await Queue.findOneAndUpdate(
-          { queueId: queueId },
-          { $pop: { queue: -1 } },
-        );
-        if (!popFirstInQueue) {
+        const poppedFromQ = await popFirstFromQueue(queueId, adminId);
+        if (!poppedFromQ) {
           return next(new HttpException(400, "queueId invalid"));
         }
 
-        if (popFirstInQueue.queue.length < 1) {
+        if (poppedFromQ.queue.length < 1) {
           return next(new HttpException(400, "Queue is empty"));
         }
 
         // sucess
-        const poppedUser: IUser = popFirstInQueue.queue[0];
+        const poppedUser = poppedFromQ.queue[0];
         return res.json({ userId: poppedUser.userId });
       } catch (e) {
         return next(new HttpException(500, `Could not pop for ${queueId}`));

@@ -70,4 +70,12 @@ async function addUserToQueue({ queueId, user }: addUserToQueueOpts) {
   return qDoc;
 }
 
-export { addUserToQueue, getQueue, getUserProgress };
+async function popFirstFromQueue(queueId: string, adminId: string) {
+  const firstInQ: IQueue = await Queue.findOneAndUpdate(
+    { queueId, adminId },
+    { $pop: { queue: -1 } },
+  );
+  return firstInQ;
+}
+
+export { addUserToQueue, getQueue, getUserProgress, popFirstFromQueue };
