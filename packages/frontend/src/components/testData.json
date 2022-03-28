@@ -1,0 +1,20 @@
+[
+  {
+    "place": 1,
+    "name": "John Smith",
+    "phoneNumber": "0002660234",
+    "timeJoined": "11:11"
+  },
+  {
+    "place": 2,
+    "name": "Jane Doe",
+    "phoneNumber": "0002348232",
+    "timeJoined": "11:14"
+  },
+  {
+    "place": 3,
+    "name": "Richard Doe",
+    "phoneNumber": "0002947239",
+    "timeJoined": "12:14"
+  }
+]
