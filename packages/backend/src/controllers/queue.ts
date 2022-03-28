@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { Queue } from "../lib/models/queue";
 import { randomUUID } from "crypto";
 import {
-  POSTCreateReq,
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
@@ -11,18 +9,14 @@ import {
   GETProgressReq,
   GETProgressRes,
 } from "@waiting-line-app/shared-dto/queue";
+import { IUser } from "@waiting-line-app/shared-dto/db";
 import { HttpException } from "../lib/errors";
-
-interface IQueue {
-  queueId: string;
-  adminId: string;
-  canJoin: boolean;
-  queue: IUser[];
-}
-interface IUser {
-  userId: string;
-  initQTime: Date;
-}
+import {
+  addUserToQueue,
+  getUserProgress,
+  popFirstFromQueue,
+  Queue,
+} from "../lib/models/queue";
 
 function createQueueRouter() {
   const queueRouter: Router = Router();
@@ -32,28 +26,21 @@ function createQueueRouter() {
   queueRouter.post(
     "/create",
     async (
-      req: Request<unknown, POSTCreateRes, POSTCreateReq, unknown>,
+      req: Request<unknown, POSTCreateRes, unknown, unknown>,
       res: Response<POSTCreateRes, unknown>,
       next: NextFunction,
     ) => {
-      const adminId = req.body.adminId;
+      const adminId = req.signedCookies["adminId"];
       // validation
       if (!adminId || typeof adminId !== "string") {
         return next(new HttpException(400, "adminId must be a string"));
       }
 
-      // TODO: Check database that the admin id is valid
-      // For now, let's assume that it is valid
-      const adminExists = true;
-      if (!adminExists) {
-        return next(new HttpException(400, "invalid adminId"));
-      }
-
-      const qId: string = randomUUID();
+      const qId: string = `q-${randomUUID()}`;
       try {
         await Queue.create({
           queueId: qId,
-          adminId: req.body.adminId,
+          adminId: adminId,
           canJoin: true,
           queue: [],
         });
@@ -76,24 +63,24 @@ function createQueueRouter() {
       next: NextFunction,
     ) => {
       // Input validation
-      const queueId = req.body.queueId;
+      const { queueId, name, email, phoneNumber } = req.body;
       if (!queueId || typeof queueId !== "string") {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const userId: string = randomUUID();
+      const userId = `u-${randomUUID()}`;
       const user: IUser = {
-        userId: userId,
-        initQTime: new Date(),
+        userId,
+        joinQTime: Date.now(),
+        name,
+        email,
+        phoneNumber,
       };
 
       try {
-        const qDoc: IQueue = await Queue.findOneAndUpdate(
-          { queueId: req.body.queueId },
-          { $push: { queue: user } },
-        );
+        const qDoc = await addUserToQueue({ queueId, user });
         if (!qDoc) {
-          return next(new HttpException(400, "bad queueId"));
+          return next(new HttpException(400, "could not find queue"));
         }
       } catch (e) {
         return next(new HttpException(500, "join failed"));
@@ -117,21 +104,19 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
+      const adminId: string = req.signedCookies["adminId"];
       try {
-        const popFirstInQueue: IQueue = await Queue.findOneAndUpdate(
-          { queueId: queueId },
-          { $pop: { queue: -1 } },
-        );
-        if (!popFirstInQueue) {
+        const poppedFromQ = await popFirstFromQueue(queueId, adminId);
+        if (!poppedFromQ) {
           return next(new HttpException(400, "queueId invalid"));
         }
 
-        if (popFirstInQueue.queue.length < 1) {
+        if (poppedFromQ.queue.length < 1) {
           return next(new HttpException(400, "Queue is empty"));
         }
 
         // sucess
-        const poppedUser: IUser = popFirstInQueue.queue[0];
+        const poppedUser = poppedFromQ.queue[0];
         return res.json({ userId: poppedUser.userId });
       } catch (e) {
         return next(new HttpException(500, `Could not pop for ${queueId}`));
@@ -147,38 +132,26 @@ function createQueueRouter() {
       res: Response<GETProgressRes, unknown>,
       next: NextFunction,
     ) => {
-      const query = req.query;
+      const { queueId, userId } = req.query;
       // Gets the queue that the queried user should be in
       try {
-        const qDoc: IQueue = await Queue.findOne({
-          queueId: query.queueId,
-        });
-        const qLength: number = qDoc.queue.length;
-        var currPlace: number = -1;
-        // Get the user's current spot in line
-        for (let i: number = 0; i < qLength; i++) {
-          const qDocUser: IUser = qDoc.queue[i];
-          if (qDocUser.userId === query.userId) {
-            currPlace = i + 1; // + 1 because i is 0 indexed
-            break;
-          }
-        }
+        const { currPlace, qLength } = await getUserProgress(queueId, userId);
 
         if (currPlace === -1) {
           return next(
             new HttpException(
               400,
-              `user ${query.userId} does not exist in queue ${query.queueId}`,
+              `user ${userId} does not exist in queue ${queueId}`,
             ),
           );
-        } else {
-          return res.json({
-            userId: query.userId,
-            queueId: query.queueId,
-            currPlace: currPlace,
-            total: qLength,
-          });
         }
+
+        return res.json({
+          userId,
+          queueId,
+          currPlace,
+          total: qLength,
+        });
       } catch (e) {
         return next(new HttpException(500, `invalid queueId`));
       }

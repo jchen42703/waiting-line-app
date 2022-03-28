@@ -1,10 +1,10 @@
-interface IUser {
+export interface IUser {
   userId: string;
   // user metadata
   name: string;
   email: string;
   phoneNumber: string;
-  joinQTime: Date;
+  joinQTime: number;
 }
 
 enum RepeatCycle {
@@ -18,7 +18,7 @@ enum RepeatCycle {
  *
  * Each queue encapsulates a list of users.
  */
-interface IQueue {
+export interface IQueue {
   queueId: string;
   adminId: string;
   // metadata
@@ -30,10 +30,10 @@ interface IQueue {
   // whether to repeat this queue daily, weekly, monthly, or not at all
   repeatCycle: RepeatCycle | null;
   // users in queue
-  users: IUser[];
+  queue: IUser[];
 }
 
-interface IAdmin {
+export interface IAdmin {
   adminId: string;
   email: string;
   profilePhoto: string;

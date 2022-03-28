@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 export const userSchema = new Schema({
   userId: String,
-  initQTime: Date,
+  joinQTime: Number,
 });
 
 export const User = model("User", userSchema);

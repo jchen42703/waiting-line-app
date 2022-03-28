@@ -1,9 +1,18 @@
 import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
+import QueueTableHandler from "../../components/QueueTableHandler";
 
 export default function QueueDashboard() {
   let { queueId } = useParams();
   console.log(queueId);
+
+  const [deleteToggleState, setToggle] = useState(false);
+  const handleToggle = () => {
+    return setToggle(!deleteToggleState);
+  };
+
+  const handleNextUser = async () => {};
 
   return (
     <>
@@ -13,16 +22,23 @@ export default function QueueDashboard() {
           {/* <Box>
             <h1>Queue Dashboard</h1>
           </Box> */}
-          <Flex flexDirection={"column"}>
-            <Box>Queue Name</Box>
+          <Flex flexDirection={"column"} align={"center"}>
+            <Flex flexDirection={"row"} align={"left"}>
+              <Button>&lt;-</Button>
+              <Box>Queue Name</Box>
+            </Flex>
             <Box>Users</Box>
           </Flex>
 
           <Flex flexDirection={"row"}>
             <Button>Next User</Button>
-            <Button>Delete User</Button>
+            <Button onClick={() => handleToggle()}>
+              {deleteToggleState ? "Cancel" : "Delete User"}
+            </Button>
           </Flex>
         </Flex>
+        {/* Queue table goes here */}
+        <QueueTableHandler deleteUserEnabled={deleteToggleState} />
       </Flex>
     </>
   );

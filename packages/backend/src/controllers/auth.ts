@@ -10,13 +10,19 @@ function createAuthRouter() {
   const authRouter = Router();
 
   authRouter.get("/login/success", (req: Request, res: Response) => {
-    console.log(req.user);
     if (req.user) {
+      var options = {
+        maxAge: 1000 * 60 * 60 * 24, // would expire after 1 day
+        httpOnly: true, // The cookie only accessible by the web server
+        signed: true,
+      };
+
+      res.cookie("adminId", req.user["_id"], options);
+
       res.status(200).json({
         success: true,
         message: "successfull",
         user: req.user,
-        //   cookies: req.cookies
       });
     }
   });
@@ -35,7 +41,7 @@ function createAuthRouter() {
 
   authRouter.get(
     "/google",
-    passport.authenticate("google", { scope: ["profile"] }),
+    passport.authenticate("google", { scope: ["profile", "email"] }),
   );
 
   authRouter.get(
@@ -47,21 +53,8 @@ function createAuthRouter() {
   );
 
   authRouter.get(
-    "/github",
-    passport.authenticate("github", { scope: ["profile"] }),
-  );
-
-  authRouter.get(
-    "/github/callback",
-    passport.authenticate("github", {
-      successRedirect: CLIENT_URL,
-      failureRedirect: "/login/failed",
-    }),
-  );
-
-  authRouter.get(
     "/facebook",
-    passport.authenticate("facebook", { scope: ["profile"] }),
+    passport.authenticate("facebook", { scope: ["email"] }),
   );
 
   authRouter.get(
