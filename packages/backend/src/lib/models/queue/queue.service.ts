@@ -4,6 +4,7 @@ import { Queue } from "../queue";
 /**
  * Gets a Queue document associated with a queueId
  * @param queueId
+ * @returns the queue
  */
 async function getQueue(queueId: string) {
   const qDoc: IQueue = await Queue.findOne({
@@ -85,6 +86,12 @@ async function addUserToQueue({ queueId, user }: addUserToQueueOpts) {
   return qDoc;
 }
 
+/**
+ * Pops the first element in the queue and returns it
+ * @param queueId
+ * @param adminId
+ * @returns the first element in the queue
+ */
 async function popFirstFromQueue(queueId: string, adminId: string) {
   const firstInQ: IQueue = await Queue.findOneAndUpdate(
     { queueId, adminId },
