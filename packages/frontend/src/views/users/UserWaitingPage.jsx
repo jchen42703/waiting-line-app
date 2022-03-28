@@ -12,7 +12,6 @@ import {
   Spacer,
   Text,
   useToast,
-  toast,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -27,7 +26,7 @@ export default function UserWaitingPage(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const exitRef = React.useRef();
 
-  console.log("queueId: " + queueId + "\n" + "userId: " + userId);
+  console.log("queueId: " + queueId + "\nuserId: " + userId);
 
   const userRegInfo = {
     name: "name",
@@ -36,51 +35,50 @@ export default function UserWaitingPage(props) {
   };
 
   const exitQueue = async () => {
-    // fetch
-    // setLoading(true);
-    // const data = {
-    //   userId: props.userId,
-    //   queueId: props.queueId,
-    // };
-    // //Default options are marked with *
-    // try {
-    //   const resp = await fetch(`${config.hostUrl}/api/queue/deleteUser`, {
-    //     method: "POST", // *GET, POST, PUT, DELETE, etc.
-    //     mode: "cors", // no-cors, *cors, same-origin
-    //     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-    //     credentials: "same-origin", // include, *same-origin, omit
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data), // body data type must match "Content-Type" header
-    //   });
-    //   const respBody = await resp.json();
-    //   console.log("respbody: ", respBody);
-    // } catch (e) {
-    //   setLoading(false);
-    //   let message; // string
-    //   if (e instanceof Error) {
-    //     message = e.message;
-    //   } else if (typeof e === "string") {
-    //     message = e;
-    //   } else {
-    //     message = "unknown error";
-    //   }
+    setLoading(true);
+    const data = {
+      userId: props.userId,
+      queueId: props.queueId,
+    };
+    //Default options are marked with *
+    try {
+      const resp = await fetch(`${config.hostUrl}/api/queue/deleteUser`, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+      });
+      const respBody = await resp.json();
+      console.log("respbody: ", respBody);
+    } catch (e) {
+      setLoading(false);
+      let message; // string
+      if (e instanceof Error) {
+        message = e.message;
+      } else if (typeof e === "string") {
+        message = e;
+      } else {
+        message = "unknown error";
+      }
 
-    //   // use logger to log error: console.log is temp
-    //   console.log(message);
+      // use logger to log error: console.log is temp
+      console.log(message);
 
-    //   // Show error message on 400 (operational errors)
-    //   // Don't show error messages on 500 (server)
-    //   toast({
-    //     position: "top",
-    //     title:
-    //       "Woops! Looks like something went wrong with our servers. Please try again.",
-    //     status: "error",
-    //     duration: 9000,
-    //     isClosable: true,
-    //   });
-    // }
+      // Show error message on 400 (operational errors)
+      // Don't show error messages on 500 (server)
+      toast({
+        position: "top",
+        title:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
 
     console.log("Exited");
   };

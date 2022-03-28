@@ -109,7 +109,7 @@ export default function UserSignupPage(props) {
       <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.100"}>
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Sign up to join</Heading>
+            <Heading fontSize={"4xl"}>Sign up to join the line</Heading>
             <Text align={"center"} fontSize={"xl"} color={"gray.600"}>
               Please fill out this form to join Queue1
             </Text>
