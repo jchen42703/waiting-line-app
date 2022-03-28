@@ -11,7 +11,7 @@ import {
   GETAllReq,
   GETAllRes,
 } from "@waiting-line-app/shared-dto/queue";
-import { IUser } from "@waiting-line-app/shared-dto/db";
+import { IQueue, IUser } from "@waiting-line-app/shared-dto/db";
 import { HttpException } from "../lib/errors";
 import {
   addUserToQueue,
@@ -71,7 +71,7 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const userId = `u-${randomUUID()}`;
+      const userId: string = `u-${randomUUID()}`;
       const user: IUser = {
         userId,
         joinQTime: Date.now(),
@@ -81,7 +81,7 @@ function createQueueRouter() {
       };
 
       try {
-        const qDoc = await addUserToQueue({ queueId, user });
+        const qDoc: IQueue = await addUserToQueue({ queueId, user });
         if (!qDoc) {
           return next(new HttpException(400, "could not find queue"));
         }
@@ -109,7 +109,7 @@ function createQueueRouter() {
 
       const adminId: string = req.signedCookies["adminId"];
       try {
-        const poppedFromQ = await popFirstFromQueue(queueId, adminId);
+        const poppedFromQ: IQueue = await popFirstFromQueue(queueId, adminId);
         if (!poppedFromQ) {
           return next(new HttpException(400, "queueId invalid"));
         }
@@ -119,7 +119,7 @@ function createQueueRouter() {
         }
 
         // sucess
-        const poppedUser = poppedFromQ.queue[0];
+        const poppedUser: IUser = poppedFromQ.queue[0];
         return res.json({ userId: poppedUser.userId });
       } catch (e) {
         return next(new HttpException(500, `Could not pop for ${queueId}`));
