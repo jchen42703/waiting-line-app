@@ -8,6 +8,8 @@ import {
   POSTPopRes,
   GETProgressReq,
   GETProgressRes,
+  GETAllReq,
+  GETAllRes,
 } from "@waiting-line-app/shared-dto/queue";
 import { IUser } from "@waiting-line-app/shared-dto/db";
 import { HttpException } from "../lib/errors";
@@ -154,6 +156,31 @@ function createQueueRouter() {
         });
       } catch (e) {
         return next(new HttpException(500, `invalid queueId`));
+      }
+    },
+  );
+  queueRouter.get(
+    "/all",
+    async (
+      req: Request<unknown, GETAllRes, unknown, GETAllReq>,
+      res: Response<unknown, unknown>,
+      next: NextFunction,
+    ) => {
+      const { queueId } = req.query;
+      try {
+        const qDoc = await Queue.findOne({
+          queueId,
+        });
+        console.log(qDoc.queue);
+        let usersInQueue = [];
+        for (let i = 0; i < qDoc.queue.length; i++) {
+          usersInQueue.push(qDoc.queue[i].userId);
+        }
+        return res.json({
+          users: usersInQueue,
+        });
+      } catch (e) {
+        return next(new HttpException(500, "test error"));
       }
     },
   );
