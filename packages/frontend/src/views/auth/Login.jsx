@@ -1,4 +1,3 @@
-import hero from "./media/login.svg";
 import {
   Box,
   Stack,
@@ -6,12 +5,11 @@ import {
   Text,
   Container,
   SimpleGrid,
-  useBreakpointValue,
-  Image,
 } from "@chakra-ui/react";
 import GoogleButton from "./buttons/GoogleButton";
 import FacebookButton from "./buttons/FacebookButton";
 import "../../styles/pages/login.scss";
+import Hero from "./media/Hero";
 
 const Login = () => {
   const google = () => {
@@ -31,33 +29,17 @@ const Login = () => {
         spacing={{ base: 10, lg: 32 }}
         py={{ base: 10, sm: 20, lg: 32 }}
       >
-        <Stack spacing={{ base: 10, md: 20 }}>
-          <Stack direction={"row"} spacing={4} align={"center"}>
-            <Image
-              boxSize={{ base: "300px", md: "400px", lg: "560px" }}
-              alignItems={{ sm: "center" }}
-              position="relative"
-              src={hero}
-            ></Image>
-            <Heading position="absolute" left="10%" top="25%">
-              <Text
-                fontSize={{ base: "15px", md: "20px", lg: "35px" }}
-                textTransform="uppercase"
-                bgGradient="linear(to-r, blue.400,blue.400)"
-                bgClip="text"
-              >
-                Build your business
-                <br></br>one Lyne at a time.
-              </Text>
-            </Heading>
-          </Stack>
-        </Stack>
+        <Hero></Hero>
         <Stack
           bg={"gray.50"}
           rounded={"xl"}
           p={{ base: 4, sm: 6, md: 8 }}
           spacing={{ base: 8 }}
-          h="75%"
+          height={{
+            base: "125%",
+            md: "75%",
+            xl: "75%",
+          }}
           maxW={{ lg: "lg" }}
         >
           <Stack spacing={4}>
