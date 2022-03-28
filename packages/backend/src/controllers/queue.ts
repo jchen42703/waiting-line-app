@@ -169,7 +169,7 @@ function createQueueRouter() {
     ) => {
       const { queueId } = req.query;
       try {
-        const usersInQueue = await getAllUsers(queueId);
+        const usersInQueue: IUser[] = await getAllUsers(queueId);
 
         return res.json({
           users: usersInQueue,
