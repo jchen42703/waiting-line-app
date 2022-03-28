@@ -1,5 +1,5 @@
 {
-  "name": "waiting-line-app",
+  "name": "@lyne/monorepo",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Joseph Chen, Benson Jin, Di Zhou, Jalen Xu, David Tang",
