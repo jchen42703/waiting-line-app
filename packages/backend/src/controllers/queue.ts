@@ -18,6 +18,7 @@ import {
   getUserProgress,
   popFirstFromQueue,
   Queue,
+  getAllUsers,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -163,24 +164,18 @@ function createQueueRouter() {
     "/all",
     async (
       req: Request<unknown, GETAllRes, unknown, GETAllReq>,
-      res: Response<unknown, unknown>,
+      res: Response<GETAllRes, unknown>,
       next: NextFunction,
     ) => {
       const { queueId } = req.query;
       try {
-        const qDoc = await Queue.findOne({
-          queueId,
-        });
-        console.log(qDoc.queue);
-        let usersInQueue = [];
-        for (let i = 0; i < qDoc.queue.length; i++) {
-          usersInQueue.push(qDoc.queue[i].userId);
-        }
+        const usersInQueue = await getAllUsers(queueId);
+
         return res.json({
           users: usersInQueue,
         });
       } catch (e) {
-        return next(new HttpException(500, "test error"));
+        return next(new HttpException(500, `invalid queueId`));
       }
     },
   );
