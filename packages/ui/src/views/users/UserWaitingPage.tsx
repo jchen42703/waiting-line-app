@@ -20,7 +20,7 @@ import { useParams } from "react-router-dom";
 import UserWaitingStatus from "../../../src/components/UserWaitingStatus";
 
 export default function UserWaitingPage() {
-  let { queueId, userId } = useParams();
+  const { queueId, userId } = useParams();
   const toast = useToast(); // A toast to show some errors
   const [loading, setLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -40,6 +40,7 @@ export default function UserWaitingPage() {
       userId,
       queueId,
     };
+
     //Default options are marked with *
     try {
       const resp = await fetch(`${config.hostUrl}/api/queue/deleteUser`, {
@@ -153,7 +154,7 @@ export default function UserWaitingPage() {
                   loadingText="Exiting"
                   w={20}
                   ref={exitRef}
-                  onClick={() => exitQueue(this.userId, this.queueId)}
+                  onClick={() => exitQueue(userId, queueId)}
                 >
                   Exit
                 </Button>
