@@ -25,12 +25,7 @@ async function getQueue(queueId: string) {
  */
 async function getAllUsers(queueId: string) {
   const qDoc: IQueue = await getQueue(queueId);
-  const qLength: number = qDoc.queue.length;
-  const usersInQueue: IUser[] = [];
-  for (let i: number = 0; i < qLength; i++) {
-    usersInQueue.push(qDoc.queue[i]);
-  }
-  return usersInQueue;
+  return qDoc.queue;
 }
 
 /**
