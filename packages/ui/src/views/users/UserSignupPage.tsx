@@ -18,9 +18,10 @@ import { config } from "../../lib/config";
 import { Navigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
+import validator from "validator";
 
 export default function UserSignupPage() {
-  let { queueId } = useParams();
+  const { queueId } = useParams();
   console.log(queueId);
 
   const {
@@ -29,6 +30,8 @@ export default function UserSignupPage() {
     formState: { errors },
   } = useForm();
 
+  const [loading, setLoading] = useState(false);
+
   const [redirectState, setRedirectState] = useState({
     shouldRedirect: false,
     userId: "",
@@ -36,8 +39,10 @@ export default function UserSignupPage() {
   const toast = useToast(); // A toast to show some errors
 
   const onSubmit = async () => {
+    setLoading(true);
     // console.log(
     //   "name: ",
+    //   // @ts-ignore
     //   document.getElementById("name").value,
     //   "\nemail: ",
     //   document.getElementById("email").value,
@@ -46,9 +51,9 @@ export default function UserSignupPage() {
     // );
 
     const data = {
-      queueId: queueId,
+      queueId,
     };
-
+    console.log(data);
     // Default options are marked with *
     try {
       const resp = await fetch(`${config.hostUrl}/api/queue/join`, {
@@ -68,6 +73,7 @@ export default function UserSignupPage() {
         userId: respBody.userId,
       });
     } catch (e) {
+      setLoading(false);
       let message; // string
       if (e instanceof Error) {
         message = e.message;
@@ -104,9 +110,9 @@ export default function UserSignupPage() {
       <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.100"}>
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Sign up to join the queue</Heading>
-            <Text fontSize={"xl"} color={"gray.600"}>
-              description ... e.g. queue name
+            <Heading fontSize={"4xl"}>Sign up to join the line</Heading>
+            <Text align={"center"} fontSize={"xl"} color={"gray.600"}>
+              Please fill out this form to join Queue1
             </Text>
           </Stack>
           <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
@@ -123,10 +129,9 @@ export default function UserSignupPage() {
                     id="email"
                     placeholder="Email"
                     {...register("email", {
-                      pattern: {
-                        value: /.[@]./,
-                        message: "Please enter a valid email address", // JS only: <p>error message</p> TS only support string
-                      },
+                      validate: (v) =>
+                        validator.isEmail(v) === true ||
+                        "Please enter a valid email address",
                     })}
                   />
                   <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
@@ -142,12 +147,11 @@ export default function UserSignupPage() {
                       placeholder="Phone Number"
                       as={InputMask}
                       mask="(***) ***-****"
-                      // maskChar={null}
+                      maskChar={null}
                       {...register("phone", {
-                        pattern: {
-                          value: /[(]\d{3}[)]\s\d{3}[-]\d{4}/,
-                          message: "Please enter a valid phone number", // JS only: <p>error message</p> TS only support string
-                        },
+                        validate: (v) =>
+                          validator.isMobilePhone(v) === true ||
+                          "Please enter a valid phone number",
                       })}
                     />
                   </InputGroup>
@@ -155,7 +159,13 @@ export default function UserSignupPage() {
                   <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
                 </FormControl>
 
-                <Button mt={3} colorScheme="teal" type="submit">
+                <Button
+                  isLoading={loading}
+                  loadingText="Joining"
+                  mt={3}
+                  colorScheme="teal"
+                  type="submit"
+                >
                   Join
                 </Button>
               </Stack>
