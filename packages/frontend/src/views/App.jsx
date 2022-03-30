@@ -9,6 +9,7 @@ import QueueDashboard from "./dashboard/queueDashboard";
 import SettingsPage from "./settings/settings";
 import AdminNavBar from "../components/AdminNavBar";
 import UserSignupPage from "./users/UserSignupPage";
+import UserWaitingPage from "./users/UserWaitingPage";
 import { useEffect, useState } from "react";
 
 export default function App() {
@@ -61,6 +62,7 @@ export default function App() {
             element={user ? <SettingsPage /> : <Navigate to="/login" />}
           />
           <Route path="users/:queueId" element={<UserSignupPage />} />
+          <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />
         </Routes>{" "}
       </BrowserRouter>
     </ChakraProvider>
