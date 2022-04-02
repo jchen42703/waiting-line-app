@@ -13,15 +13,15 @@ import {
   InputLeftAddon,
   useToast,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { config } from "../../lib/config";
 import { Navigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import validator from "validator";
 
-export default function UserSignupPage(props) {
-  let { queueId } = useParams();
+export default function UserSignupPage() {
+  const { queueId } = useParams();
   console.log(queueId);
 
   const {
@@ -40,19 +40,20 @@ export default function UserSignupPage(props) {
 
   const onSubmit = async () => {
     setLoading(true);
-    console.log(
-      "name: ",
-      document.getElementById("name").value,
-      "\nemail: ",
-      document.getElementById("email").value,
-      "\nphone number: ",
-      document.getElementById("phone").value.match(/\d/g).join(""),
-    );
+    // console.log(
+    //   "name: ",
+    //   // @ts-ignore
+    //   document.getElementById("name").value,
+    //   "\nemail: ",
+    //   document.getElementById("email").value,
+    //   "\nphone number: ",
+    //   document.getElementById("phone").value.match(/\d/g).join(""),
+    // );
 
     const data = {
-      queueId: props.queueId,
+      queueId,
     };
-
+    console.log(data);
     // Default options are marked with *
     try {
       const resp = await fetch(`${config.hostUrl}/api/queue/join`, {
@@ -100,7 +101,7 @@ export default function UserSignupPage(props) {
 
   if (redirectState.shouldRedirect) {
     console.log("redirects!");
-    const redirectPath = `/users/${props.queueId}/${redirectState.userId}`;
+    const redirectPath = `/users/${queueId}/${redirectState.userId}`;
     return <Navigate to={redirectPath} />;
   }
 

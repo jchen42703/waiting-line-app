@@ -1,5 +1,5 @@
 {
-  "name": "@waiting-line-app/backend",
+  "name": "@lyne/backend",
   "version": "1.0.0",
   "main": "server.js",
   "license": "MIT",

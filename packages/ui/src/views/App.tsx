@@ -9,8 +9,8 @@ import QueueDashboard from "./dashboard/queueDashboard";
 import SettingsPage from "./settings/settings";
 import AdminNavBar from "../components/AdminNavBar";
 import UserSignupPage from "./users/UserSignupPage";
-import UserWaitingPage from "./users/UserWaitingPage";
 import { useEffect, useState } from "react";
+import UserWaitingPage from "./users/UserWaitingPage";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -22,7 +22,7 @@ export default function App() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": true,
+          "Access-Control-Allow-Credentials": "true",
         },
       })
         .then((response) => {
@@ -50,8 +50,8 @@ export default function App() {
             element={user ? <Dashboard /> : <Navigate to="/login" />}
           />
           <Route
-            path="dashboard/:queueId/"
-            element={ <QueueDashboard user={user} /> }
+            path="dashboard/:queueId"
+            element={user ? <QueueDashboard /> : <Navigate to="/login" />}
           />
           <Route
             path="login"
@@ -59,7 +59,7 @@ export default function App() {
           />
           <Route
             path="settings"
-            element={<SettingsPage user={user}/>}
+            element={user ? <SettingsPage /> : <Navigate to="/login" />}
           />
           <Route path="users/:queueId" element={<UserSignupPage />} />
           <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />

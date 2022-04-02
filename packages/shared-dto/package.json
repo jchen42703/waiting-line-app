@@ -1,6 +1,6 @@
 {
-  "name": "@waiting-line-app/shared-dto",
-  "version": "0.0.0",
+  "name": "@lyne/shared-dto",
+  "version": "0.0.1",
   "description": "Shared data transfer objects between frontend and backend",
   "author": "Joseph Chen, Benson Jin, Di Zhou, Jalen Xu, David Tang",
   "homepage": "https://github.com/jchen42703/waiting-line-app#readme",
