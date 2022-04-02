@@ -23,7 +23,7 @@ export default function AdminNavBar() {
   // conditionally render based on route
   // navbar should only render for admin routes
   const location = useLocation();
-  console.log(location);
+
   if (
     location.pathname.match("/users/*") ||
     location.pathname.match("/login/*")
@@ -52,6 +52,9 @@ export default function AdminNavBar() {
           </Flex>
           {/* To maintain compatibility w/chakra ui attributes */}
           <Link as={RouteLink} to="/settings">
+            <IconButton icon={<SettingsIcon />}></IconButton>
+          </Link>
+          <Link as={RouteLink} to="/dashboard/123">
             <IconButton icon={<SettingsIcon />}></IconButton>
           </Link>
         </Flex>
