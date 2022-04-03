@@ -33,6 +33,7 @@
     "**/*/tailwind.config.js",
     "packages/frontend",
     "**/*/dist",
-    "jest.config.js"
+    "jest.config.js",
+    "**/*/build"
   ]
 }
