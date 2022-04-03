@@ -1,8 +1,8 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
+import type { OperationalErrResp } from "@lyne/shared-dto";
 import { HttpException } from "../lib/errors";
 import { stringifyReq } from "../lib/parse";
 import { logger } from "../lib/log";
-import { OperationalErrResp } from "@waiting-line-app/shared-dto/errors";
 
 /**
  * Global uncaught error handler to prevent crash + catches operational errors
@@ -29,7 +29,7 @@ const errorMiddleware: ErrorRequestHandler = (
   }
 
   return res.status(status).json({
-    message: message,
+    message,
   });
 };
 

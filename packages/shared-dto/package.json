@@ -5,29 +5,23 @@
   "author": "Joseph Chen, Benson Jin, Di Zhou, Jalen Xu, David Tang",
   "homepage": "https://github.com/jchen42703/waiting-line-app#readme",
   "license": "ISC",
-  "main": "lib/shared-dto.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "lib"
+    "dist"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/jchen42703/waiting-line-app.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "tsc -b tsconfig.json ."
   },
   "bugs": {
     "url": "https://github.com/jchen42703/waiting-line-app/issues"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.178",
     "typescript": "^4.5.5"
   },
-  "dependencies": {
-    "lodash": "^4.17.21"
-  }
+  "dependencies": {}
 }

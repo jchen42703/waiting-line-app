@@ -25,16 +25,8 @@ const common = {
     "consistent-return": "off",
     "no-shadow": "off",
     "no-unused-vars": "off",
-    "no-continue": "off",
-    "@typescript-eslint/return-await": "off",
-    "@typescript-eslint/lines-between-class-members": "off",
-    "@typescript-eslint/naming-convention": "off",
     "no-underscore-dangle": "off",
-    "class-methods-use-this": "off",
-    "new-cap": "off",
     "no-plusplus": "off",
-    "no-param-reassign": "off", // this should probably be turned on, but would require refactoring
-    "prefer-destructuring": ["error", { object: true, array: false }],
   },
 };
 
@@ -42,6 +34,10 @@ module.exports = {
   // ...common,
   root: true,
   overrides: [
+    {
+      ...common,
+      files: ["**/*.js"],
+    },
     {
       ...common,
       files: ["**/*.ts"],

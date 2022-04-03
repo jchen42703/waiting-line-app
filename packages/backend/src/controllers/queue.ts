@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { randomUUID } from "crypto";
-import {
+import type {
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
@@ -8,14 +8,18 @@ import {
   POSTPopRes,
   GETProgressReq,
   GETProgressRes,
-} from "@waiting-line-app/shared-dto/queue";
-import { IUser } from "@waiting-line-app/shared-dto/db";
+  GETAllReq,
+  GETAllRes,
+  IQueue,
+  IUser,
+} from "@lyne/shared-dto";
 import { HttpException } from "../lib/errors";
 import {
   addUserToQueue,
   getUserProgress,
   popFirstFromQueue,
   Queue,
+  getAllUsers,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -30,17 +34,17 @@ function createQueueRouter() {
       res: Response<POSTCreateRes, unknown>,
       next: NextFunction,
     ) => {
-      const adminId = req.signedCookies["adminId"];
+      const { adminId } = req.signedCookies;
       // validation
       if (!adminId || typeof adminId !== "string") {
         return next(new HttpException(400, "adminId must be a string"));
       }
 
-      const qId: string = `q-${randomUUID()}`;
+      const qId = `q-${randomUUID()}`;
       try {
         await Queue.create({
           queueId: qId,
-          adminId: adminId,
+          adminId,
           canJoin: true,
           queue: [],
         });
@@ -78,7 +82,7 @@ function createQueueRouter() {
       };
 
       try {
-        const qDoc = await addUserToQueue({ queueId, user });
+        const qDoc: IQueue = await addUserToQueue({ queueId, user });
         if (!qDoc) {
           return next(new HttpException(400, "could not find queue"));
         }
@@ -86,7 +90,7 @@ function createQueueRouter() {
         return next(new HttpException(500, "join failed"));
       }
 
-      res.json({ userId: userId });
+      res.json({ userId });
     },
   );
 
@@ -104,9 +108,9 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const adminId: string = req.signedCookies["adminId"];
+      const { adminId } = req.signedCookies;
       try {
-        const poppedFromQ = await popFirstFromQueue(queueId, adminId);
+        const poppedFromQ: IQueue = await popFirstFromQueue(queueId, adminId);
         if (!poppedFromQ) {
           return next(new HttpException(400, "queueId invalid"));
         }
@@ -116,7 +120,7 @@ function createQueueRouter() {
         }
 
         // sucess
-        const poppedUser = poppedFromQ.queue[0];
+        const poppedUser: IUser = poppedFromQ.queue[0];
         return res.json({ userId: poppedUser.userId });
       } catch (e) {
         return next(new HttpException(500, `Could not pop for ${queueId}`));
@@ -151,6 +155,25 @@ function createQueueRouter() {
           queueId,
           currPlace,
           total: qLength,
+        });
+      } catch (e) {
+        return next(new HttpException(500, `invalid queueId`));
+      }
+    },
+  );
+  queueRouter.get(
+    "/all",
+    async (
+      req: Request<unknown, GETAllRes, unknown, GETAllReq>,
+      res: Response<GETAllRes, unknown>,
+      next: NextFunction,
+    ) => {
+      const { queueId } = req.query;
+      try {
+        const usersInQueue: IUser[] = await getAllUsers(queueId);
+
+        return res.json({
+          users: usersInQueue,
         });
       } catch (e) {
         return next(new HttpException(500, `invalid queueId`));

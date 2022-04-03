@@ -1,11 +1,19 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
-    "outDir": "./dist"
+    "composite": true,
+    "tsBuildInfoFile": "../../.build-cache/backend.tsbuildinfo",
+    "outDir": "./dist",
+    "noUnusedParameters": false
   },
-  "include": ["src/**/*", "__tests__/**/*"],
-  "exclude": ["node_modules", "typings"]
+  "references": [
+    {
+      "path": "../shared-dto/tsconfig.json",
+      "prepend": false
+    }
+  ],
+  "include": ["./src/**/*", "__tests__/**/*"],
+  "exclude": ["node_modules", "typings", "dist", "jest.config.js"]
 }

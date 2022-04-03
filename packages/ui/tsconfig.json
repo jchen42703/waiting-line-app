@@ -3,13 +3,16 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "strict": true,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "composite": true,
+    "noEmit": false,
+    "jsx": "react",
+    "tsBuildInfoFile": "../../.build-cache/ui.tsbuildinfo",
+    "outDir": "./dist"
   },
-  "include": ["src", "tailwind.config.js"]
+  "include": ["src/**/*.ts", "tailwind.config.js"],
+  "exclude": ["node_modules", "typings", "dist", "build"]
 }

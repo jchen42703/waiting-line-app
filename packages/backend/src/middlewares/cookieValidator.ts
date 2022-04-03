@@ -18,7 +18,7 @@ const cookieValidator = async (
   }
 
   // parse the admin id and check against the database
-  const adminId = req.signedCookies["adminId"];
+  const { adminId } = req.signedCookies;
   const isAdmin = await validateAdmin({ adminId });
 
   // call next

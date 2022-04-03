@@ -12,6 +12,7 @@ dist/
 
 # misc
 .cache
+.build-cache
 .DS_Store
 .env
 .env.dev

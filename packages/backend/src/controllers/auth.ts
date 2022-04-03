@@ -2,7 +2,7 @@ import { Request, Response, Router } from "express";
 import passport from "passport";
 import { setupPassport } from "../lib/passport";
 
-const CLIENT_URL = process.env.CLIENT_URL;
+const { CLIENT_URL } = process.env;
 
 function createAuthRouter() {
   setupPassport();
@@ -11,12 +11,13 @@ function createAuthRouter() {
 
   authRouter.get("/login/success", (req: Request, res: Response) => {
     if (req.user) {
-      var options = {
+      const options = {
         maxAge: 1000 * 60 * 60 * 24, // would expire after 1 day
         httpOnly: true, // The cookie only accessible by the web server
         signed: true,
       };
 
+      // eslint-disable-next-line @typescript-eslint/dot-notation
       res.cookie("adminId", req.user["_id"], options);
 
       res.status(200).json({

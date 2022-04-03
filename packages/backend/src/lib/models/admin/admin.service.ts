@@ -3,7 +3,7 @@ import { Admin } from "./admin.model";
 /**
  * Parses profile object from OAuth2 Google
  * @param {*} Admin
- * @returns
+ * @returnsP
  */
 const addAdmin = ({ id, email, firstName, lastName, source }) => {
   const admin = new Admin({
@@ -16,9 +16,7 @@ const addAdmin = ({ id, email, firstName, lastName, source }) => {
   return admin.save();
 };
 
-const getAdmins = () => () => {
-  return Admin.find({});
-};
+const getAdmins = () => Admin.find({});
 
 /**
  * Checks that an admin exists in the database
@@ -29,12 +27,13 @@ const validateAdmin = async ({ adminId }) => {
   const admin = await Admin.findById(adminId);
 
   return (
-    admin !== undefined && admin !== null && admin["_id"].toString() === adminId
+    admin !== undefined && admin !== null && admin._id.toString() === adminId
   );
 };
 
 const getAdminByEmail = async ({ email }) => {
-  return await Admin.findOne({ email });
+  const adminDoc = await Admin.findOne({ email });
+  return adminDoc;
 };
 
 export { addAdmin, getAdmins, getAdminByEmail, validateAdmin };
