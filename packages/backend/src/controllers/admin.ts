@@ -13,12 +13,12 @@ const getAdminQueue = async (adminId: string) => {
   const arr = [];
   for (let i = 0; i < admin.length; i++) {
     const queueProperties = {
-      queueName: admin[i].queueId,
+      queueName: admin[i].queueName,
       totalMemberInQueue: admin[i].queue.length,
-      //timeCreated: admin[i].
-      //liveDate:
-      //closeDate:
-      //repeatCycle:
+      timeCreated: admin[i].timeCreated,
+      //liveDate: admin[i].liveDate,
+      //closeDate: admin[i].closeDate,
+      //repeatCycle: admin[i].repeatCycle
     };
     arr.push(queueProperties);
   }
@@ -37,14 +37,14 @@ function createAdminRouter() {
       const { adminId } = req.query;
       try {
         const qDoc = await getAdminQueue(adminId);
-        console.log(qDoc.length);
-        //console.log(qDoc[0].queue[0].initQTime);
+        //console.log(qDoc.length);
+        // console.log(qDoc[0].queue[0].initQTime);
         console.log(qDoc);
         return res.json({
           queues: qDoc,
         });
       } catch (e) {
-        return next(new HttpException(500, `invalid queueId`));
+        return next(new HttpException(500, `invalid adminId`));
       }
     },
   );

@@ -10,6 +10,7 @@ export const queueSchema = new Schema(
     timeCreated: Number,
     liveDate: Number,
     closeDate: Number,
+    //repeatCycle:
     adminId: String,
     canJoin: Boolean, // whether users are allowed to join the queue
     queue: [userSchema],
