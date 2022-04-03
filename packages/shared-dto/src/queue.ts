@@ -1,4 +1,4 @@
-import { IUser } from "@waiting-line-app/shared-dto/db";
+import { IUser } from "./db";
 
 interface POSTCreateRes {
   queueId: string;

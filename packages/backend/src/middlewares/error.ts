@@ -2,7 +2,7 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { HttpException } from "../lib/errors";
 import { stringifyReq } from "../lib/parse";
 import { logger } from "../lib/log";
-import { OperationalErrResp } from "@waiting-line-app/shared-dto/errors";
+import type { OperationalErrResp } from "@lyne/shared-dto";
 
 /**
  * Global uncaught error handler to prevent crash + catches operational errors

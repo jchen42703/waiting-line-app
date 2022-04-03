@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": "./packages",
+    "rootDir": ".",
+    "baseUrl": "packages",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "incremental": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "importHelpers": true,
@@ -15,8 +20,8 @@
     "noImplicitThis": false,
     "strictNullChecks": false,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true
   },
-  "include": ["src/**/*", "__tests__/**/*"],
-  "exclude": ["node_modules", "typings"]
+  "exclude": ["**/*/jest.config.js"]
 }

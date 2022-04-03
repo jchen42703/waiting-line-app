@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
-import router from "./controllers";
 import cookieSession from "cookie-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
+import router from "./controllers";
 import cookieValidator from "./middlewares/cookieValidator";
 import errorMiddleware from "./middlewares/error";
 

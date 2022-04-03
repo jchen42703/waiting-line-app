@@ -1,4 +1,4 @@
-import { IQueue, IUser } from "@waiting-line-app/shared-dto/db";
+import { IQueue, IUser } from "@lyne/shared-dto";
 import { Queue } from "../queue";
 
 /**
