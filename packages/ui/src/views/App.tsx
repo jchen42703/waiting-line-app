@@ -11,6 +11,7 @@ import AdminNavBar from "../components/AdminNavBar";
 import UserSignupPage from "./users/UserSignupPage";
 import { useEffect, useState } from "react";
 import UserWaitingPage from "./users/UserWaitingPage";
+import AuthGuard from "../components/auth/AuthGuard";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -47,7 +48,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route
             path="dashboard"
-            element={user ? <Dashboard /> : <Navigate to="/login" />}
+            element={<AuthGuard protectedElement={<Dashboard />} />}
           />
           <Route
             path="dashboard/:queueId"
