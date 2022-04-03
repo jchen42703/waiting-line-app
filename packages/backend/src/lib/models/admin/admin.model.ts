@@ -1,16 +1,16 @@
 import { model, Schema } from "mongoose";
 
-interface Admin {
-  adminId: String;
-  email: String;
-  firstName: String;
-  lastName: String;
-  password: String;
-  source: String;
+export interface IAdmin {
+  adminId: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  source: string;
   lastVisited: Date;
 }
 
-export const adminSchema = new Schema<Admin>(
+export const adminSchema = new Schema<IAdmin>(
   {
     adminId: String,
     email: {
@@ -27,4 +27,4 @@ export const adminSchema = new Schema<Admin>(
   { collection: "admins" },
 );
 
-export const Admin = model<Admin>("Admin", adminSchema);
+export const Admin = model<IAdmin>("Admin", adminSchema);

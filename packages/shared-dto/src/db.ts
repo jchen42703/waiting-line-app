@@ -7,7 +7,7 @@ export interface IUser {
   joinQTime: number;
 }
 
-enum RepeatCycle {
+export enum RepeatCycle {
   DAILY = "daily",
   WEEKLY = "weekly",
   MONTHLY = "monthly",

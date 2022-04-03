@@ -1,7 +1,7 @@
 import { Request } from "express";
 
-export const stringifyReq = (req: Request) => {
-  return JSON.stringify({
+export const stringifyReq = (req: Request) =>
+  JSON.stringify({
     headers: req.headers,
     method: req.method,
     url: req.url,
@@ -16,4 +16,3 @@ export const stringifyReq = (req: Request) => {
     originalUrl: req.originalUrl,
     params: req.params,
   });
-};
