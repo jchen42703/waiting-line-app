@@ -7,6 +7,9 @@ export const queueSchema = new Schema(
     queueId: String,
     queueName: String,
     description: String,
+    timeCreated: Number,
+    liveDate: Number,
+    closeDate: Number,
     adminId: String,
     canJoin: Boolean, // whether users are allowed to join the queue
     queue: [userSchema],

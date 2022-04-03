@@ -44,6 +44,10 @@ function createQueueRouter() {
       try {
         await Queue.create({
           queueId: qId,
+          //queueName:
+          timeCreated: Date.now(),
+          liveDate: null,
+          closeDate: null,
           adminId,
           canJoin: true,
           queue: [],

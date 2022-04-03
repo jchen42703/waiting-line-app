@@ -15,7 +15,10 @@ const getAdminQueue = async (adminId: string) => {
     const queueProperties = {
       queueName: admin[i].queueId,
       totalMemberInQueue: admin[i].queue.length,
-      //"startDate": admin[i].
+      //timeCreated: admin[i].
+      //liveDate:
+      //closeDate:
+      //repeatCycle:
     };
     arr.push(queueProperties);
   }
