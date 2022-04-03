@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "composite": true,
+    "tsBuildInfoFile": "../../.build-cache/shared-dto.tsbuildinfo",
+    "rootDir": "./src",
+    "outDir": "./dist"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "typings", "dist"]
+}

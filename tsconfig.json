@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
-    "baseUrl": "./packages",
+    "rootDir": ".",
+    "baseUrl": "packages",
+    "target": "ES2020",
+    "module": "CommonJS",
+    "lib": ["ESNext"],
+    "incremental": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "importHelpers": true,
@@ -15,8 +20,20 @@
     "noImplicitThis": false,
     "strictNullChecks": false,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true
   },
-  "include": ["src/**/*", "__tests__/**/*"],
-  "exclude": ["node_modules", "typings"]
+  "ts-node": {
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc-experimental",
+    "require": ["tsconfig-paths/register"]
+  },
+  "exclude": [
+    "**/*/jest.config.js",
+    "**/*/tailwind.config.js",
+    "packages/frontend",
+    "**/*/dist",
+    "jest.config.js",
+    "**/*/build"
+  ]
 }

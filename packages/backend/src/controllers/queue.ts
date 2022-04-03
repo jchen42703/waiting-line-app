@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { randomUUID } from "crypto";
-import {
+import type {
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
@@ -10,8 +10,9 @@ import {
   GETProgressRes,
   GETAllReq,
   GETAllRes,
-} from "@waiting-line-app/shared-dto/queue";
-import { IQueue, IUser } from "@waiting-line-app/shared-dto/db";
+  IQueue,
+  IUser,
+} from "@lyne/shared-dto";
 import { HttpException } from "../lib/errors";
 import {
   addUserToQueue,
@@ -33,17 +34,17 @@ function createQueueRouter() {
       res: Response<POSTCreateRes, unknown>,
       next: NextFunction,
     ) => {
-      const adminId = req.signedCookies["adminId"];
+      const { adminId } = req.signedCookies;
       // validation
       if (!adminId || typeof adminId !== "string") {
         return next(new HttpException(400, "adminId must be a string"));
       }
 
-      const qId: string = `q-${randomUUID()}`;
+      const qId = `q-${randomUUID()}`;
       try {
         await Queue.create({
           queueId: qId,
-          adminId: adminId,
+          adminId,
           canJoin: true,
           queue: [],
         });
@@ -71,7 +72,7 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const userId: string = `u-${randomUUID()}`;
+      const userId = `u-${randomUUID()}`;
       const user: IUser = {
         userId,
         joinQTime: Date.now(),
@@ -89,7 +90,7 @@ function createQueueRouter() {
         return next(new HttpException(500, "join failed"));
       }
 
-      res.json({ userId: userId });
+      res.json({ userId });
     },
   );
 
@@ -107,7 +108,7 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const adminId: string = req.signedCookies["adminId"];
+      const { adminId } = req.signedCookies;
       try {
         const poppedFromQ: IQueue = await popFirstFromQueue(queueId, adminId);
         if (!poppedFromQ) {

@@ -9,7 +9,7 @@ export async function initMongoConnection() {
     })
     .catch((err) => {
       logger.error(
-        "MongoDB connection error. Please make sure MongoDB is running: " + err,
+        `MongoDB connection error. Please make sure MongoDB is running: ${err}`,
       );
     });
 }
