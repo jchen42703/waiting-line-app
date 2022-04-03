@@ -12,6 +12,8 @@ import type {
   GETAllRes,
   IQueue,
   IUser,
+  DELETEDeleteUserReq,
+  DELETEDeleteUserRes,
 } from "@lyne/shared-dto";
 import { HttpException } from "../lib/errors";
 import {
@@ -178,6 +180,39 @@ function createQueueRouter() {
       } catch (e) {
         return next(new HttpException(500, `invalid queueId`));
       }
+    },
+  );
+
+  queueRouter.delete(
+    "/delete",
+    async (
+      req: Request<unknown, DELETEDeleteUserRes, DELETEDeleteUserReq, unknown>,
+      res: Response<DELETEDeleteUserRes, unknown>,
+      next: NextFunction,
+    ) => {
+      const { queueId, userId } = req.body;
+      if (!queueId) {
+        return next(new HttpException(400, "You need a queueId"));
+      }
+
+      if (!userId) {
+        return next(new HttpException(400, "You need a userId"));
+      }
+      if (typeof queueId !== "string") {
+        return next(new HttpException(400, "QueueId needs to be string"));
+      }
+
+      if (typeof userId !== "string") {
+        return next(new HttpException(400, "userId needs to be string"));
+      }
+
+      const newQueue: IQueue = await Queue.findOneAndUpdate(
+        { queueId },
+        { $pull: { userId } },
+        { new: true },
+      );
+
+      res.json({ queue: newQueue });
     },
   );
   return queueRouter;
