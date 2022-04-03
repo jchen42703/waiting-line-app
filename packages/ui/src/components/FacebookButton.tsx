@@ -16,5 +16,4 @@ export default function FacebookButton() {
       </Button>
     </Center>
   );
-};
-
+}

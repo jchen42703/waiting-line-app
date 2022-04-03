@@ -13,6 +13,11 @@
     "tsBuildInfoFile": "../../.build-cache/ui.tsbuildinfo",
     "outDir": "./dist"
   },
-  "include": ["src/**/*.ts", "tailwind.config.js"],
+  "include": [
+    "src/**/*.ts",
+    "tailwind.config.js",
+    "custom.d.ts",
+    "__tests__/**/*.test.ts"
+  ],
   "exclude": ["node_modules", "typings", "dist", "build"]
 }

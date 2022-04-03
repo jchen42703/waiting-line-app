@@ -17,7 +17,7 @@ import {
 import React, { useState } from "react";
 import { config } from "../../lib/config";
 import { useParams } from "react-router-dom";
-import UserWaitingStatus from "../../../src/components/UserWaitingStatus";
+import UserWaitingStatus from "../../components/UserWaitingStatus";
 
 export default function UserWaitingPage() {
   const { queueId, userId } = useParams();
