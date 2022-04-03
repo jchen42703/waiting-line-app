@@ -1,3 +1,5 @@
+import { IUser } from "@waiting-line-app/shared-dto/db";
+
 interface POSTCreateRes {
   queueId: string;
 }
@@ -33,6 +35,12 @@ interface GETProgressRes {
   currPlace: number;
   total: number;
 }
+interface GETAllReq {
+  queueId: string;
+}
+interface GETAllRes {
+  users: IUser[];
+}
 
 export {
   POSTCreateRes,
@@ -42,4 +50,6 @@ export {
   POSTPopRes,
   GETProgressReq,
   GETProgressRes,
+  GETAllReq,
+  GETAllRes,
 };
