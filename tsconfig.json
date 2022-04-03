@@ -30,6 +30,7 @@
   },
   "exclude": [
     "**/*/jest.config.js",
+    "**/*/tailwind.config.js",
     "packages/frontend",
     "**/*/dist",
     "jest.config.js"
