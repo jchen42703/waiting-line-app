@@ -67,12 +67,14 @@ module.exports = {
   // A map from regular expressions to module names that allow to stub out resources with a single module
   // moduleNameMapper: {
   //   '^~/(.*)$': '<rootDir>/src/$1',
-  //   '^@nemesis/(.*)$': '<rootDir>/../$1/src'
+  //   '^@lyne/(.*)$': '<rootDir>/../$1/src'
   // },
   moduleNameMapper: {
-    ...pathsToModuleNameMapper(
-      compilerOptions.paths /* , { prefix: '<rootDir>/' }, */,
-    ),
+    // ...pathsToModuleNameMapper(
+    //   compilerOptions.paths /* , { prefix: '<rootDir>/' }, */,
+    // ),
+    "^~/(.*)$": "<rootDir>/src/$1",
+    "^@lyne/(.*)$": "<rootDir>/../$1/src",
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
@@ -106,7 +108,7 @@ module.exports = {
   // restoreMocks: false,
 
   // The root directory that Jest should scan for tests and modules within
-  // rootDir: null,
+  rootDir: ".",
 
   // A list of paths to directories that Jest should use to search for files in
   // roots: ['<rootDir>'],
@@ -157,13 +159,6 @@ module.exports = {
 
   // Setting this value to "fake" allows the use of fake timers for functions such as "setTimeout"
   // timers: "real",
-
-  // Uncomment when switching to @swc/jest
-  // transform: { '^.+\\.(t|j)sx?$': ['@swc/jest'] },
-  // A map from regular expressions to paths to transformers
-  // transform: {
-  //   '.(ts|tsx)': 'ts-jest',
-  // },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: ['/node_modules/'],

@@ -5,7 +5,8 @@
     "moduleResolution": "node",
     "composite": true,
     "tsBuildInfoFile": "../../.build-cache/backend.tsbuildinfo",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "noUnusedParameters": false
   },
   "references": [
     {
