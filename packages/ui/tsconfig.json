@@ -11,8 +11,9 @@
     "noEmit": false,
     "jsx": "react",
     "tsBuildInfoFile": "../../.build-cache/ui.tsbuildinfo",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "typeRoots": ["src/@types/assets"]
   },
-  "include": ["src/**/*.ts", "tailwind.config.js"],
+  "include": ["src/**/*.ts", "tailwind.config.js", "__tests__/**/*.test.ts"],
   "exclude": ["node_modules", "typings", "dist", "build"]
 }
