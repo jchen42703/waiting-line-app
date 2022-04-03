@@ -23,8 +23,11 @@ export default function AdminNavBar() {
   // conditionally render based on route
   // navbar should only render for admin routes
   const location = useLocation();
-  console.log(location);
-  if (location.pathname.match("/users/*")) {
+ 
+  if (
+    location.pathname.match("/users/*") ||
+    location.pathname.match("/login/*")
+  ) {
     return null;
   }
 

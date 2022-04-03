@@ -1,8 +1,8 @@
-import hero from "./login.svg";
+import hero from "../views/auth/media/login.svg"
 import { Image, Stack, Heading, Text } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 
-const HeroImage = () => {
+export default function HeroImage() {
   const [isDesktop, setDesktop] = useState(window.innerWidth < 768);
 
   const updateMedia = () => {
@@ -44,4 +44,4 @@ const HeroImage = () => {
   );
 };
 
-export default HeroImage;
+
