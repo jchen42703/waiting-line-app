@@ -1,5 +1,5 @@
 import { IQueue, IUser } from "@lyne/shared-dto";
-import { Queue } from "../queue";
+import { Queue } from "./queue.model";
 
 /**
  * Gets a Queue document associated with a queueId
@@ -38,9 +38,9 @@ async function getAllUsers(queueId: string) {
 async function getUserProgress(queueId: string, userId: string) {
   const qDoc: IQueue = await getQueue(queueId);
   const qLength: number = qDoc.queue.length;
-  let currPlace: number = -1;
+  let currPlace = -1;
   // Get the user's current spot in line
-  for (let i: number = 0; i < qLength; i++) {
+  for (let i = 0; i < qLength; i++) {
     const qDocUser: IUser = qDoc.queue[i];
     if (qDocUser.userId === userId) {
       currPlace = i + 1; // + 1 because i is 0 indexed
@@ -54,7 +54,7 @@ async function getUserProgress(queueId: string, userId: string) {
   };
 }
 
-interface addUserToQueueOpts {
+interface AddUserToQueueOpts {
   queueId: string;
   user: IUser;
 }
@@ -64,7 +64,7 @@ interface addUserToQueueOpts {
  * @param opts
  * @returns the queue
  */
-async function addUserToQueue({ queueId, user }: addUserToQueueOpts) {
+async function addUserToQueue({ queueId, user }: AddUserToQueueOpts) {
   if (typeof user.userId !== "string") {
     throw new Error("userId must be a string");
   }

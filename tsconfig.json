@@ -23,5 +23,15 @@
     "skipLibCheck": true,
     "declaration": true
   },
-  "exclude": ["**/*/jest.config.js"]
+  "ts-node": {
+    "transpileOnly": true,
+    "transpiler": "ts-node/transpilers/swc-experimental",
+    "require": ["tsconfig-paths/register"]
+  },
+  "exclude": [
+    "**/*/jest.config.js",
+    "packages/frontend",
+    "**/*/dist",
+    "jest.config.js"
+  ]
 }
