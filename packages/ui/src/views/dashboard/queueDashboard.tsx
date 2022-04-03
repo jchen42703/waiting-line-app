@@ -1,11 +1,15 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import QueueTableHandler from "../../components/QueueTableHandler";
 
-export default function QueueDashboard() {
+export default function QueueDashboard({ user }) {
   let { queueId } = useParams();
   console.log(queueId);
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
 
   const [deleteToggleState, setToggle] = useState(false);
   const handleToggle = () => {

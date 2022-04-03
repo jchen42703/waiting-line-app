@@ -1,6 +1,9 @@
 import "../../styles/styles.scss";
-
-export default function SettingsPage() {
+import { Navigate } from "react-router-dom";
+export default function SettingsPage({user}) {
+  if (!user){
+    return <Navigate to="/login" />
+  }
   return (
     <div>
       <h1 className="text-3xl font-bold underline"> Settings!</h1>

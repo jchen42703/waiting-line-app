@@ -50,8 +50,8 @@ export default function App() {
             element={user ? <Dashboard /> : <Navigate to="/login" />}
           />
           <Route
-            path="dashboard/:queueId"
-            element={user ? <QueueDashboard /> : <Navigate to="/login" />}
+            path="dashboard/:queueId/"
+            element={ <QueueDashboard user={user} /> }
           />
           <Route
             path="login"
@@ -59,7 +59,7 @@ export default function App() {
           />
           <Route
             path="settings"
-            element={user ? <SettingsPage /> : <Navigate to="/login" />}
+            element={<SettingsPage user={user}/>}
           />
           <Route path="users/:queueId" element={<UserSignupPage />} />
           <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />
