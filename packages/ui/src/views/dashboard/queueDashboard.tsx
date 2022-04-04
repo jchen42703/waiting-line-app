@@ -3,13 +3,9 @@ import { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import QueueTableHandler from "../../components/QueueTableHandler";
 
-export default function QueueDashboard({ user }) {
+export default function QueueDashboard() {
   let { queueId } = useParams();
   console.log(queueId);
-
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
 
   const [deleteToggleState, setToggle] = useState(false);
   const handleToggle = () => {
