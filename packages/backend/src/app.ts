@@ -6,7 +6,7 @@ import MongoStore from "connect-mongo";
 import router from "./controllers";
 import cookieValidator from "./middlewares/cookieValidator";
 import errorMiddleware from "./middlewares/error";
-import { oneDay, oneSecond } from "./lib/time";
+import { oneDay, oneMinute, oneWeek } from "./lib/time";
 
 const allowedOrigin =
   process.env.NODE_ENV === "production" ? "N/A" : "http://localhost:3000";
@@ -39,7 +39,7 @@ export function createMainServer() {
         ttl: oneDay,
         autoRemove: "interval",
         autoRemoveInterval: 10,
-        touchAfter: 30 * oneSecond,
+        touchAfter: process.env.NODE_ENV === "production" ? oneMinute : oneWeek,
       }),
     }),
   );
