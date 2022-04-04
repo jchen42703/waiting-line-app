@@ -6,10 +6,8 @@ import { Queue } from "./queue.model";
  * @param queueId
  * @returns the queue
  */
-async function getQueue(queueId: string) {
-  const qDoc: IQueue = await Queue.findOne({
-    queueId,
-  });
+async function getQueue(query: { queueId: string; adminId?: string }) {
+  const qDoc: IQueue = await Queue.findOne(query);
 
   if (!qDoc) {
     throw new Error("queue not found");
@@ -23,8 +21,12 @@ async function getQueue(queueId: string) {
  * @param queueId
  * @returns queue that contains IUsers
  */
-async function getAllUsers(queueId: string) {
-  const qDoc: IQueue = await getQueue(queueId);
+async function getAllUsers(queueId: string, adminId: string) {
+  const qDoc: IQueue = await getQueue({ queueId, adminId });
+  if (qDoc === null) {
+    throw new Error("invalid queueId");
+  }
+
   return qDoc.queue;
 }
 
@@ -36,7 +38,7 @@ async function getAllUsers(queueId: string) {
  * correct place in line
  */
 async function getUserProgress(queueId: string, userId: string) {
-  const qDoc: IQueue = await getQueue(queueId);
+  const qDoc: IQueue = await getQueue({ queueId });
   const qLength: number = qDoc.queue.length;
   let currPlace = -1;
   // Get the user's current spot in line
