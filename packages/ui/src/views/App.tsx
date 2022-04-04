@@ -46,6 +46,9 @@ export default function App() {
         <AdminNavBar></AdminNavBar>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="users/:queueId" element={<UserSignupPage />} />
+          <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />
           <Route
             path="dashboard"
             element={<AuthGuard protectedElement={<Dashboard />} />}
@@ -57,7 +60,6 @@ export default function App() {
             // }
             element={<AuthGuard protectedElement={<QueueDashboard />} />}
           />
-          <Route path="login" element={<Login />} />
           <Route
             path="settings"
             // element={
@@ -65,8 +67,6 @@ export default function App() {
             // }
             element={<AuthGuard protectedElement={<SettingsPage />} />}
           />
-          <Route path="users/:queueId" element={<UserSignupPage />} />
-          <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />
         </Routes>{" "}
       </BrowserRouter>
     </ChakraProvider>
