@@ -34,7 +34,7 @@ function createQueueRouter() {
       res: Response<POSTCreateRes, unknown>,
       next: NextFunction,
     ) => {
-      const { adminId } = req.signedCookies;
+      const adminId = req.user._id;
       // validation
       if (!adminId || typeof adminId !== "string") {
         return next(new HttpException(400, "adminId must be a string"));
@@ -108,7 +108,7 @@ function createQueueRouter() {
         return next(new HttpException(400, "queueId must be a string"));
       }
 
-      const { adminId } = req.signedCookies;
+      const adminId = req.user._id;
       try {
         const poppedFromQ: IQueue = await popFirstFromQueue(queueId, adminId);
         if (!poppedFromQ) {
