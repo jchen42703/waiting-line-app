@@ -11,33 +11,34 @@ import AdminNavBar from "../components/AdminNavBar";
 import UserSignupPage from "./users/UserSignupPage";
 import { useEffect, useState } from "react";
 import UserWaitingPage from "./users/UserWaitingPage";
+import AuthGuard from "../components/auth/AuthGuard";
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const getUser = () => {
-      fetch("http://localhost:5000/api/auth/login/success", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Credentials": "true",
-        },
-      })
-        .then((response) => {
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!");
-        })
-        .then((resObject) => {
-          setUser(resObject.user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    getUser();
-  }, []);
+  // const [user, setUser] = useState(null);
+  // useEffect(() => {
+  //   const getUser = () => {
+  //     fetch("http://localhost:5000/api/auth/login/success", {
+  //       method: "GET",
+  //       credentials: "include",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //         "Access-Control-Allow-Credentials": "true",
+  //       },
+  //     })
+  //       .then((response) => {
+  //         if (response.status === 200) return response.json();
+  //         throw new Error("authentication has been failed!");
+  //       })
+  //       .then((resObject) => {
+  //         setUser(resObject.user);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       });
+  //   };
+  //   getUser();
+  // }, []);
 
   return (
     <ChakraProvider resetCSS={true}>
@@ -45,28 +46,27 @@ export default function App() {
         <AdminNavBar></AdminNavBar>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="users/:queueId" element={<UserSignupPage />} />
+          <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />
           <Route
             path="dashboard"
-            element={user ? <Dashboard /> : <Navigate to="/login" />}
+            element={<AuthGuard protectedElement={<Dashboard />} />}
           />
           <Route
             path="dashboard/:queueId"
-            element={
-              user ? <QueueDashboard user={user} /> : <Navigate to="/login" />
-            }
-          />
-          <Route
-            path="login"
-            element={user ? <Navigate to="/dashboard" /> : <Login />}
+            // element={
+            //   user ? <QueueDashboard user={user} /> : <Navigate to="/login" />
+            // }
+            element={<AuthGuard protectedElement={<QueueDashboard />} />}
           />
           <Route
             path="settings"
-            element={
-              user ? <SettingsPage user={user} /> : <Navigate to="/login" />
-            }
+            // element={
+            //   user ? <SettingsPage user={user} /> : <Navigate to="/login" />
+            // }
+            element={<AuthGuard protectedElement={<SettingsPage />} />}
           />
-          <Route path="users/:queueId" element={<UserSignupPage />} />
-          <Route path="users/:queueId/:userId" element={<UserWaitingPage />} />
         </Routes>{" "}
       </BrowserRouter>
     </ChakraProvider>

@@ -1,16 +1,12 @@
 import { Router } from "express";
 import createAuthRouter from "./auth";
 import createQueueRouter from "./queue";
+import createSessionRouter from "./session";
 
 const router = Router();
 
 router.use("/queue", createQueueRouter());
 router.use("/auth", createAuthRouter());
-
-// temp endpoint
-router.get("/", (req, res) => {
-  console.log("req: ", req);
-  res.send({ payload: "test!" });
-});
+router.use("/session", createSessionRouter());
 
 export default router;

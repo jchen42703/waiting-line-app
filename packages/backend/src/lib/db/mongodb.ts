@@ -3,7 +3,9 @@ import { logger } from "../log";
 
 // Creates and returns a mongoose.Connection
 export async function initMongoConnection() {
-  connect(process.env.MONGO_URI)
+  connect(process.env.MONGO_URI, {
+    autoIndex: true,
+  })
     .then(() => {
       logger.info("successfully connected to mongodb");
     })

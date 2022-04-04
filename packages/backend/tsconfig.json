@@ -6,7 +6,8 @@
     "composite": true,
     "tsBuildInfoFile": "../../.build-cache/backend.tsbuildinfo",
     "outDir": "./dist",
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "typeRoots": ["src/@types"]
   },
   "references": [
     {

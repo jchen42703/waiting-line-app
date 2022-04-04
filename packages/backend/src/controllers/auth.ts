@@ -1,5 +1,13 @@
-import { Request, Response, Router } from "express";
+import { randomUUID } from "crypto";
+import {
+  CookieOptions,
+  NextFunction,
+  Request,
+  Response,
+  Router,
+} from "express";
 import passport from "passport";
+import { HttpException } from "../lib/errors";
 import { setupPassport } from "../lib/passport";
 
 const { CLIENT_URL } = process.env;
@@ -9,24 +17,19 @@ function createAuthRouter() {
 
   const authRouter = Router();
 
-  authRouter.get("/login/success", (req: Request, res: Response) => {
-    if (req.user) {
-      const options = {
-        maxAge: 1000 * 60 * 60 * 24, // would expire after 1 day
-        httpOnly: true, // The cookie only accessible by the web server
-        signed: true,
-      };
-
-      // eslint-disable-next-line @typescript-eslint/dot-notation
-      res.cookie("adminId", req.user["_id"], options);
-
-      res.status(200).json({
-        success: true,
-        message: "successfull",
-        user: req.user,
-      });
-    }
-  });
+  authRouter.get(
+    "/login/success",
+    (req: Request, res: Response, next: NextFunction) => {
+      if (req.user) {
+        return res.status(200).json({
+          success: true,
+          message: "successful",
+          user: req.user,
+        });
+      }
+      return next(new HttpException(401, "Unauthorized"));
+    },
+  );
 
   authRouter.get("/login/failed", (req: Request, res: Response) => {
     res.status(401).json({
@@ -40,6 +43,8 @@ function createAuthRouter() {
     res.redirect(CLIENT_URL);
   });
 
+  // Controls /api/auth/google --> opens up the login prompt
+  // When successful, it hits /api/auth/google/callback
   authRouter.get(
     "/google",
     passport.authenticate("google", { scope: ["profile", "email"] }),
