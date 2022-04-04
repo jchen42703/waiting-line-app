@@ -23,10 +23,7 @@ const AuthGuard = ({
     }
   }, []);
 
-  console.log(loading, isLoggedIn);
-
   if (loading) {
-    console.log("render spinner");
     return <Spinner></Spinner>;
   }
 
