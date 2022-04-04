@@ -161,6 +161,7 @@ function createQueueRouter() {
       }
     },
   );
+
   queueRouter.get(
     "/all",
     async (
@@ -169,8 +170,9 @@ function createQueueRouter() {
       next: NextFunction,
     ) => {
       const { queueId } = req.query;
+      const adminId = req.user._id;
       try {
-        const usersInQueue: IUser[] = await getAllUsers(queueId);
+        const usersInQueue: IUser[] = await getAllUsers(queueId, adminId);
 
         return res.json({
           users: usersInQueue,
