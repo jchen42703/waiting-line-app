@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { validateAdmin } from "../lib/models/admin";
+import { validateSession } from "../lib/models/session";
 
 const cookieValidator = async (
   req: Request,
@@ -18,16 +18,16 @@ const cookieValidator = async (
   }
 
   // parse the admin id and check against the database
-  const { adminId } = req.signedCookies;
-  const isAdmin = await validateAdmin({ adminId });
+  const { adminId, session } = req.signedCookies;
+  const isValid = await validateSession(session, adminId);
 
   // call next
-  if (isAdmin) {
+  if (isValid) {
     return next();
   }
 
   // otherwise unauthorized
-  return res.status(401).json({ error: "Invalid cookies" });
+  return res.status(401).json({ error: "Invalid session" });
 };
 
 export default cookieValidator;

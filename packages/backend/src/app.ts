@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import cookieSession from "cookie-session";
 import passport from "passport";
 import cookieParser from "cookie-parser";
 import router from "./controllers";
@@ -21,19 +20,8 @@ export function createMainServer() {
     }),
   );
 
-  app.use(
-    cookieSession({
-      name: "session",
-      keys: [process.env.COOKIE_SECRET],
-      maxAge: 24 * 60 * 60 * 100,
-    }),
-  );
-
-  app.use(cookieParser(process.env.COOKIE_SECRET));
-
   app.use(passport.initialize());
-  app.use(passport.session());
-
+  app.use(cookieParser(process.env.COOKIE_SECRET));
   app.use(cookieValidator);
 
   app.use("/api", router);
