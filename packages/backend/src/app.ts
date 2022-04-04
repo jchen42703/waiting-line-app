@@ -1,10 +1,12 @@
 import express from "express";
 import cors from "cors";
 import passport from "passport";
-import cookieParser from "cookie-parser";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 import router from "./controllers";
 import cookieValidator from "./middlewares/cookieValidator";
 import errorMiddleware from "./middlewares/error";
+import { oneDay, oneSecond } from "./lib/time";
 
 const allowedOrigin =
   process.env.NODE_ENV === "production" ? "N/A" : "http://localhost:3000";
@@ -20,8 +22,30 @@ export function createMainServer() {
     }),
   );
 
+  app.use(
+    session({
+      secret: process.env.COOKIE_SECRET,
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+        maxAge: oneDay,
+      },
+      store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URI,
+        dbName: "csds393",
+        collectionName: "sessions",
+        ttl: oneDay,
+        autoRemove: "interval",
+        autoRemoveInterval: 10,
+        touchAfter: 30 * oneSecond,
+      }),
+    }),
+  );
+
   app.use(passport.initialize());
-  app.use(cookieParser(process.env.COOKIE_SECRET));
+  app.use(passport.session());
   app.use(cookieValidator);
 
   app.use("/api", router);

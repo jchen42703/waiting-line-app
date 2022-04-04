@@ -1,6 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { validateSession } from "../lib/models/session";
 
+/**
+ * Checks that the session is valid for protected endpoints
+ * @param req
+ * @param res
+ * @param next
+ * @returns
+ */
 const cookieValidator = async (
   req: Request,
   res: Response,
@@ -17,12 +23,7 @@ const cookieValidator = async (
     }
   }
 
-  // parse the admin id and check against the database
-  const { adminId, session } = req.signedCookies;
-  const isValid = await validateSession(session, adminId);
-
-  // call next
-  if (isValid) {
+  if (req.isAuthenticated()) {
     return next();
   }
 

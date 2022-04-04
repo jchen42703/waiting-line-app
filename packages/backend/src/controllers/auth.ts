@@ -8,9 +8,7 @@ import {
 } from "express";
 import passport from "passport";
 import { HttpException } from "../lib/errors";
-import { createSession } from "../lib/models/session";
 import { setupPassport } from "../lib/passport";
-import { oneDay, oneWeek } from "../lib/time";
 
 const { CLIENT_URL } = process.env;
 
@@ -22,30 +20,7 @@ function createAuthRouter() {
   authRouter.get(
     "/login/success",
     (req: Request, res: Response, next: NextFunction) => {
-      console.log("req.user: ", req.user);
       if (req.user) {
-        const options: CookieOptions = {
-          maxAge: oneDay, // would expire after 1 day
-          httpOnly: true, // The cookie only accessible by the web server
-          signed: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
-        };
-
-        // Create session cookie
-        const sessId = randomUUID();
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        const createdSession = createSession(sessId, req.user["_id"]);
-        if (!createdSession) {
-          return next(
-            new HttpException(500, "server failed to create admin session"),
-          );
-        }
-
-        console.log("creating session cookies");
-        res.cookie("session", sessId, options);
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        res.cookie("adminId", req.user["_id"], options);
         return res.status(200).json({
           success: true,
           message: "successful",
@@ -64,12 +39,12 @@ function createAuthRouter() {
   });
 
   authRouter.get("/logout", (req: Request, res: Response) => {
-    res.clearCookie("adminId");
-    res.clearCookie("session");
     req.logout();
     res.redirect(CLIENT_URL);
   });
 
+  // Controls /api/auth/google --> opens up the login prompt
+  // When successful, it hits /api/auth/google/callback
   authRouter.get(
     "/google",
     passport.authenticate("google", { scope: ["profile", "email"] }),
