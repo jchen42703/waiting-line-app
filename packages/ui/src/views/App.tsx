@@ -7,43 +7,14 @@ import Login from "./auth/Login";
 import Dashboard from "./dashboard/dashboard";
 import QueueDashboard from "./dashboard/queueDashboard";
 import SettingsPage from "./settings/settings";
-import AdminNavBar from "../components/AdminNavBar";
 import UserSignupPage from "./users/UserSignupPage";
-import { useEffect, useState } from "react";
 import UserWaitingPage from "./users/UserWaitingPage";
 import AuthGuard from "../components/auth/AuthGuard";
 
 export default function App() {
-  // const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   const getUser = () => {
-  //     fetch("http://localhost:5000/api/auth/login/success", {
-  //       method: "GET",
-  //       credentials: "include",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         "Access-Control-Allow-Credentials": "true",
-  //       },
-  //     })
-  //       .then((response) => {
-  //         if (response.status === 200) return response.json();
-  //         throw new Error("authentication has been failed!");
-  //       })
-  //       .then((resObject) => {
-  //         setUser(resObject.user);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   getUser();
-  // }, []);
-
   return (
     <ChakraProvider resetCSS={true}>
       <BrowserRouter>
-        <AdminNavBar></AdminNavBar>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -52,17 +23,11 @@ export default function App() {
           />
           <Route
             path="dashboard/:queueId"
-            // element={
-            //   user ? <QueueDashboard user={user} /> : <Navigate to="/login" />
-            // }
             element={<AuthGuard protectedElement={<QueueDashboard />} />}
           />
           <Route path="login" element={<Login />} />
           <Route
             path="settings"
-            // element={
-            //   user ? <SettingsPage user={user} /> : <Navigate to="/login" />
-            // }
             element={<AuthGuard protectedElement={<SettingsPage />} />}
           />
           <Route path="users/:queueId" element={<UserSignupPage />} />
