@@ -9,7 +9,7 @@ import {
 import GoogleButton from "../../components/GoogleButton"
 import FacebookButton from "../../components/FacebookButton"
 import "../../styles/pages/login.scss"
-import Hero from "../../components/Hero"
+import HeroImage from "../../components/HeroImage"
 
 const Login = () => {
   const google = () => {
@@ -29,7 +29,7 @@ const Login = () => {
         spacing={{ base: 10, lg: 32 }}
         py={{ base: 10, sm: 20, lg: 32 }}
       >
-        <Hero></Hero>
+        <HeroImage></HeroImage>
         <Stack
           bg={"gray.50"}
           rounded={"xl"}

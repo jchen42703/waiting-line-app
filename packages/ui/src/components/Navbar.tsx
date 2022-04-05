@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
     Box,
     Flex,
@@ -8,11 +9,7 @@ import {
     useBreakpointValue,
   } from '@chakra-ui/react';
   
-import { Link } from "react-router-dom";
-  
   export default function Navbar() {
-  
-  
     return (
       <Box>
         <Flex
@@ -64,7 +61,6 @@ import { Link } from "react-router-dom";
             </Button>
           </Stack>
         </Flex>      
-  
       </Box>
     );
   }
