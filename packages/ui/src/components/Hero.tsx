@@ -1,46 +1,43 @@
-import { Image, Stack, Heading, Text } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import {
+    Flex,
+    Container,
+    Heading,
+    Stack,
+    Text,
+    Image,
+  } from '@chakra-ui/react';
+  
 //@ts-ignore
-import hero from "./media/login.svg";
+import hero from "./media/home_hero.svg"
 
-export default function HeroImage() {
-  const [isDesktop, setDesktop] = useState(window.innerWidth < 768);
-
-  const updateMedia = () => {
-    setDesktop(window.innerWidth < 768);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", updateMedia);
-    return () => window.removeEventListener("resize", updateMedia);
-  });
-
-  // dont render when too small
-  if (isDesktop) {
-    return null;
-  }
-
-  return (
-    <Stack spacing={{ base: 10, md: 20 }}>
-      <Stack direction={"row"} spacing={4} align={"center"}>
-        <Image
-          boxSize={{ base: "300px", md: "400px", lg: "560px" }}
-          alignItems={{ sm: "center" }}
-          position="relative"
-          src={hero}
-        ></Image>
-        <Heading position="absolute" left="10%" top="25%">
-          <Text
-            fontSize={{ base: "15px", md: "20px", lg: "35px" }}
-            textTransform="uppercase"
-            bgGradient="linear(to-r, blue.400,blue.400)"
-            bgClip="text"
-          >
-            Build your business
-            <br></br>one Lyne at a time.
+  export default function Hero() {
+    return (
+      <Container maxW={'5xl'}>
+        <Stack
+          textAlign={'center'}
+          align={'center'}
+          spacing={{ base: 8, md: 10 }}
+          py={{ base: 20, md: 28 }}>
+          <Heading
+            fontWeight={600}
+            fontSize={{ lg: '5xl', sm: '2xl', md: '4xl' }}
+            lineHeight={'110%'}>
+            Building waiting lines{' '}
+            <Text as={'span'} color={'blue.400'}>
+              made easy
+            </Text>
+          </Heading>
+          <Text fontSize={{ lg: 'lg', sm: 'sm', md: 'md' }} fontWeight="bold"color={'blue.500'} maxW={'3xl'}>
+            Start your business with one Lyne at a time.
           </Text>
-        </Heading>
-      </Stack>
-    </Stack>
-  );
-}
+        
+          <Flex w={'full'}>
+           <Image  height={{ sm: '12rem', md:'20rem', lg: '25rem' }}
+           pl={{base:30,sm:20}}
+            mt={{ sm: 5 }} 
+            ml={{ sm: 30,md:100,lg: 150 }}src={hero}></Image>
+          </Flex>
+        </Stack>
+      </Container>
+    );
+  }
