@@ -8,6 +8,7 @@ import {
     useColorModeValue,
     useBreakpointValue,
   } from '@chakra-ui/react';
+  import "../../styles/pages/login.scss"
   
   export default function Navbar() {
     return (
