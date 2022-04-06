@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import GoogleButton from "../../components/GoogleButton"
 import FacebookButton from "../../components/FacebookButton"
-import "../../styles/pages/login.scss"
+
 import HeroImage from "../../components/HeroImage"
 
 const Login = () => {
