@@ -142,6 +142,7 @@ import {
       <Flex
         textAlign={'center'}
         pt={10}
+        pb="10%"
         justifyContent={'center'}
         direction={'column'}
         width={'full'}>
