@@ -48,6 +48,7 @@ import {
             justify={'flex-end'}
             direction={'row'}
             spacing={6}>
+               <Link to="/login">
             <Button
               display={{ md: 'inline-flex' }}
               fontSize={{sm:'xs',md:"md",lg:"lg"}}
@@ -57,8 +58,9 @@ import {
               _hover={{
                 bg: 'pink.300',
               }}>
-              <Link to="/login">Login </Link>
+             Login 
             </Button>
+            </Link>
           </Stack>
         </Flex>      
       </Box>
