@@ -5,7 +5,9 @@ import {
     Stack,
     Text,
     Image,
+    Button,
   } from '@chakra-ui/react';
+  import { Link } from "react-router-dom";
   
 //@ts-ignore
 import hero from "./media/home_hero.svg"
@@ -30,6 +32,9 @@ import hero from "./media/home_hero.svg"
           <Text fontSize={{ lg: 'lg', sm: 'sm', md: 'md' }} fontWeight="bold"color={'blue.500'} maxW={'3xl'}>
             Start your business with one Lyne at a time.
           </Text>
+          <Link to="/login">
+          <Button bg="#0b3075" color="white" rounded="lg">Start now</Button>
+          </Link>
         
           <Flex w={'full'}>
            <Image  height={{ sm: '12rem', md:'20rem', lg: '25rem' }}
