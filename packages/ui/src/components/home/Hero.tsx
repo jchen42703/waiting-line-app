@@ -10,7 +10,8 @@ import {
   import { Link } from "react-router-dom";
   
 //@ts-ignore
-import hero from "./media/home_hero.svg"
+import hero from "../media/home_hero.svg"
+import "../../styles/pages/login.scss"
 
   export default function Hero() {
     return (

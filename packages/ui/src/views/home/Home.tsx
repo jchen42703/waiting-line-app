@@ -1,7 +1,8 @@
 import {Fragment} from "react";
-import Navbar from "../../components/Navbar";
-import Hero from "../../components/Hero";
-import About from "../../components/About"
+import Navbar from "../../components/home/Navbar"
+import Hero from "../../components/home/Hero"
+import About from "../../components/home/About"
+import Team from "../../components/home/Team"
 export default function Home(){
 
   return(
@@ -9,6 +10,7 @@ export default function Home(){
       <Navbar></Navbar>
       <Hero></Hero>
       <About></About>
+      <Team></Team>
     </Fragment>
   )
 }

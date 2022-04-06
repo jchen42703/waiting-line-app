@@ -13,7 +13,7 @@ import {
 import {IoQrCodeOutline} from "react-icons/io5";
 import {AiFillEdit,AiOutlineUnorderedList} from "react-icons/ai"
 import {IoIosNotifications} from "react-icons/io"
-import "../styles/pages/login.scss"
+import "../../styles/pages/login.scss"
 
   export default function About() {
     return (
