@@ -1,7 +1,10 @@
+import { WarningIcon } from "@chakra-ui/icons";
 import {
+  Box,
   Button,
   Heading,
   Progress,
+  Spacer,
   Stack,
   Text,
   useToast,
@@ -10,9 +13,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { config } from "../lib/config";
 
-export default function UserWaitingStatus() {
-  const tJoined = new Date("2022-04-08T10:02:00");
+export default function UserWaitingStatus(props: { joint: Date }) {
   const { queueId, userId } = useParams();
+  const tJoined = props.joint;
   const data = {
     queueId,
     userId,
@@ -92,9 +95,15 @@ export default function UserWaitingStatus() {
       // Don't show error messages on 500 (server)
       toast({
         position: "top",
-        title:
-          "Woops! Looks like something went wrong with our servers. Please try again.",
-        status: "error",
+        render: () => (
+          <Box rounded={"lg"} textColor={"brand.light"} p={4} bg="brand.red">
+            <Text>
+              <WarningIcon mb={2} mr={1} />
+              Woops! Looks like something went wrong with our servers. Please
+              try again.
+            </Text>
+          </Box>
+        ),
         duration: 9000,
         isClosable: true,
       });
@@ -108,7 +117,7 @@ export default function UserWaitingStatus() {
     getStatus();
     const interval = setInterval(() => {
       getStatus();
-      console.log("Status updated! Count: " + updateCount);
+      console.log("Update status, count: " + updateCount);
       updateCount++;
     }, fiveSec);
 
@@ -118,7 +127,7 @@ export default function UserWaitingStatus() {
   return (
     <Stack
       display={"flex"}
-      backgroundColor="white"
+      backgroundColor="brand.blue"
       p={6}
       rounded="lg"
       shadow="lg"
@@ -128,24 +137,35 @@ export default function UserWaitingStatus() {
       direction={"column"}
       textAlign="center"
     >
-      <Heading fontSize="2xl">Your place in {waitingStatus.queueName}</Heading>
-      <Text fontSize="5xl">
+      <Heading textColor={"brand.light"} fontSize="2xl">
+        Your place in {waitingStatus.queueName}
+      </Heading>
+      <Heading fontSize="5xl" textColor={"brand.light"}>
         {waitingStatus.placeInQ}/{waitingStatus.totPeopleInQ}
-      </Text>
+      </Heading>
       <Progress
-        colorScheme="teal"
+        bg="brand.light"
+        sx={{
+          "& > div": {
+            background: "brand.peach",
+          },
+        }}
+        // colorScheme="teal"
         w="100%"
         mt={4}
         height="24px"
-        value={(100 * waitingStatus.placeInQ) / waitingStatus.totPeopleInQ}
+        value={10}
+        // value={100 * (1 - waitingStatus.placeInQ / waitingStatus.totPeopleInQ)}
       />
-      <Text mt={8}>Estimated waiting waitingTime </Text>
+      <Spacer />
+      <Text>Estimated waiting waitingTime </Text>
       <Text fontSize={"2xl"}>{waitingStatus.estWaitingTime} min</Text>
-      <Text mt={4}>You have waited for </Text>
+      <Text>You have waited for </Text>
       <Text fontSize={"xl"}> {timeElapsed}</Text>
-      <Text mt={4}>You joined this queue at </Text>
+      <Text>You joined this queue at </Text>
       <Text fontSize={"xl"}> {waitingStatus.waitingTimeJoined}</Text>
-      <Text mt={8} fontSize={"sm"} color="gray.500">
+      <Spacer />
+      <Text fontSize={"sm"} color="white">
         Last updated: {lastUpdated.toLocaleString("en-US")}
       </Text>
     </Stack>

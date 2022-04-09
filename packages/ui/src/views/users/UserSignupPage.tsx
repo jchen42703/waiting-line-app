@@ -12,11 +12,13 @@ import {
   InputGroup,
   InputLeftAddon,
   useToast,
+  Spacer,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { config } from "../../lib/config";
 import { Navigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { WarningIcon } from "@chakra-ui/icons";
 import InputMask from "react-input-mask";
 import validator from "validator";
 
@@ -41,6 +43,9 @@ export default function UserSignupPage() {
   const [redirectState, setRedirectState] = useState({
     shouldRedirect: false,
     userId: "",
+    name: "",
+    mail: "",
+    phone: "",
   });
   const toast = useToast(); // A toast to show some errors
 
@@ -73,6 +78,9 @@ export default function UserSignupPage() {
       setRedirectState({
         shouldRedirect: true,
         userId: respBody.userId,
+        name: data.name,
+        mail: data.mail,
+        phone: data.phoneNumber,
       });
     } catch (e) {
       setLoading(false);
@@ -92,9 +100,15 @@ export default function UserSignupPage() {
       // Don't show error messages on 500 (server)
       toast({
         position: "top",
-        title:
-          "Woops! Looks like something went wrong with our servers. Please try again.",
-        status: "error",
+        render: () => (
+          <Box rounded={"lg"} textColor={"brand.light"} p={4} bg="brand.red">
+            <Text>
+              <WarningIcon mb={2} mr={1} />
+              Woops! Looks like something went wrong with our servers. Please
+              try again.
+            </Text>
+          </Box>
+        ),
         duration: 9000,
         isClosable: true,
       });
@@ -103,28 +117,46 @@ export default function UserSignupPage() {
 
   if (redirectState.shouldRedirect) {
     console.log("redirects!");
-    const redirectPath = `/users/${queueId}/${redirectState.userId}`;
+    const date = new Date();
+    const redirectPath = `/users/${queueId}/${redirectState.userId}?name=${
+      redirectState.name
+    }&email=${redirectState.mail}&phone=${
+      redirectState.phone
+    }&joint=${date.toISOString()} `;
     return <Navigate to={redirectPath} />;
   }
 
   return (
     <>
-      <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.100"}>
+      <Flex
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={"brand.light"}
+      >
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Sign up to join the line</Heading>
+            <Heading fontSize={"4xl"} color="brand.blue">
+              Sign up to join the line
+            </Heading>
             <Text align={"center"} fontSize={"xl"} color={"gray.600"}>
               Please fill out this form to join Queue1
             </Text>
           </Stack>
-          <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+          <Box
+            rounded={"lg"}
+            textColor={"white"}
+            bg={"brand.blue"}
+            boxShadow={"lg"}
+            p={8}
+          >
             <form id="userform" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <FormControl isRequired>
                   <FormLabel htmlFor="name">Name</FormLabel>
                   <Input
+                    focusBorderColor="brand.light"
                     id="name"
-                    placeholder="Name"
                     {...register("name", {})}
                   />
                 </FormControl>
@@ -132,8 +164,8 @@ export default function UserSignupPage() {
                 <FormControl isRequired isInvalid={errors.email != null}>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <Input
+                    focusBorderColor="brand.light"
                     id="email"
-                    placeholder="Email"
                     {...register("email", {
                       validate: (v) =>
                         validator.isEmail(v) === true ||
@@ -147,10 +179,10 @@ export default function UserSignupPage() {
                   <FormLabel htmlFor="phone">Phone Number</FormLabel>
 
                   <InputGroup>
-                    <InputLeftAddon children="+1" />
+                    <InputLeftAddon children="+1" color={"brand.blue"} />
                     <Input
+                      focusBorderColor="brand.light"
                       id="phone"
-                      placeholder="Phone Number"
                       as={InputMask}
                       mask="(***) ***-****"
                       maskChar={null}
@@ -164,12 +196,12 @@ export default function UserSignupPage() {
 
                   <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
                 </FormControl>
-
+                <Spacer />
                 <Button
                   isLoading={loading}
                   loadingText="Joining"
-                  mt={3}
-                  colorScheme="teal"
+                  bg={"brand.peach"}
+                  _hover={{ bg: "#e6b76c" }}
                   type="submit"
                 >
                   Join
