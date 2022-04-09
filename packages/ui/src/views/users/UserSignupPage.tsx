@@ -16,9 +16,15 @@ import {
 import { useState } from "react";
 import { config } from "../../lib/config";
 import { Navigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import validator from "validator";
+
+type FormValues = {
+  name: string;
+  email: string;
+  phone: string;
+};
 
 export default function UserSignupPage() {
   const { queueId } = useParams();
@@ -28,7 +34,7 @@ export default function UserSignupPage() {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
 
   const [loading, setLoading] = useState(false);
 
@@ -38,22 +44,18 @@ export default function UserSignupPage() {
   });
   const toast = useToast(); // A toast to show some errors
 
-  const onSubmit = async () => {
+  const onSubmit: SubmitHandler<FormValues> = async (formData) => {
     setLoading(true);
-    // console.log(
-    //   "name: ",
-    //   // @ts-ignore
-    //   document.getElementById("name").value,
-    //   "\nemail: ",
-    //   document.getElementById("email").value,
-    //   "\nphone number: ",
-    //   document.getElementById("phone").value.match(/\d/g).join(""),
-    // );
 
     const data = {
       queueId,
+      name: formData.name,
+      mail: formData.email,
+      phoneNumber: formData.phone,
     };
+
     console.log(data);
+    console.log(formData.name);
     // Default options are marked with *
     try {
       const resp = await fetch(`${config.hostUrl}/api/queue/join`, {
@@ -120,10 +122,14 @@ export default function UserSignupPage() {
               <Stack spacing={4}>
                 <FormControl isRequired>
                   <FormLabel htmlFor="name">Name</FormLabel>
-                  <Input id="name" placeholder="Name" />
+                  <Input
+                    id="name"
+                    placeholder="Name"
+                    {...register("name", {})}
+                  />
                 </FormControl>
 
-                <FormControl isRequired isInvalid={errors.email}>
+                <FormControl isRequired isInvalid={errors.email != null}>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <Input
                     id="email"
@@ -137,7 +143,7 @@ export default function UserSignupPage() {
                   <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl isRequired isInvalid={errors.phone}>
+                <FormControl isRequired isInvalid={errors.phone != null}>
                   <FormLabel htmlFor="phone">Phone Number</FormLabel>
 
                   <InputGroup>
