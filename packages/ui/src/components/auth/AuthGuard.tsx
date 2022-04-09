@@ -1,5 +1,5 @@
-import { useEffect, useState, Suspense } from "react";
-import { Spinner } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { Navigate } from "react-router-dom";
 import { adminIsLoggedIn } from "../../lib/services/auth.service";
 import { sleep } from "../../lib/time";
@@ -24,7 +24,21 @@ const AuthGuard = ({
   }, []);
 
   if (loading) {
-    return <Spinner></Spinner>;
+    return (
+      <>
+        <Flex
+          flexDir="column"
+          alignItems="center"
+          justifyContent="center"
+          minHeight={"100vh"}
+        >
+          <Text size="lg" marginBottom={"8"} fontWeight="bold">
+            Loading your queues...
+          </Text>
+          <Spinner size="xl" speed="0.6s" thickness="4px"></Spinner>;
+        </Flex>
+      </>
+    );
   }
 
   if (isLoggedIn) {

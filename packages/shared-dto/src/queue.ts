@@ -1,4 +1,4 @@
-import { IUser } from "./db";
+import { IQueue, IUser } from "./db";
 
 interface POSTCreateRes {
   queueId: string;
@@ -42,6 +42,15 @@ interface GETAllRes {
   users: IUser[];
 }
 
+interface DELETEDeleteUserReq {
+  userId: string;
+  queueId: string;
+}
+
+interface DELETEDeleteUserRes {
+  queue: IQueue;
+}
+
 export {
   POSTCreateRes,
   POSTJoinReq,
@@ -52,4 +61,6 @@ export {
   GETProgressRes,
   GETAllReq,
   GETAllRes,
+  DELETEDeleteUserReq,
+  DELETEDeleteUserRes,
 };

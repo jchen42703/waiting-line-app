@@ -1,49 +1,33 @@
 import "../styles/styles.scss";
 import "focus-visible/dist/focus-visible";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import Home from "./home/Home";
 import Login from "./auth/Login";
 import Dashboard from "./dashboard/dashboard";
 import QueueDashboard from "./dashboard/queueDashboard";
 import SettingsPage from "./settings/settings";
-import AdminNavBar from "../components/AdminNavBar";
 import UserSignupPage from "./users/UserSignupPage";
-import { useEffect, useState } from "react";
 import UserWaitingPage from "./users/UserWaitingPage";
 import AuthGuard from "../components/auth/AuthGuard";
+import AnalyticsDashboard from "./dashboard/analyticsDashboard";
+
+const theme = extendTheme({
+  colors: {
+    brand: {
+      light: "#F4F1DE",
+      red: "#E07A5F",
+      navy: "#3D405B",
+      blue: "#81B29A",
+      peach: "#F2CC8F",
+    },
+  },
+});
 
 export default function App() {
-  // const [user, setUser] = useState(null);
-  // useEffect(() => {
-  //   const getUser = () => {
-  //     fetch("http://localhost:5000/api/auth/login/success", {
-  //       method: "GET",
-  //       credentials: "include",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //         "Access-Control-Allow-Credentials": "true",
-  //       },
-  //     })
-  //       .then((response) => {
-  //         if (response.status === 200) return response.json();
-  //         throw new Error("authentication has been failed!");
-  //       })
-  //       .then((resObject) => {
-  //         setUser(resObject.user);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
-  //   getUser();
-  // }, []);
-
   return (
-    <ChakraProvider resetCSS={true}>
+    <ChakraProvider resetCSS={true} theme={theme}>
       <BrowserRouter>
-        <AdminNavBar></AdminNavBar>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="login" element={<Login />} />
@@ -55,16 +39,14 @@ export default function App() {
           />
           <Route
             path="dashboard/:queueId"
-            // element={
-            //   user ? <QueueDashboard user={user} /> : <Navigate to="/login" />
-            // }
             element={<AuthGuard protectedElement={<QueueDashboard />} />}
           />
           <Route
+            path="dashboard/queue/:queueId"
+            element={<AuthGuard protectedElement={<AnalyticsDashboard />} />}
+          />
+          <Route
             path="settings"
-            // element={
-            //   user ? <SettingsPage user={user} /> : <Navigate to="/login" />
-            // }
             element={<AuthGuard protectedElement={<SettingsPage />} />}
           />
         </Routes>{" "}
