@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { randomUUID } from "crypto";
 import type {
+  POSTCreateReq,
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
@@ -30,7 +31,8 @@ function createQueueRouter() {
   queueRouter.post(
     "/create",
     async (
-      req: Request<unknown, POSTCreateRes, unknown, unknown>,
+      req: Request<unknown, POSTCreateRes, POSTCreateReq, unknown>,
+      //req: Request<unknown, POSTCreateRes, unknown, unknown>,
       res: Response<POSTCreateRes, unknown>,
       next: NextFunction,
     ) => {
@@ -39,15 +41,18 @@ function createQueueRouter() {
       if (!adminId || typeof adminId !== "string") {
         return next(new HttpException(400, "adminId must be a string"));
       }
+      const { queueName, description } = req.body;
 
       const qId = `q-${randomUUID()}`;
       try {
         await Queue.create({
           queueId: qId,
-          //queueName:
+          queueName,
+          description,
           timeCreated: Date.now(),
           liveDate: null,
           closeDate: null,
+          repeatCycle: null,
           adminId,
           canJoin: true,
           queue: [],

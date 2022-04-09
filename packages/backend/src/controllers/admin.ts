@@ -2,27 +2,26 @@ import { NextFunction, Request, Response, Router } from "express";
 import { Queue } from "../lib/models/queue";
 import { HttpException } from "../lib/errors";
 import { GETQueueReq, GETQueueRes } from "@waiting-line-app/shared-dto/admin";
-//import { getAdminQueue } from "../lib/models/admin";
-import { IQueue } from "@waiting-line-app/shared-dto/db";
+import { IQueue, IAdmin } from "@waiting-line-app/shared-dto/db";
 
 const getAdminQueue = async (adminId: string) => {
-  const admin = await Queue.find({ adminId });
+  const admin: IAdmin = await Queue.find({ adminId });
   if (!admin) {
     throw new Error("admin not found");
   }
-  const arr = [];
+  const arrOfQueueProperties = [];
   for (let i = 0; i < admin.length; i++) {
-    const queueProperties = {
+    const queueProperties: IQueue = {
       queueName: admin[i].queueName,
       totalMemberInQueue: admin[i].queue.length,
       timeCreated: admin[i].timeCreated,
-      //liveDate: admin[i].liveDate,
-      //closeDate: admin[i].closeDate,
-      //repeatCycle: admin[i].repeatCycle
+      liveDate: admin[i].liveDate,
+      closeDate: admin[i].closeDate,
+      repeatCycle: admin[i].repeatCycle,
     };
-    arr.push(queueProperties);
+    arrOfQueueProperties.push(queueProperties);
   }
-  return arr;
+  return arrOfQueueProperties;
 };
 
 function createAdminRouter() {
@@ -37,9 +36,6 @@ function createAdminRouter() {
       const { adminId } = req.query;
       try {
         const qDoc = await getAdminQueue(adminId);
-        //console.log(qDoc.length);
-        // console.log(qDoc[0].queue[0].initQTime);
-        console.log(qDoc);
         return res.json({
           queues: qDoc,
         });

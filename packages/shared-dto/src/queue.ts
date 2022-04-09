@@ -1,5 +1,10 @@
 import { IUser } from "./db";
 
+interface POSTCreateReq {
+  queueName: string;
+  description: string;
+}
+
 interface POSTCreateRes {
   queueId: string;
 }
@@ -43,6 +48,7 @@ interface GETAllRes {
 }
 
 export {
+  POSTCreateReq,
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
