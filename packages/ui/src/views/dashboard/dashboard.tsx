@@ -9,13 +9,42 @@ import {
   Tbody,
 } from "@chakra-ui/react";
 import { RepeatCycle } from "@lyne/shared-dto";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Footer from "../../components/home/Footer";
 import AdminNavBar from "../../components/AdminNavBar";
-import LandingPageTableRow from "../../components/dashboard/landingPage/LandingPageTableRow";
+import {
+  LandingPageTableRow,
+  LandingPageTableRowProps,
+} from "../../components/dashboard/landingPage/LandingPageTableRow";
 import TableHeader from "../../components/tables/TableHeader";
 
 export default function Dashboard() {
+  const [queueList, setQueueList] = useState([]);
+
+  useEffect(() => {
+    // Test data
+    setQueueList([
+      {
+        queueName: "dab",
+        numUsers: "5",
+        timeCreated: 100,
+        liveTime: 200,
+        closeTim: 300,
+        repeatCycle: RepeatCycle.DAILY,
+        status: true,
+      },
+      {
+        queueName: "dab2",
+        numUsers: "100",
+        timeCreated: 100,
+        liveTime: 200,
+        closeTim: 300,
+        repeatCycle: RepeatCycle.WEEKLY,
+        status: false,
+      },
+    ]);
+  }, []);
+
   return (
     <Fragment>
       <AdminNavBar />
@@ -41,24 +70,9 @@ export default function Dashboard() {
               </Tr>
             </Thead>
             <Tbody>
-              <LandingPageTableRow
-                queueName="dab"
-                numUsers="5"
-                timeCreated={100}
-                liveTime={200}
-                closeTime={300}
-                repeatCycle={"daily" as RepeatCycle}
-                status={true}
-              ></LandingPageTableRow>
-              <LandingPageTableRow
-                queueName="dab"
-                numUsers="5"
-                timeCreated={100}
-                liveTime={200}
-                closeTime={300}
-                repeatCycle={"daily" as RepeatCycle}
-                status={false}
-              ></LandingPageTableRow>
+              {queueList.map((opts: LandingPageTableRowProps) => {
+                return <LandingPageTableRow {...opts}></LandingPageTableRow>;
+              })}
             </Tbody>
           </Table>
         </TableContainer>

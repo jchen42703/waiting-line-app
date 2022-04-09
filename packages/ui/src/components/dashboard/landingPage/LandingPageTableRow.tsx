@@ -49,4 +49,4 @@ const LandingPageTableRow = ({
   );
 };
 
-export default LandingPageTableRow;
+export { LandingPageTableRow, LandingPageTableRowProps };
