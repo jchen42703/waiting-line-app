@@ -10,6 +10,7 @@ import SettingsPage from "./settings/settings";
 import UserSignupPage from "./users/UserSignupPage";
 import UserWaitingPage from "./users/UserWaitingPage";
 import AuthGuard from "../components/auth/AuthGuard";
+import AnalyticsDashboard from "./dashboard/analyticsDashboard";
 
 const theme = extendTheme({
   colors: {
@@ -39,6 +40,10 @@ export default function App() {
           <Route
             path="dashboard/:queueId"
             element={<AuthGuard protectedElement={<QueueDashboard />} />}
+          />
+          <Route
+            path="dashboard/queue/:queueId"
+            element={<AuthGuard protectedElement={<AnalyticsDashboard />} />}
           />
           <Route
             path="settings"
