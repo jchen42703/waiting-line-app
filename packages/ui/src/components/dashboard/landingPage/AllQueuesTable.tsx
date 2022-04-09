@@ -1,4 +1,4 @@
-import { TableContainer, Table, Thead, Tr, Tbody } from "@chakra-ui/react";
+import { Box, TableContainer, Table, Thead, Tr, Tbody } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { RepeatCycle } from "@lyne/shared-dto";
 import {
@@ -39,29 +39,36 @@ const AllQueuesTable = () => {
   return (
     <>
       <TableContainer minHeight={"80vh"} marginX={"16"}>
-        <Table variant="striped" colorScheme={"blackAlpha"} size="md">
-          <Thead>
-            <Tr>
-              <TableHeader text="Queue Name"></TableHeader>
-              <TableHeader text="Number of Users"></TableHeader>
-              <TableHeader text="Date Created"></TableHeader>
-              <TableHeader text="Live Date"></TableHeader>
-              <TableHeader text="Close Date"></TableHeader>
-              <TableHeader text="Cycle"></TableHeader>
-              <TableHeader text="Status"></TableHeader>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {queueList.map((opts: LandingPageTableRowProps) => {
-              return (
-                <LandingPageTableRow
-                  key={opts.queueId}
-                  {...opts}
-                ></LandingPageTableRow>
-              );
-            })}
-          </Tbody>
-        </Table>
+        <Box border="2px solid" borderColor="gray.100" borderRadius="md">
+          <Table
+            variant="striped"
+            colorScheme={"blackAlpha"}
+            size="md"
+            border={"8px black"}
+          >
+            <Thead>
+              <Tr>
+                <TableHeader text="Queue Name"></TableHeader>
+                <TableHeader text="Number of Users"></TableHeader>
+                <TableHeader text="Date Created"></TableHeader>
+                <TableHeader text="Live Date"></TableHeader>
+                <TableHeader text="Close Date"></TableHeader>
+                <TableHeader text="Cycle"></TableHeader>
+                <TableHeader text="Status"></TableHeader>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {queueList.map((opts: LandingPageTableRowProps) => {
+                return (
+                  <LandingPageTableRow
+                    key={opts.queueId}
+                    {...opts}
+                  ></LandingPageTableRow>
+                );
+              })}
+            </Tbody>
+          </Table>
+        </Box>
       </TableContainer>
     </>
   );
