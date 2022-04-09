@@ -40,6 +40,7 @@ export default function QueueDashboard() {
 
   return (
     <>
+      <AdminNavBar />
       <Flex flexDirection={"column"} justifyContent={"center"} my="3" mx="16">
         {/* Header + Buttons */}
         <Flex flexDirection={"row"} justifyContent={"space-between"}>
