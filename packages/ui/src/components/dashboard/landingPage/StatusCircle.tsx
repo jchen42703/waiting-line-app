@@ -7,9 +7,9 @@ const QueueStatus = ({ status }: { status: boolean }) => {
 
   return (
     <>
-      <Flex flexDir={"row"} alignItems="center" justifyContent={"center"}>
+      <Flex flexDir={"row"} justifyContent="flex-end">
         <p>{liveStatus}</p>
-        <FaCircle color={color} className={"mx-3"}></FaCircle>;
+        <FaCircle color={color} className={"ml-3"}></FaCircle>
       </Flex>
     </>
   );
