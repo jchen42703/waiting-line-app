@@ -4,7 +4,7 @@ const CenteredTableCell = ({ text }: { text: string }) => {
   return (
     <>
       <Td textAlign={"center"}>
-        <Text fontSize="lg" color={"brand.navy"}>
+        <Text fontSize="lg" color={"brand.navy"} fontWeight="bold">
           {text}
         </Text>
       </Td>
