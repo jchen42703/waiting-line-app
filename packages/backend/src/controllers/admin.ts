@@ -12,11 +12,11 @@ const getAdminQueue = async (adminId: string) => {
   const arrOfQueueProperties = [];
   for (let i = 0; i < admin.length; i++) {
     const queueName: string = admin[i].queueName;
-    const totalMemberInQueue: Number = admin[i].queue.length;
-    const timeCreated: Number = admin[i].timeCreated;
-    const liveDate: Number = admin[i].liveDate;
-    const closeDate: Number = admin[i].closeDate;
-    const repeatCycle: Number = admin[i].repeatCycle;
+    const totalMemberInQueue: number = admin[i].queue.length;
+    const timeCreated: number = admin[i].timeCreated;
+    const liveDate: number = admin[i].liveDate;
+    const closeDate: number = admin[i].closeDate;
+    const repeatCycle: number = admin[i].repeatCycle;
 
     const queueProperties: IQueue = {
       queueName,
