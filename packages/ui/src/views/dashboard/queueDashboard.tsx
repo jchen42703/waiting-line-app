@@ -1,8 +1,8 @@
-import { useParams} from "react-router-dom";
-import { useState} from "react";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import QueueTableHandler from "../../components/QueueTableHandler";
-import AdminNavBar from "../../components/AdminNavBar"
+import AdminNavBar from "../../components/AdminNavBar";
 
 export default function QueueDashboard() {
   let { queueId } = useParams();
@@ -17,7 +17,7 @@ export default function QueueDashboard() {
 
   return (
     <>
-    <AdminNavBar />
+      <AdminNavBar />
       <Flex flexDirection={"column"} justifyContent={"center"} my="3" mx="16">
         {/* Header + Buttons */}
         <Flex flexDirection={"row"} justifyContent={"space-between"}>
