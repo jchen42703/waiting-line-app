@@ -1,5 +1,6 @@
 import { Tr, Td } from "@chakra-ui/react";
 import { RepeatCycle } from "@lyne/shared-dto";
+import _ from "lodash";
 import StatusCircle from "./StatusCircle";
 import CenteredTableCell from "../../tables/CenteredTableCell";
 
@@ -27,7 +28,9 @@ const LandingPageTableRow = ({
   const closeDate = closeTime
     ? new Date(closeTime).toLocaleDateString()
     : "N/A";
-  const cycleMode = repeatCycle ? repeatCycle : "N/A";
+  const cycleMode = repeatCycle
+    ? _.startCase(repeatCycle.toLocaleLowerCase())
+    : "N/A";
 
   return (
     <>
