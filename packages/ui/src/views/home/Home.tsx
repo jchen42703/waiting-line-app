@@ -1,9 +1,21 @@
-import "../../styles/styles.scss";
+import {Fragment} from "react";
+import Navbar from "../../components/home/Navbar"
+import Hero from "../../components/home/Hero"
+import About from "../../components/home/About"
+import Team from "../../components/home/Team"
+import Footer from "../../components/home/Footer"
 
-export default function Home() {
-  return (
-    <div>
-      <h1 className="text-3xl font-bold underline"> Hello world!</h1>
-    </div>
-  );
+export default function Home(){
+
+  return(
+    <Fragment>
+      <Navbar></Navbar>
+      <Hero></Hero>
+      <About></About>
+      <Team></Team>
+      <Footer></Footer>
+    </Fragment>
+  )
 }
+
+
