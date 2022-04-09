@@ -1,6 +1,7 @@
 import { Tr, Td } from "@chakra-ui/react";
-import StatusCircle from "./StatusCircle";
 import { RepeatCycle } from "@lyne/shared-dto";
+import StatusCircle from "./StatusCircle";
+import CenteredTableCell from "../../tables/CenteredTableCell";
 
 interface LandingPageTableRowProps {
   queueName: string;
@@ -31,12 +32,12 @@ const LandingPageTableRow = ({
   return (
     <>
       <Tr>
-        <Td textAlign={"center"}>{queueName}</Td>
-        <Td textAlign={"center"}>{numUsers}</Td>
-        <Td textAlign={"center"}>{createDate}</Td>
-        <Td textAlign={"center"}>{liveDate}</Td>
-        <Td textAlign={"center"}>{closeDate}</Td>
-        <Td textAlign={"center"}>{cycleMode}</Td>
+        <CenteredTableCell text={queueName}></CenteredTableCell>
+        <CenteredTableCell text={numUsers}></CenteredTableCell>
+        <CenteredTableCell text={createDate}></CenteredTableCell>
+        <CenteredTableCell text={liveDate}></CenteredTableCell>
+        <CenteredTableCell text={closeDate}></CenteredTableCell>
+        <CenteredTableCell text={cycleMode}></CenteredTableCell>
         <Td>
           <StatusCircle status={status}></StatusCircle>
         </Td>
