@@ -2,6 +2,7 @@ import { WarningIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Flex,
   Heading,
   Progress,
   Spacer,
@@ -22,9 +23,8 @@ export default function UserWaitingStatus(props: { joint: Date }) {
   };
 
   const [waitingStatus, setStatus] = useState({
-    queueName: "QueueA",
-    placeInQ: 0,
-    totPeopleInQ: 0,
+    placeInQ: 1,
+    totPeopleInQ: 1,
     estWaitingTime: 15,
     waitingTimeJoined: tJoined.toLocaleString("en-US"),
   });
@@ -70,7 +70,6 @@ export default function UserWaitingStatus(props: { joint: Date }) {
       const respBody = await resp.json();
 
       setStatus({
-        queueName: "QueueA",
         placeInQ: respBody.currPlace,
         totPeopleInQ: respBody.total,
         estWaitingTime: 15,
@@ -138,11 +137,17 @@ export default function UserWaitingStatus(props: { joint: Date }) {
       textAlign="center"
     >
       <Heading textColor={"brand.light"} fontSize="2xl">
-        Your place in {waitingStatus.queueName}
+        Your place in the line
       </Heading>
-      <Heading fontSize="5xl" textColor={"brand.light"}>
-        {waitingStatus.placeInQ}/{waitingStatus.totPeopleInQ}
-      </Heading>
+      <Flex justifyContent={"center"}>
+        <Heading fontSize="5xl" textColor={"brand.light"}>
+          {waitingStatus.placeInQ}
+        </Heading>
+        <Heading mt={5} textColor={"brand.light"} fontSize="3xl">
+          /{waitingStatus.totPeopleInQ}
+        </Heading>
+      </Flex>
+      <Spacer />
       <Progress
         bg="brand.light"
         sx={{
@@ -154,8 +159,9 @@ export default function UserWaitingStatus(props: { joint: Date }) {
         w="100%"
         mt={4}
         height="24px"
-        value={10}
-        // value={100 * (1 - waitingStatus.placeInQ / waitingStatus.totPeopleInQ)}
+        value={
+          0.5 + 100 * (1 - waitingStatus.placeInQ / waitingStatus.totPeopleInQ)
+        }
       />
       <Spacer />
       <Text>Estimated waiting waitingTime </Text>
