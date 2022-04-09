@@ -9,7 +9,7 @@ const getAdminQueue = async (adminId: string) => {
   if (!admin) {
     throw new Error("admin not found");
   }
-  const arrOfQueueProperties = [];
+  const arrOfQueueProperties: IQueue = [];
   for (let i = 0; i < admin.length; i++) {
     const queueName: string = admin[i].queueName;
     const totalMemberInQueue: number = admin[i].queue.length;
@@ -42,7 +42,7 @@ function createAdminRouter() {
     ) => {
       const { adminId } = req.query;
       try {
-        const qDoc = await getAdminQueue(adminId);
+        const qDoc: IQueue = await getAdminQueue(adminId);
         return res.json({
           queues: qDoc,
         });
