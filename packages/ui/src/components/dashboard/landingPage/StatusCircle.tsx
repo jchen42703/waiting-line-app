@@ -1,13 +1,15 @@
 import { Flex } from "@chakra-ui/react";
-import { BsCircle } from "react-icons/bs";
+import { FaCircle } from "react-icons/fa";
 
 const QueueStatus = ({ status }: { status: boolean }) => {
-  const color = status ? "bg-green-500" : "bg-red-600";
+  const color = status ? "#22C55E" : "#DC2626";
+  const liveStatus = status ? "Live" : "Closed";
+
   return (
     <>
-      <Flex flexDir={"row"} alignItems="center" justifyContent={"center"}>
-        <p>Live</p>
-        <BsCircle className={`${color} mx-3`}></BsCircle>;
+      <Flex flexDir={"row"} justifyContent="flex-end">
+        <p>{liveStatus}</p>
+        <FaCircle color={color} className={"ml-3"}></FaCircle>
       </Flex>
     </>
   );

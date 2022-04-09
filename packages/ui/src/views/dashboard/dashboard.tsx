@@ -8,9 +8,12 @@ import {
   Th,
   Tbody,
 } from "@chakra-ui/react";
+import { RepeatCycle } from "@lyne/shared-dto";
 import { Fragment } from "react";
+import Footer from "../../components/home/Footer";
 import AdminNavBar from "../../components/AdminNavBar";
 import LandingPageTableRow from "../../components/dashboard/landingPage/LandingPageTableRow";
+import TableHeader from "../../components/tables/TableHeader";
 
 export default function Dashboard() {
   return (
@@ -24,34 +27,43 @@ export default function Dashboard() {
         paddingTop={"8"}
       >
         <Heading as="h1">Queue Manager Dashboard</Heading>
-        <TableContainer>
-          <Table>
+        <TableContainer minHeight={"80vh"} marginX={"16"}>
+          <Table variant="striped" colorScheme={"blackAlpha"} size="md">
             <Thead>
               <Tr>
-                <Th>Queue Name</Th>
-                <Th>Users</Th>
-                <Th>Queue Status</Th>
+                <TableHeader text="Queue Name"></TableHeader>
+                <TableHeader text="Number of Users"></TableHeader>
+                <TableHeader text="Date Created"></TableHeader>
+                <TableHeader text="Live Date"></TableHeader>
+                <TableHeader text="Close Date"></TableHeader>
+                <TableHeader text="Cycle"></TableHeader>
+                <TableHeader text="Status"></TableHeader>
               </Tr>
             </Thead>
             <Tbody>
               <LandingPageTableRow
                 queueName="dab"
                 numUsers="5"
+                timeCreated={100}
+                liveTime={200}
+                closeTime={300}
+                repeatCycle={"daily" as RepeatCycle}
                 status={true}
               ></LandingPageTableRow>
               <LandingPageTableRow
                 queueName="dab"
                 numUsers="5"
+                timeCreated={100}
+                liveTime={200}
+                closeTime={300}
+                repeatCycle={"daily" as RepeatCycle}
                 status={false}
               ></LandingPageTableRow>
             </Tbody>
           </Table>
         </TableContainer>
+        <Footer></Footer>
       </Flex>
-      {/* <main style={{ padding: "1rem 0" }}>
-      <h2>Dashboard</h2>
-      <button className="btn btn-primary">daisyUI Button</button>{" "}
-    </main> */}
     </Fragment>
   );
 }
