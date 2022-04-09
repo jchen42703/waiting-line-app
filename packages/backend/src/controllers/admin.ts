@@ -11,13 +11,20 @@ const getAdminQueue = async (adminId: string) => {
   }
   const arrOfQueueProperties = [];
   for (let i = 0; i < admin.length; i++) {
+    const queueName: string = admin[i].queueName;
+    const totalMemberInQueue: Number = admin[i].queue.length;
+    const timeCreated: Number = admin[i].timeCreated;
+    const liveDate: Number = admin[i].liveDate;
+    const closeDate: Number = admin[i].closeDate;
+    const repeatCycle: Number = admin[i].repeatCycle;
+
     const queueProperties: IQueue = {
-      queueName: admin[i].queueName,
-      totalMemberInQueue: admin[i].queue.length,
-      timeCreated: admin[i].timeCreated,
-      liveDate: admin[i].liveDate,
-      closeDate: admin[i].closeDate,
-      repeatCycle: admin[i].repeatCycle,
+      queueName,
+      totalMemberInQueue,
+      timeCreated,
+      liveDate,
+      closeDate,
+      repeatCycle,
     };
     arrOfQueueProperties.push(queueProperties);
   }
@@ -30,7 +37,7 @@ function createAdminRouter() {
     "/queues",
     async (
       req: Request<unknown, GETQueueRes, unknown, GETQueueReq>,
-      res: Response<unknown, unknown>,
+      res: Response<GETQueueRes, unknown>,
       next: NextFunction,
     ) => {
       const { adminId } = req.query;
