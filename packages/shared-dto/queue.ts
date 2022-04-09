@@ -1,4 +1,11 @@
-import { IQueue, IUser } from "./db";
+import { 
+  
+ };
+
+
+interface POSTCreateReq {
+  adminId: string;
+}
 
 interface POSTCreateRes {
   queueId: string;
@@ -6,9 +13,6 @@ interface POSTCreateRes {
 
 interface POSTJoinReq {
   queueId: string;
-  name: string;
-  email: string;
-  phoneNumber: string;
 }
 
 interface POSTJoinRes {
@@ -21,7 +25,8 @@ interface POSTPopReq {
 }
 
 interface POSTPopRes {
-  userId: string;
+  userId?: string;
+  error?: string;
 }
 
 interface GETProgressReq {
@@ -30,28 +35,24 @@ interface GETProgressReq {
 }
 
 interface GETProgressRes {
-  queueId: string;
-  userId: string;
-  currPlace: number;
-  total: number;
+  error?: string;
+  queueId?: string;
+  userId?: string;
+  currPlace?: number;
+  total?: number;
 }
-interface GETAllReq {
-  queueId: string;
-}
-interface GETAllRes {
-  users: IUser[];
-}
-
 interface DELETEDeleteUserReq {
   userId: string;
   queueId: string;
 }
 
 interface DELETEDeleteUserRes {
-  queue: IQueue;
+  error?: string;
+  queue?: IQueue;
 }
 
 export {
+  POSTCreateReq,
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
@@ -59,8 +60,4 @@ export {
   POSTPopRes,
   GETProgressReq,
   GETProgressRes,
-  GETAllReq,
-  GETAllRes,
-  DELETEDeleteUserReq,
-  DELETEDeleteUserRes,
 };
