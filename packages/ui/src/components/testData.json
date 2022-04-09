@@ -1,20 +1,23 @@
 [
   {
-    "place": 1,
+    "userId": 1,
     "name": "John Smith",
+    "email": "JS2416@example.com",
     "phoneNumber": "0002660234",
-    "timeJoined": "11:11"
+    "joinQTime": "11:11"
   },
   {
-    "place": 2,
+    "userId": 2,
     "name": "Jane Doe",
+    "email": "JaneDqueue@domain.com",
     "phoneNumber": "0002348232",
-    "timeJoined": "11:14"
+    "joinQTime": "11:14"
   },
   {
     "place": 3,
     "name": "Richard Doe",
+    "email": "iamarichman@example.com",
     "phoneNumber": "0002947239",
-    "timeJoined": "12:14"
+    "joinQTime": "12:14"
   }
 ]
