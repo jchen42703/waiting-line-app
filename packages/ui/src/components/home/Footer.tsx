@@ -5,6 +5,7 @@ import {
   Stack,
   Image,
   Text,
+  Flex,
 } from "@chakra-ui/react";
 import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 // @ts-ignore
@@ -14,7 +15,7 @@ export default function Footer({ showGif }: { showGif?: boolean }) {
   return (
     <Container as="footer" role="contentinfo" py={{ base: "12", md: "16" }}>
       {showGif && <Image src={coffee}></Image>}
-      <Stack spacing={{ base: "4", md: "5" }}>
+      <Flex flexDir="column" alignItems="center" justifyContent="center">
         <Stack justify="space-between" direction="row" align="center">
           <ButtonGroup variant="ghost">
             <IconButton
@@ -40,7 +41,7 @@ export default function Footer({ showGif }: { showGif?: boolean }) {
         <Text fontSize="sm" color="subtle">
           &copy; {new Date().getFullYear()} Lyne, Inc. All rights reserved.
         </Text>
-      </Stack>
+      </Flex>
     </Container>
   );
 }

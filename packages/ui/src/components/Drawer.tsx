@@ -32,6 +32,7 @@ export default function NavDrawer() {
         aria-label="Open drawer"
         icon={<HamburgerIcon />}
         onClick={onOpen}
+        bg="transparent"
       />
 
       <Drawer

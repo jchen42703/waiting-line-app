@@ -15,5 +15,11 @@
     "typeRoots": ["src/@types/assets"]
   },
   "include": ["src/**/*.ts", "tailwind.config.js", "__tests__/**/*.test.ts"],
-  "exclude": ["node_modules", "typings", "dist", "build"]
+  "exclude": ["node_modules", "typings", "dist", "build"],
+  "references": [
+    {
+      "path": "../shared-dto/tsconfig.json",
+      "prepend": false
+    }
+  ]
 }
