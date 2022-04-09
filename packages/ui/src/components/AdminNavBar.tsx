@@ -37,7 +37,7 @@ export default function AdminNavBar() {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex h={16} alignItems={"center"} justifyContent={"flex-start"}>
             <NavDrawer></NavDrawer>
-            <Link as={RouteLink} to="/">
+            <Link as={RouteLink} to="/dashboard">
               <Button
                 paddingLeft={4}
                 paddingTop={1}
@@ -46,7 +46,7 @@ export default function AdminNavBar() {
                   bg: "transparent",
                 }}
               >
-                CSDS 393 Queue App
+                Lyne
               </Button>
             </Link>
           </Flex>
