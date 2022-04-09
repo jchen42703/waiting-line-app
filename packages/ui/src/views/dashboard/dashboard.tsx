@@ -5,12 +5,10 @@ import {
   Table,
   Thead,
   Tr,
-  Th,
   Tbody,
 } from "@chakra-ui/react";
 import { RepeatCycle } from "@lyne/shared-dto";
 import { Fragment, useEffect, useState } from "react";
-import Footer from "../../components/home/Footer";
 import AdminNavBar from "../../components/AdminNavBar";
 import {
   LandingPageTableRow,
@@ -76,7 +74,6 @@ export default function Dashboard() {
             </Tbody>
           </Table>
         </TableContainer>
-        <Footer></Footer>
       </Flex>
     </Fragment>
   );
