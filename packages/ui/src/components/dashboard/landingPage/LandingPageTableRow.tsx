@@ -48,7 +48,10 @@ const LandingPageTableRow = ({
 
   return (
     <>
-      <Tr onClick={routeToQueue}>
+      <Tr
+        onClick={routeToQueue}
+        className="cursor-pointer hover:bg-slate-400 active:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-300"
+      >
         <CenteredTableCell text={queueName}></CenteredTableCell>
         <CenteredTableCell text={numUsers}></CenteredTableCell>
         <CenteredTableCell text={createDate}></CenteredTableCell>
