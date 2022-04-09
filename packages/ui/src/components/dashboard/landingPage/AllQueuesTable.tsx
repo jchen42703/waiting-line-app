@@ -14,6 +14,7 @@ const AllQueuesTable = () => {
     // Test data
     setQueueList([
       {
+        queueId: "test-q-id-1",
         queueName: "dab",
         numUsers: "5",
         timeCreated: 100,
@@ -23,6 +24,7 @@ const AllQueuesTable = () => {
         status: true,
       },
       {
+        queueId: "test-q-id-2",
         queueName: "dab2",
         numUsers: "100",
         timeCreated: 100,
@@ -51,7 +53,12 @@ const AllQueuesTable = () => {
           </Thead>
           <Tbody>
             {queueList.map((opts: LandingPageTableRowProps) => {
-              return <LandingPageTableRow {...opts}></LandingPageTableRow>;
+              return (
+                <LandingPageTableRow
+                  key={opts.queueId}
+                  {...opts}
+                ></LandingPageTableRow>
+              );
             })}
           </Tbody>
         </Table>
