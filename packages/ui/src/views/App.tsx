@@ -15,11 +15,15 @@ import AnalyticsDashboard from "./dashboard/analyticsDashboard";
 const theme = extendTheme({
   colors: {
     brand: {
-      light: "#F4F1DE",
-      red: "#E07A5F",
-      navy: "#3D405B",
-      blue: "#81B29A",
-      peach: "#F2CC8F",
+      // light: "#F4F1DE",
+      // red: "#E07A5F",
+      // navy: "#3D405B",
+      // blue: "#81B29A",
+      // peach: "#F2CC8F",
+      "primary-light": "#F7F5F2",
+      navy: "#8D8DAA",
+      grey: "#DFDFDE",
+      secondary: "#F56D91",
     },
   },
 });

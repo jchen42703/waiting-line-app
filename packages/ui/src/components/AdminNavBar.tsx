@@ -18,7 +18,7 @@ import { Link } from "@chakra-ui/react";
 export default function AdminNavBar() {
   // this needs to be here because react hooks must be called in the same order
   // in every render
-  const navBg = useColorModeValue("gray.100", "gray.900");
+  // const navBg = useColorModeValue("gray.100", "gray.900");
 
   // conditionally render based on route
   // navbar should only render for admin routes
@@ -33,7 +33,7 @@ export default function AdminNavBar() {
 
   return (
     <>
-      <Box bg={navBg} px={4}>
+      <Box bg={"brand.primary-light"} px={4}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <Flex h={16} alignItems={"center"} justifyContent={"flex-start"}>
             <NavDrawer></NavDrawer>
@@ -41,20 +41,25 @@ export default function AdminNavBar() {
               <Button
                 paddingLeft={4}
                 paddingTop={1}
+                bg={"transparent"}
                 _hover={{ bg: "transparent" }}
                 _active={{
                   bg: "transparent",
                 }}
+                fontSize="lg"
+                fontWeight={"extrabold"}
               >
                 Lyne
               </Button>
             </Link>
           </Flex>
+
           {/* To maintain compatibility w/chakra ui attributes */}
           <Link as={RouteLink} to="/settings">
             <IconButton
               aria-label={"settings"}
               icon={<SettingsIcon />}
+              bg="transparent"
             ></IconButton>
           </Link>
         </Flex>
