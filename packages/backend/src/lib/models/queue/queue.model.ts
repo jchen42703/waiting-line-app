@@ -2,15 +2,14 @@ import { model, Schema } from "mongoose";
 
 import { userSchema } from "../user";
 
-
 export const queueSchema = new Schema(
   {
     queueId: String,
     queueName: String,
     description: String,
     timeCreated: Number,
-    liveDate: Number,
-    closeDate: Number,
+    liveTime: Number,
+    closeTime: Number,
     repeatCycle: String,
     adminId: String,
     canJoin: Boolean, // whether users are allowed to join the queue

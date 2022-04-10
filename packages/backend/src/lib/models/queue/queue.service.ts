@@ -97,10 +97,24 @@ async function popFirstFromQueue(queueId: string, adminId: string) {
   return firstInQ;
 }
 
+/**
+ * Pops the first element in the queue and returns it
+ * @param adminId
+ * @returns the all queues for the admin
+ */
+const getAllQueuesForAdmin = async (adminId: string) => {
+  const admin: IQueue[] = await Queue.find({ adminId });
+  if (!admin) {
+    throw new Error("admin not found");
+  }
+  return admin;
+};
+
 export {
   addUserToQueue,
   getQueue,
   getUserProgress,
   popFirstFromQueue,
   getAllUsers,
+  getAllQueuesForAdmin,
 };
