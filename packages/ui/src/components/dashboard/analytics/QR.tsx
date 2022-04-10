@@ -14,7 +14,6 @@ export const QR = ({queueId}) => {
   
     return(
       <>
-      
       <Image src={qrcode}></Image>
       <Button onClick={generateQRCode} leftIcon={<IoMdAddCircleOutline/>}  colorScheme='teal' variant='solid'>
         Generate QRCode
@@ -22,6 +21,5 @@ export const QR = ({queueId}) => {
       </>
     )
 }
-
 
 export default QR;
