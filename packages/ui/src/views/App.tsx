@@ -10,15 +10,20 @@ import SettingsPage from "./settings/settings";
 import UserSignupPage from "./users/UserSignupPage";
 import UserWaitingPage from "./users/UserWaitingPage";
 import AuthGuard from "../components/auth/AuthGuard";
+import AnalyticsDashboard from "./dashboard/analyticsDashboard";
 
 const theme = extendTheme({
   colors: {
     brand: {
-      light: "#F4F1DE",
-      red: "#E07A5F",
-      navy: "#3D405B",
-      blue: "#81B29A",
-      peach: "#F2CC8F",
+      // light: "#F4F1DE",
+      // red: "#E07A5F",
+      // navy: "#3D405B",
+      // blue: "#81B29A",
+      // peach: "#F2CC8F",
+      "primary-light": "#F7F5F2",
+      navy: "#8D8DAA",
+      grey: "#DFDFDE",
+      secondary: "#F56D91",
     },
   },
 });
@@ -39,6 +44,10 @@ export default function App() {
           <Route
             path="dashboard/:queueId"
             element={<AuthGuard protectedElement={<QueueDashboard />} />}
+          />
+          <Route
+            path="dashboard/queue/:queueId"
+            element={<AuthGuard protectedElement={<AnalyticsDashboard />} />}
           />
           <Route
             path="settings"
