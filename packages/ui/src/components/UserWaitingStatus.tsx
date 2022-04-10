@@ -1,7 +1,4 @@
-import { WarningIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Button,
   Flex,
   Heading,
   Progress,
@@ -94,15 +91,9 @@ export default function UserWaitingStatus(props: { joint: Date }) {
       // Don't show error messages on 500 (server)
       toast({
         position: "top",
-        render: () => (
-          <Box rounded={"lg"} textColor={"brand.light"} p={4} bg="brand.red">
-            <Text>
-              <WarningIcon mb={2} mr={1} />
-              Woops! Looks like something went wrong with our servers. Please
-              try again.
-            </Text>
-          </Box>
-        ),
+        status: "error",
+        description:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
         duration: 9000,
         isClosable: true,
       });
@@ -126,7 +117,7 @@ export default function UserWaitingStatus(props: { joint: Date }) {
   return (
     <Stack
       display={"flex"}
-      backgroundColor="brand.blue"
+      backgroundColor="brand.primary-light"
       p={6}
       rounded="lg"
       shadow="lg"
@@ -136,23 +127,21 @@ export default function UserWaitingStatus(props: { joint: Date }) {
       direction={"column"}
       textAlign="center"
     >
-      <Heading textColor={"brand.light"} fontSize="2xl">
-        Your place in the line
-      </Heading>
+      <Heading fontSize="2xl">Your place in the line</Heading>
       <Flex justifyContent={"center"}>
-        <Heading fontSize="5xl" textColor={"brand.light"}>
+        <Heading fontSize="5xl" textColor={"brand.secondary"}>
           {waitingStatus.placeInQ}
         </Heading>
-        <Heading mt={5} textColor={"brand.light"} fontSize="3xl">
+        <Heading mt={5} fontSize="3xl">
           /{waitingStatus.totPeopleInQ}
         </Heading>
       </Flex>
       <Spacer />
       <Progress
-        bg="brand.light"
+        bg="brand.grey"
         sx={{
           "& > div": {
-            background: "brand.peach",
+            background: "brand.secondary",
           },
         }}
         // colorScheme="teal"
@@ -171,7 +160,7 @@ export default function UserWaitingStatus(props: { joint: Date }) {
       <Text>You joined this queue at </Text>
       <Text fontSize={"xl"}> {waitingStatus.waitingTimeJoined}</Text>
       <Spacer />
-      <Text fontSize={"sm"} color="white">
+      <Text fontSize={"sm"} color="brand.navy">
         Last updated: {lastUpdated.toLocaleString("en-US")}
       </Text>
     </Stack>

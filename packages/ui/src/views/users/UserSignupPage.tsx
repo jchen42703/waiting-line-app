@@ -18,7 +18,6 @@ import { useState } from "react";
 import { config } from "../../lib/config";
 import { Navigate, useParams } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { WarningIcon } from "@chakra-ui/icons";
 import InputMask from "react-input-mask";
 import validator from "validator";
 
@@ -100,15 +99,9 @@ export default function UserSignupPage() {
       // Don't show error messages on 500 (server)
       toast({
         position: "top",
-        render: () => (
-          <Box rounded={"lg"} textColor={"brand.light"} p={4} bg="brand.red">
-            <Text>
-              <WarningIcon mb={2} mr={1} />
-              Woops! Looks like something went wrong with our servers. Please
-              try again.
-            </Text>
-          </Box>
-        ),
+        status: "error",
+        description:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
         duration: 9000,
         isClosable: true,
       });
@@ -132,31 +125,23 @@ export default function UserSignupPage() {
         minH={"100vh"}
         align={"center"}
         justify={"center"}
-        bg={"brand.light"}
+        bg={"brand.grey"}
       >
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
-            <Heading fontSize={"4xl"} color="brand.blue">
-              Sign up to join the line
-            </Heading>
+            <Heading fontSize={"4xl"}>Sign up to join the line</Heading>
             <Text align={"center"} fontSize={"xl"} color={"gray.600"}>
               Please fill out this form to join Queue1
             </Text>
           </Stack>
-          <Box
-            rounded={"lg"}
-            textColor={"white"}
-            bg={"brand.blue"}
-            boxShadow={"lg"}
-            p={8}
-          >
+          <Box rounded={"lg"} bg={"brand.primary-light"} boxShadow={"lg"} p={8}>
             <form id="userform" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <FormControl isRequired>
                   <FormLabel htmlFor="name">Name</FormLabel>
                   <Input
-                    focusBorderColor="brand.light"
                     id="name"
+                    placeholder="Name"
                     {...register("name", {})}
                   />
                 </FormControl>
@@ -164,8 +149,8 @@ export default function UserSignupPage() {
                 <FormControl isRequired isInvalid={errors.email != null}>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <Input
-                    focusBorderColor="brand.light"
                     id="email"
+                    placeholder="Email address"
                     {...register("email", {
                       validate: (v) =>
                         validator.isEmail(v) === true ||
@@ -179,10 +164,10 @@ export default function UserSignupPage() {
                   <FormLabel htmlFor="phone">Phone Number</FormLabel>
 
                   <InputGroup>
-                    <InputLeftAddon children="+1" color={"brand.blue"} />
+                    <InputLeftAddon children="+1" bg={"brand.grey"} />
                     <Input
-                      focusBorderColor="brand.light"
                       id="phone"
+                      placeholder="Phone number"
                       as={InputMask}
                       mask="(***) ***-****"
                       maskChar={null}
@@ -200,8 +185,9 @@ export default function UserSignupPage() {
                 <Button
                   isLoading={loading}
                   loadingText="Joining"
-                  bg={"brand.peach"}
-                  _hover={{ bg: "#e6b76c" }}
+                  bg={"brand.secondary"}
+                  textColor={"white"}
+                  _hover={{ textColor: "black", bg: "brand.secondary" }}
                   type="submit"
                 >
                   Join

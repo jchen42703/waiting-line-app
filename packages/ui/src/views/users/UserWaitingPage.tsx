@@ -25,15 +25,14 @@ export default function UserWaitingPage() {
         align={"center"}
         justify={"center"}
         gap={6}
-        bg={"brand.light"}
-        textColor="white"
+        bg={"brand.grey"}
         minW="35ch"
       >
         <UserWaitingStatus joint={joinInfo.joinTime} />
         <Box
           maxW="60ch"
           minW="35ch"
-          backgroundColor="brand.blue"
+          backgroundColor="brand.primary-light"
           p={6}
           rounded="lg"
           shadow="lg"
