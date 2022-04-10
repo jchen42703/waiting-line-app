@@ -34,7 +34,6 @@ function createQueueRouter() {
     "/create",
     async (
       req: Request<unknown, POSTCreateRes, POSTCreateReq, unknown>,
-      //req: Request<unknown, POSTCreateRes, unknown, unknown>,
       res: Response<POSTCreateRes, unknown>,
       next: NextFunction,
     ) => {

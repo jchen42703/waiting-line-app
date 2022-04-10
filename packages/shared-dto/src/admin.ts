@@ -1,9 +1,10 @@
-import { IQueue } from "@lyne/shared-dto";
+import { IQueue } from "./db";
+
 interface GETQueueReq {
   adminId: string;
 }
 interface GETQueueRes {
-  queues: IQueue;
+  queues: IQueue[];
 }
 
 export { GETQueueReq, GETQueueRes };

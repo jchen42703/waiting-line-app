@@ -1,11 +1,10 @@
+import { GETQueueReq, GETQueueRes } from "@lyne/shared-dto";
 import { NextFunction, Request, Response, Router } from "express";
 import { HttpException } from "../lib/errors";
 import { getAllQueuesForAdmin } from "../lib/models/queue";
-import { GETQueueReq, GETQueueRes } from "@lyne/shared-dto/admin";
-import { IQueue } from "@lyne/shared-dto";
 
 function createAdminRouter() {
-  const adminRouter: Router = Router();
+  const adminRouter = Router();
   adminRouter.get(
     "/queues",
     async (
@@ -15,7 +14,7 @@ function createAdminRouter() {
     ) => {
       const { adminId } = req.query;
       try {
-        const qDoc: IQueue = await getAllQueuesForAdmin(adminId);
+        const qDoc = await getAllQueuesForAdmin(adminId);
         return res.json({
           queues: qDoc,
         });
