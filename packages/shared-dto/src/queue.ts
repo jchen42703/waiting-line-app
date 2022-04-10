@@ -1,5 +1,10 @@
 import { IQueue, IUser } from "./db";
 
+interface POSTCreateReq {
+  queueName: string;
+  description: string;
+}
+
 interface POSTCreateRes {
   queueId: string;
 }
@@ -52,6 +57,7 @@ interface DELETEDeleteUserRes {
 }
 
 export {
+  POSTCreateReq,
   POSTCreateRes,
   POSTJoinReq,
   POSTJoinRes,
