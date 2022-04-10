@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
-import { Text } from "@chakra-ui/react";
+import { Text,Button } from "@chakra-ui/react";
 import AdminNavBar from "../../components/AdminNavBar";
+import QR from "../../components/dashboard/analytics/QR";
 
 /**
  * Typically used for the /queue/:queueId route
@@ -13,11 +14,13 @@ const AnalyticsDashboard = () => {
   // Add create queue QR code for this URL
   // Add navigation buttton to go back to previous page in router history
   // Daniel probs made one ^
+
   return (
     <>
       <AdminNavBar />
       <Text>Analytics Dashboard for queueId {queueId}</Text>
-    </>
+      <QR queueId = {queueId}></QR>
+      </>
   );
 };
 
