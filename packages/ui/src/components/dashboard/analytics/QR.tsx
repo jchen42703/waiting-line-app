@@ -25,7 +25,7 @@ export const QR = ({ queueId }) => {
   };
 
   return (
-    <Box boxShadow="2xl" w="20%" h="250px" rounded="md">
+    <Box boxShadow="xs" w="100%" h="250px" rounded="md">
       <VStack>
         <QRImage></QRImage>
         <Button

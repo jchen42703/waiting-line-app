@@ -2,24 +2,66 @@ import {
   Box,
   Heading,
   VStack,
-  List,
-  ListItem,
-  ListIcon,
+  Table,
+  TableContainer,
+  Tr,
+  Thead,
+  Td,
+  Tbody,
+  Th,
+  Image,
 } from "@chakra-ui/react";
 import { NotAllowedIcon } from "@chakra-ui/icons";
-export const BanWidget = ({ heading, users }) => {
+import { useState } from "react";
+
+// @ts-ignore
+import ban from "../../media/analytics/ban.svg";
+
+export const BanWidget = () => {
+  // banned users
+  const [bannedUsers, setBannedUsers] = useState([]);
+
+  // get all banner users
+  const getBannedUsers = () => {};
+
+  const BannedTable = () => {
+    if (bannedUsers.length == 0) {
+      return <Image boxSize="250" src={ban}></Image>;
+    }
+
+    return (
+      <TableContainer>
+        <Table variant="simple">
+          <Thead>
+            <Tr>
+              <Th>Name</Th>
+              <Th>Phone Number</Th>
+              <Th isNumeric>Email</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {bannedUsers.map((user) => (
+              <Tr>
+                <Td>{user.name}</Td>
+                <Td>{user.phone} </Td>
+                <Td>{user.email}</Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    );
+  };
+
   return (
-    <Box>
+    <Box boxShadow="xs" rounded="lg" bg="white" height="max-content" w="100%">
       <VStack>
         <Box>
-          <Heading fontSize="20">{heading}</Heading>
+          <Heading pt="10%" fontSize="20">
+            Ban List <NotAllowedIcon />
+          </Heading>
         </Box>
-        <List spacing={3}>
-          <ListItem>
-            <ListIcon as={NotAllowedIcon} color="green.500" />
-            User 1
-          </ListItem>
-        </List>
+        <BannedTable></BannedTable>
       </VStack>
     </Box>
   );
