@@ -1,7 +1,10 @@
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useState } from "react";
-import { Button, Image } from "@chakra-ui/react";
+import { Button, Box, Image, VStack } from "@chakra-ui/react";
 import { config } from "../../../lib/config";
+
+// @ts-ignore
+import paper from "../../media/analytics/qr.svg";
 
 export const QR = ({ queueId }) => {
   const [qrcode, setQRCode] = useState(null);
@@ -14,18 +17,27 @@ export const QR = ({ queueId }) => {
     );
   };
 
+  const QRImage = () => {
+    if (!qrcode) {
+      return <Image boxSize={150} pt="20%" pb="6%" src={paper}></Image>;
+    }
+    return <Image pt="20%" pb="6%" src={qrcode}></Image>;
+  };
+
   return (
-    <>
-      <Image src={qrcode}></Image>
-      <Button
-        onClick={generateQRCode}
-        leftIcon={<IoMdAddCircleOutline />}
-        colorScheme="teal"
-        variant="solid"
-      >
-        Generate QRCode
-      </Button>
-    </>
+    <Box boxShadow="2xl" w="20%" h="250px" rounded="md">
+      <VStack>
+        <QRImage></QRImage>
+        <Button
+          onClick={generateQRCode}
+          leftIcon={<IoMdAddCircleOutline />}
+          colorScheme="teal"
+          variant="solid"
+        >
+          Generate QRCode
+        </Button>
+      </VStack>
+    </Box>
   );
 };
 

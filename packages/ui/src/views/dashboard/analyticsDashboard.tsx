@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
-import { Text,Button } from "@chakra-ui/react";
+import { Text, Button } from "@chakra-ui/react";
 import AdminNavBar from "../../components/AdminNavBar";
-import QR from "../../components/dashboard/analytics/QR";
-
+import Layout from "../../components/dashboard/analytics/Layout";
 /**
  * Typically used for the /queue/:queueId route
  */
@@ -17,10 +16,9 @@ const AnalyticsDashboard = () => {
 
   return (
     <>
-      <AdminNavBar />
-      <Text>Analytics Dashboard for queueId {queueId}</Text>
-      <QR queueId = {queueId}></QR>
-      </>
+      <AdminNavBar></AdminNavBar>
+      <Layout queueId={queueId}></Layout>
+    </>
   );
 };
 
