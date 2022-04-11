@@ -12,13 +12,20 @@ import {
   InputGroup,
   InputLeftAddon,
   useToast,
+  Spacer,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { config } from "../../lib/config";
 import { Navigate, useParams } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import validator from "validator";
+
+type FormValues = {
+  name: string;
+  email: string;
+  phone: string;
+};
 
 export default function UserSignupPage() {
   const { queueId } = useParams();
@@ -28,32 +35,31 @@ export default function UserSignupPage() {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormValues>();
 
   const [loading, setLoading] = useState(false);
 
   const [redirectState, setRedirectState] = useState({
     shouldRedirect: false,
     userId: "",
+    name: "",
+    mail: "",
+    phone: "",
   });
   const toast = useToast(); // A toast to show some errors
 
-  const onSubmit = async () => {
+  const onSubmit: SubmitHandler<FormValues> = async (formData) => {
     setLoading(true);
-    // console.log(
-    //   "name: ",
-    //   // @ts-ignore
-    //   document.getElementById("name").value,
-    //   "\nemail: ",
-    //   document.getElementById("email").value,
-    //   "\nphone number: ",
-    //   document.getElementById("phone").value.match(/\d/g).join(""),
-    // );
 
     const data = {
       queueId,
+      name: formData.name,
+      mail: formData.email,
+      phoneNumber: formData.phone,
     };
+
     console.log(data);
+    console.log(formData.name);
     // Default options are marked with *
     try {
       const resp = await fetch(`${config.hostUrl}/api/queue/join`, {
@@ -71,6 +77,9 @@ export default function UserSignupPage() {
       setRedirectState({
         shouldRedirect: true,
         userId: respBody.userId,
+        name: data.name,
+        mail: data.mail,
+        phone: data.phoneNumber,
       });
     } catch (e) {
       setLoading(false);
@@ -90,9 +99,9 @@ export default function UserSignupPage() {
       // Don't show error messages on 500 (server)
       toast({
         position: "top",
-        title:
-          "Woops! Looks like something went wrong with our servers. Please try again.",
         status: "error",
+        description:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
         duration: 9000,
         isClosable: true,
       });
@@ -101,13 +110,23 @@ export default function UserSignupPage() {
 
   if (redirectState.shouldRedirect) {
     console.log("redirects!");
-    const redirectPath = `/users/${queueId}/${redirectState.userId}`;
+    const date = new Date();
+    const redirectPath = `/users/${queueId}/${redirectState.userId}?name=${
+      redirectState.name
+    }&email=${redirectState.mail}&phone=${
+      redirectState.phone
+    }&joinTime=${date.toISOString()} `;
     return <Navigate to={redirectPath} />;
   }
 
   return (
     <>
-      <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.100"}>
+      <Flex
+        minH={"100vh"}
+        align={"center"}
+        justify={"center"}
+        bg={"brand.grey"}
+      >
         <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
           <Stack align={"center"}>
             <Heading fontSize={"4xl"}>Sign up to join the line</Heading>
@@ -115,19 +134,23 @@ export default function UserSignupPage() {
               Please fill out this form to join queue {queueId}
             </Text>
           </Stack>
-          <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
+          <Box rounded={"lg"} bg={"brand.primary-light"} boxShadow={"lg"} p={8}>
             <form id="userform" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
                 <FormControl isRequired>
                   <FormLabel htmlFor="name">Name</FormLabel>
-                  <Input id="name" placeholder="Name" />
+                  <Input
+                    id="name"
+                    placeholder="Name"
+                    {...register("name", {})}
+                  />
                 </FormControl>
 
-                <FormControl isRequired isInvalid={errors.email}>
+                <FormControl isRequired isInvalid={errors.email != null}>
                   <FormLabel htmlFor="email">Email</FormLabel>
                   <Input
                     id="email"
-                    placeholder="Email"
+                    placeholder="Email address"
                     {...register("email", {
                       validate: (v) =>
                         validator.isEmail(v) === true ||
@@ -137,14 +160,14 @@ export default function UserSignupPage() {
                   <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl isRequired isInvalid={errors.phone}>
+                <FormControl isRequired isInvalid={errors.phone != null}>
                   <FormLabel htmlFor="phone">Phone Number</FormLabel>
 
                   <InputGroup>
-                    <InputLeftAddon children="+1" />
+                    <InputLeftAddon children="+1" bg={"brand.grey"} />
                     <Input
                       id="phone"
-                      placeholder="Phone Number"
+                      placeholder="Phone number"
                       as={InputMask}
                       mask="(***) ***-****"
                       maskChar={null}
@@ -158,12 +181,13 @@ export default function UserSignupPage() {
 
                   <FormErrorMessage>{errors.phone?.message}</FormErrorMessage>
                 </FormControl>
-
+                <Spacer />
                 <Button
                   isLoading={loading}
                   loadingText="Joining"
-                  mt={3}
-                  colorScheme="teal"
+                  bg={"brand.secondary"}
+                  textColor={"white"}
+                  _hover={{ textColor: "black", bg: "brand.secondary" }}
                   type="submit"
                 >
                   Join
