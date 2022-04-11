@@ -115,7 +115,7 @@ export default function UserSignupPage() {
       redirectState.name
     }&email=${redirectState.mail}&phone=${
       redirectState.phone
-    }&joint=${date.toISOString()} `;
+    }&joinTime=${date.toISOString()} `;
     return <Navigate to={redirectPath} />;
   }
 

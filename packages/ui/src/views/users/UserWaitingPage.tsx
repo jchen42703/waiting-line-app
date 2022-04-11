@@ -13,7 +13,7 @@ export default function UserWaitingPage() {
     name: urlParams.get("name"),
     email: urlParams.get("email"),
     phone: urlParams.get("phone"),
-    joinTime: new Date(urlParams.get("joint")),
+    joinTime: new Date(urlParams.get("joinTime")),
   };
   console.log("queueId: " + queueId + "\nuserId: " + userId);
 
@@ -28,7 +28,7 @@ export default function UserWaitingPage() {
         bg={"brand.grey"}
         minW="35ch"
       >
-        <UserWaitingStatus joint={joinInfo.joinTime} />
+        <UserWaitingStatus joinTime={joinInfo.joinTime} />
         <Box
           maxW="60ch"
           minW="35ch"

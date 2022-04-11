@@ -11,9 +11,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { config } from "../lib/config";
 
-export default function UserWaitingStatus(props: { joint: Date }) {
+export default function UserWaitingStatus(props: { joinTime: Date }) {
   const { queueId, userId } = useParams();
-  const tJoined = props.joint;
   const data = {
     queueId,
     userId,
@@ -23,12 +22,12 @@ export default function UserWaitingStatus(props: { joint: Date }) {
     placeInQ: 1,
     totPeopleInQ: 1,
     estWaitingTime: 15,
-    waitingTimeJoined: tJoined.toLocaleString("en-US"),
+    waitingTimeJoined: props.joinTime.toLocaleString("en-US"),
   });
 
   var lastUpdated = new Date();
 
-  const timeElapsedMs = lastUpdated.getTime() - tJoined.getTime();
+  const timeElapsedMs = lastUpdated.getTime() - props.joinTime.getTime();
   var waitingTime = {
     dayElapsed: Math.floor(timeElapsedMs / 86400000),
     hrElapsed: Math.floor((timeElapsedMs % 86400000) / 3600000),
@@ -70,7 +69,7 @@ export default function UserWaitingStatus(props: { joint: Date }) {
         placeInQ: respBody.currPlace,
         totPeopleInQ: respBody.total,
         estWaitingTime: 15,
-        waitingTimeJoined: tJoined.toLocaleString("en-US"),
+        waitingTimeJoined: props.joinTime.toLocaleString("en-US"),
       });
 
       console.log("respbody: ", respBody);
