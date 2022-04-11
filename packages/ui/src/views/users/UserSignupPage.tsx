@@ -131,7 +131,7 @@ export default function UserSignupPage() {
           <Stack align={"center"}>
             <Heading fontSize={"4xl"}>Sign up to join the line</Heading>
             <Text align={"center"} fontSize={"xl"} color={"gray.600"}>
-              Please fill out this form to join Queue1
+              Please fill out this form to join queue {queueId}
             </Text>
           </Stack>
           <Box rounded={"lg"} bg={"brand.primary-light"} boxShadow={"lg"} p={8}>
