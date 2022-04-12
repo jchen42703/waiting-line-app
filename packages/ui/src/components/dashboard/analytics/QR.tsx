@@ -19,13 +19,13 @@ export const QR = ({ queueId }) => {
 
   const QRImage = () => {
     if (!qrcode) {
-      return <Image boxSize={150} pt="20%" pb="6%" src={paper}></Image>;
+      return <Image boxSize={175} pt="20%" pb="6%" src={paper}></Image>;
     }
     return <Image pt="20%" pb="6%" src={qrcode}></Image>;
   };
 
   return (
-    <Box boxShadow="xs" w="100%" h="250px" rounded="md">
+    <Box boxShadow="xs" w="80%" h="250px" rounded="md">
       <VStack>
         <QRImage></QRImage>
         <Button

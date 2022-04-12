@@ -15,9 +15,9 @@ import { NotAllowedIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
 // @ts-ignore
-import ban from "../../media/analytics/ban.svg";
+import ban from "../../../media/analytics/ban.svg";
 
-export const BanWidget = () => {
+const BanWidget = () => {
   // banned users
   const [bannedUsers, setBannedUsers] = useState([]);
 
@@ -26,7 +26,7 @@ export const BanWidget = () => {
 
   const BannedTable = () => {
     if (bannedUsers.length == 0) {
-      return <Image boxSize="250" src={ban}></Image>;
+      return <Image boxSize="150" src={ban}></Image>;
     }
 
     return (
@@ -54,7 +54,7 @@ export const BanWidget = () => {
   };
 
   return (
-    <Box boxShadow="xs" rounded="lg" bg="white" height="max-content" w="100%">
+    <Box boxShadow="xs" rounded="lg" bg="white" height="max-content" w="80%">
       <VStack>
         <Box>
           <Heading pt="10%" fontSize="20">

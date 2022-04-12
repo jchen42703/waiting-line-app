@@ -1,8 +1,10 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import QR from "./QR";
 
-import BanWidget from "./BanWidget";
-export const Layout = ({ queueId }) => {
+import BanWidget from "./widgets/BanWidget";
+import QueueInfoWidget from "./widgets/QueueInfoWidget";
+import QueueListWidget from "./widgets/QueueListWidget";
+const Layout = ({ queueId }) => {
   return (
     <Grid
       pl="1%"
@@ -11,16 +13,16 @@ export const Layout = ({ queueId }) => {
       grid-template-columns="auto auto auto"
       gap="10px"
     >
-      <GridItem>
+      <GridItem colStart={1} colEnd={2} rowStart={1} rowEnd={2}>
+        <QueueInfoWidget></QueueInfoWidget>
+      </GridItem>
+      <GridItem colStart={1} colEnd={2} rowStart={2} rowEnd={3}>
+        <QueueListWidget></QueueListWidget>
+      </GridItem>
+      <GridItem colStart={3} colEnd={4} rowStart={3} rowEnd={3}>
         <BanWidget></BanWidget>
       </GridItem>
-      <GridItem>
-        <BanWidget></BanWidget>
-      </GridItem>
-      <GridItem>
-        <BanWidget></BanWidget>
-      </GridItem>
-      <GridItem w="100%" colStart={3} colEnd={4} rowStart={1} rowEnd={3}>
+      <GridItem colStart={3} colEnd={4} rowStart={1} rowEnd={3}>
         <QR queueId={queueId} />
       </GridItem>
     </Grid>

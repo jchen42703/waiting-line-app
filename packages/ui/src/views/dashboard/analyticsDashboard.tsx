@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { Text, Button } from "@chakra-ui/react";
 import AdminNavBar from "../../components/AdminNavBar";
 import Layout from "../../components/dashboard/analytics/Layout";
 /**
