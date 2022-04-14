@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node-dev --respawn --transpile-only ./src/index.ts",
+    "start": "nodemon ./src/index.ts",
     "build": "tsc -b tsconfig.json .",
     "format": "prettier --write ."
   },
@@ -31,6 +31,7 @@
     "@types/node": "^16.11.25",
     "@types/passport": "^1.0.7",
     "jest": "^27.4.7",
+    "nodemon": "^2.0.15",
     "pino-pretty": "^7.5.1",
     "prettier": "~2.5.1",
     "rimraf": "~3.0.2",
