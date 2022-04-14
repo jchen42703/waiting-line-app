@@ -2,12 +2,13 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import { useState } from "react";
 import { Button, Box, Image, VStack } from "@chakra-ui/react";
 import { config } from "../../../lib/config";
-
+import { useParams } from "react-router-dom";
 // @ts-ignore
 import paper from "../../media/analytics/qr.svg";
 
-export const QR = ({ queueId }) => {
+export const QR = () => {
   const [qrcode, setQRCode] = useState(null);
+  const { queueId } = useParams();
   const url = `${config.frontendUrl}/users/${queueId}`;
 
   const generateQRCode = (e) => {
@@ -19,14 +20,14 @@ export const QR = ({ queueId }) => {
 
   const QRImage = () => {
     if (!qrcode) {
-      return <Image boxSize={175} pt="20%" pb="6%" src={paper}></Image>;
+      return <Image boxSize={180} pt="10%" pb="3%" src={paper}></Image>;
     }
     return <Image pt="20%" pb="6%" src={qrcode}></Image>;
   };
 
   return (
-    <Box boxShadow="xs" w="80%" h="250px" rounded="md">
-      <VStack>
+    <Box boxShadow="xs" w="80%" h="300px" rounded="md">
+      <VStack pt="5%">
         <QRImage></QRImage>
         <Button
           onClick={generateQRCode}

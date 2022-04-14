@@ -181,6 +181,7 @@ function createQueueRouter() {
     ) => {
       const { queueId } = req.query;
       const adminId = req.user._id;
+
       try {
         const usersInQueue: IUser[] = await getAllUsers(queueId, adminId);
 

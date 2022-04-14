@@ -4,7 +4,8 @@ import QR from "./QR";
 import BanWidget from "./widgets/BanWidget";
 import QueueInfoWidget from "./widgets/QueueInfoWidget";
 import QueueListWidget from "./widgets/QueueListWidget";
-const Layout = ({ queueId }) => {
+
+const Layout = () => {
   return (
     <Grid
       pl="1%"
@@ -23,7 +24,7 @@ const Layout = ({ queueId }) => {
         <BanWidget></BanWidget>
       </GridItem>
       <GridItem colStart={3} colEnd={4} rowStart={1} rowEnd={2}>
-        <QR queueId={queueId} />
+        <QR />
       </GridItem>
     </Grid>
   );
