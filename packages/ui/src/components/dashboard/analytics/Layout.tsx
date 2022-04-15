@@ -10,21 +10,21 @@ const Layout = ({ queuedUsers }) => {
     <Grid
       pl="1%"
       pt="1%"
-      grid-template-rows="auto auto auto"
-      grid-template-columns="auto auto auto"
+      grid-template-rows="auto auto "
+      grid-template-columns="auto auto "
       gap="5%"
     >
-      <GridItem colStart={1} colEnd={2} rowStart={1} rowEnd={2}>
+      <GridItem colStart={1} colEnd={3} rowStart={1} rowEnd={2}>
         <QueueInfoWidget></QueueInfoWidget>
       </GridItem>
-      <GridItem colStart={1} colEnd={2} rowStart={2} rowEnd={3}>
+      <GridItem colStart={1} colEnd={3} rowStart={2} rowEnd={3}>
         <QueueListWidget queuedUsers={queuedUsers}></QueueListWidget>
-      </GridItem>
-      <GridItem colStart={3} colEnd={4} rowStart={2} rowEnd={3}>
-        <BanWidget></BanWidget>
       </GridItem>
       <GridItem colStart={3} colEnd={4} rowStart={1} rowEnd={2}>
         <QR />
+      </GridItem>
+      <GridItem colStart={3} colEnd={4} rowStart={2} rowEnd={3}>
+        <BanWidget></BanWidget>
       </GridItem>
     </Grid>
   );

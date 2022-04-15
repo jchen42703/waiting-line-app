@@ -54,7 +54,7 @@ const BanWidget = () => {
   };
 
   return (
-    <Box boxShadow="xs" rounded="lg" bg="white" height="max-content" w="80%">
+    <Box boxShadow="xs" rounded="lg" bg="white" height="100%" w="80%">
       <VStack>
         <Box>
           <Heading pt="10%" fontSize="20">
