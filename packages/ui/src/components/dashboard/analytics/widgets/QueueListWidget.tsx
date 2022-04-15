@@ -21,7 +21,7 @@ const UsersTable = ({ queuedUsers }) => {
   }
 
   return (
-    <TableContainer>
+    <TableContainer overflowY="auto" maxHeight="250px">
       <Table variant="simple">
         <Thead>
           <Tr>
