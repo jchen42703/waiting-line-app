@@ -74,6 +74,9 @@ export default function UserSignupPage() {
       });
       const respBody = await resp.json();
       console.log("respbody: ", respBody);
+
+      // need to check if the user is in the cban list
+
       setRedirectState({
         shouldRedirect: true,
         userId: respBody.userId,

@@ -17,6 +17,7 @@ export default function UserWaitingPage() {
   };
   console.log("queueId: " + queueId + "\nuserId: " + userId);
 
+  // check if the user is in the queue: popped / deleted
   return (
     <>
       <Flex
