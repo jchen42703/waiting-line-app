@@ -12,7 +12,6 @@ export const queueSchema = new Schema(
     closeTime: Number,
     repeatCycle: String,
     adminId: String,
-    canJoin: Boolean, // whether users are allowed to join the queue
     queue: [userSchema],
   },
   { collection: "queues" },

@@ -1,8 +1,11 @@
-import { IQueue, IUser } from "./db";
+import { IQueue, IUser, RepeatCycle } from "./db";
 
 interface POSTCreateReq {
   queueName: string;
   description: string;
+  liveTime: number;
+  closeTime?: number;
+  repeatCycle?: RepeatCycle;
 }
 
 interface POSTCreateRes {
