@@ -5,6 +5,12 @@ import { userSchema } from "../user";
 export const queueSchema = new Schema(
   {
     queueId: String,
+    queueName: String,
+    description: String,
+    timeCreated: Number,
+    liveTime: Number,
+    closeTime: Number,
+    repeatCycle: String,
     adminId: String,
     canJoin: Boolean, // whether users are allowed to join the queue
     queue: [userSchema],

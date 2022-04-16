@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "rootDir": ".",
     "baseUrl": "packages",
     "target": "ES2020",

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import QueueTable from "../../components/dashboard2/QueueTable";
 import JsonData from "../../components/dashboard2/testData.json";
+import DeleteButton from "../../components/dashboard2/DeleteButton";
 import AdminNavBar from "../../components/AdminNavBar";
 
 export default function QueueDashboard() {
