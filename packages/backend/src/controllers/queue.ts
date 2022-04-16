@@ -217,7 +217,7 @@ function createQueueRouter() {
       }
 
       // 3. Only extract queueId for the adminId
-      const { adminId } = req.signedCookies;
+      const adminId = req.user._id;
       // Finding a queue with the specified queueId + the specified adminId
       // Then delete a user with userId in that queue
       // Then return the new queue.
