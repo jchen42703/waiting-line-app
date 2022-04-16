@@ -209,6 +209,7 @@ function createQueueRouter() {
       const { adminId } = req.signedCookies;
       const newQueue: IQueue = await Queue.findOneAndUpdate(
         { queueId, adminId },
+        // eslint-disable-next-line object-shorthand
         { $pull: { queue: { userId: userId } } },
         { new: true },
       );
