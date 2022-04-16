@@ -59,6 +59,7 @@ export default function QueueTable({
     getAllUsers(deleteQueueId);
     return (
       <UserInfoRow
+        key={info.userId}
         userPlace={index + 1}
         userName={info.name}
         userPhoneNumber={info.phoneNumber}
