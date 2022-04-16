@@ -62,7 +62,7 @@ function createQueueRouter() {
         return next(new HttpException(400, "closeTime must be a number"));
       }
 
-      if (repeatCycle !== undefined && typeof closeTime !== "string") {
+      if (repeatCycle !== undefined && typeof repeatCycle !== "string") {
         return next(new HttpException(400, "repeatCycle must be a number"));
       }
 
