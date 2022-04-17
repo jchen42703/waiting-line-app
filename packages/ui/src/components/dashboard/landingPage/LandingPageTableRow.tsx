@@ -43,7 +43,7 @@ const LandingPageTableRow = ({
     : "N/A";
 
   const routeToQueue = () => {
-    navigate(`/dashboard/${queueId}`);
+    navigate(`/dashboard/queue/${queueId}`);
   };
 
   return (
