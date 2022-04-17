@@ -27,7 +27,7 @@ const QueueTableManager = () => {
   return (
     <>
       <CreateQueueModal isOpen={isOpen} onClose={onClose}></CreateQueueModal>
-      <TableContainer minHeight={"80vh"} marginX={"16"}>
+      <TableContainer minHeight={"80vh"} marginX={"16"} marginBottom="16">
         <Flex
           flexDir={"row"}
           justifyContent={"space-between"}
