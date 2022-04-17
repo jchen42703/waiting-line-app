@@ -16,6 +16,8 @@ import type {
   DELETEDeleteUserReq,
   DELETEDeleteUserRes,
   DELETEQueueReq,
+  POSTEditQueueRes,
+  POSTEditQueueReq,
 } from "@lyne/shared-dto";
 import { HttpException } from "../lib/errors";
 import {
@@ -25,6 +27,7 @@ import {
   Queue,
   getAllUsers,
   deleteQueue,
+  editQueueMetadata,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -65,7 +68,7 @@ function createQueueRouter() {
       }
 
       if (repeatCycle !== undefined && typeof repeatCycle !== "string") {
-        return next(new HttpException(400, "repeatCycle must be a number"));
+        return next(new HttpException(400, "repeatCycle must be a string"));
       }
 
       const qId = `q-${randomUUID()}`;
@@ -118,6 +121,74 @@ function createQueueRouter() {
       }
 
       res.sendStatus(200);
+    },
+  );
+
+  queueRouter.post(
+    "/edit",
+    async (
+      req: Request<unknown, POSTEditQueueRes, POSTEditQueueReq, unknown>,
+      res: Response<POSTEditQueueRes, unknown>,
+      next: NextFunction,
+    ) => {
+      const adminId = req.user._id;
+      // validation
+      if (!adminId || typeof adminId !== "string") {
+        return next(new HttpException(400, "adminId must be a string"));
+      }
+
+      const {
+        queueId,
+        queueName,
+        description,
+        liveTime,
+        closeTime,
+        repeatCycle,
+      } = req.body;
+
+      if (typeof queueId !== "string") {
+        return next(new HttpException(400, "queueId must be a string"));
+      }
+
+      if (queueName && typeof queueName !== "string") {
+        return next(new HttpException(400, "queueName must be a string"));
+      }
+
+      if (description && typeof description !== "string") {
+        return next(new HttpException(400, "description must be a string"));
+      }
+
+      if (liveTime && typeof liveTime !== "number") {
+        return next(new HttpException(400, "liveTime must be a number"));
+      }
+
+      if (closeTime !== undefined && typeof closeTime !== "number") {
+        return next(new HttpException(400, "closeTime must be a number"));
+      }
+
+      if (repeatCycle !== undefined && typeof repeatCycle !== "string") {
+        return next(new HttpException(400, "repeatCycle must be a string"));
+      }
+
+      const updateParams = {
+        queueName,
+        description,
+        liveTime,
+        closeTime,
+        repeatCycle,
+      };
+      try {
+        const qDoc = await editQueueMetadata(
+          {
+            queueId,
+            adminId,
+          },
+          updateParams,
+        );
+        return res.json({ queue: qDoc });
+      } catch {
+        return next(new HttpException(500, `Could not edit queue`));
+      }
     },
   );
 

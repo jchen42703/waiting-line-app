@@ -1,4 +1,4 @@
-import { IQueue, IUser } from "@lyne/shared-dto";
+import { IQueue, IUser, RepeatCycle } from "@lyne/shared-dto";
 import { Queue } from "./queue.model";
 
 /**
@@ -18,6 +18,25 @@ async function getQueue(query: { queueId: string; adminId?: string }) {
 
 async function deleteQueue(query: { queueId: string; adminId?: string }) {
   const qDoc = await Queue.deleteOne(query);
+
+  if (!qDoc) {
+    throw new Error("queue not found");
+  }
+
+  return qDoc;
+}
+
+async function editQueueMetadata(
+  query: { queueId: string; adminId?: string },
+  updateParams: {
+    queueName?: string;
+    description?: number;
+    liveTime?: number;
+    closeTime?: number;
+    repeatCycle?: RepeatCycle;
+  },
+) {
+  const qDoc = await Queue.findOneAndUpdate(query, updateParams, { new: true });
 
   if (!qDoc) {
     throw new Error("queue not found");
@@ -123,6 +142,7 @@ const getAllQueuesForAdmin = async (adminId: string) => {
 export {
   addUserToQueue,
   deleteQueue,
+  editQueueMetadata,
   getQueue,
   getUserProgress,
   popFirstFromQueue,
