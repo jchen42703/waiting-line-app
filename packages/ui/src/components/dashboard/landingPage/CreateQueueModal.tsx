@@ -6,28 +6,27 @@ import {
   ModalContent,
   ModalHeader,
   ModalFooter,
-  //   ModalBody,
   ModalCloseButton,
-  //   useDisclosure,
   Stack,
   FormControl,
   FormLabel,
   Input,
   Select,
-  //   InputLeftAddon,
-  //   InputGroup,
   FormErrorMessage,
   Spacer,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import validator from "validator";
-// import InputMask from "react-input-mask";
+import { createQueue } from "../../../lib/services/queue.service";
+import { RepeatCycle } from "@lyne/shared-dto";
 
-type FormValues = {
+type CreateQueueFormValues = {
   name: string;
   description: string;
-  //   liveTime: Date;
+  liveDate: string;
+  liveTime: string;
+  closeDate: string;
+  closeTime: string;
   repeatCycle: string;
 };
 
@@ -38,9 +37,49 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<CreateQueueFormValues>();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async ({
+    name,
+    description,
+    liveDate,
+    liveTime,
+    closeDate,
+    closeTime,
+    repeatCycle,
+  }: CreateQueueFormValues) => {
+    // TODO: This might not work on some browsers. Test later
+    const liveTimestamp = new Date(`${liveDate} ${liveTime}`).getTime();
+    let closeTimestamp: number;
+    if (closeDate !== "") {
+      closeTimestamp = new Date(closeDate).getTime();
+    }
+
+    if (closeDate !== "" && closeTime !== "") {
+      closeTimestamp = new Date(`${closeDate} ${closeTime}`).getTime();
+    }
+
+    // Parse repeat cycle
+    const validRepeatCycles: string[] = [
+      RepeatCycle.DAILY,
+      RepeatCycle.MONTHLY,
+      RepeatCycle.WEEKLY,
+    ];
+    let parsedRepeatCycle = repeatCycle.trim().toLowerCase();
+
+    parsedRepeatCycle = validRepeatCycles.includes(parsedRepeatCycle)
+      ? repeatCycle
+      : undefined;
+
+    const createdQueueId = await createQueue({
+      queueName: name,
+      description,
+      liveTime: liveTimestamp,
+      closeTime: closeTimestamp,
+      repeatCycle: parsedRepeatCycle as RepeatCycle,
+    });
+    console.log("createdQ: ", createdQueueId);
+  };
 
   return (
     <>
@@ -53,12 +92,13 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
           <Box px="8">
             <form id="userform" onSubmit={handleSubmit(onSubmit)}>
               <Stack spacing={4}>
-                <FormControl isRequired isInvalid={errors.name != null}>
+                <FormControl isRequired>
                   <FormLabel htmlFor="name">Name</FormLabel>
                   <Input
                     id="name"
                     placeholder="Name"
                     {...register("name", {
+                      required: true,
                       validate: (v: string) => v.length <= 30,
                     })}
                   />
@@ -73,6 +113,52 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
                     id="description"
                     placeholder="Description of queue."
                     {...register("description", {})}
+                  />
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="liveDate">Date Queue Goes Live</FormLabel>
+                  <Input
+                    id="liveDate"
+                    type={"date"}
+                    {...register("liveDate", {})}
+                  />
+                  <FormErrorMessage>
+                    The date the queue goes live must be specified.
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel htmlFor="liveTime">Time Queue Goes Live</FormLabel>
+                  <Input
+                    id="liveTime"
+                    type={"time"}
+                    {...register("liveTime", {})}
+                  />
+                  <FormErrorMessage>
+                    The time the queue goes live must be specified.
+                  </FormErrorMessage>
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor="closeDate">
+                    Date Queue Closes (Optional)
+                  </FormLabel>
+                  <Input
+                    id="closeDate"
+                    type={"date"}
+                    {...register("closeDate", {})}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor="closeTime">
+                    Time Queue Closes (Optional)
+                  </FormLabel>
+                  <Input
+                    id="closeTime"
+                    type={"time"}
+                    {...register("closeTime", {})}
                   />
                 </FormControl>
 
