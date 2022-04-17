@@ -1,7 +1,11 @@
-import { GETQueueRes } from "@lyne/shared-dto";
+import {
+  GETQueueRes,
+  GETSingleQueueReq,
+  GETSingleQueueRes,
+} from "@lyne/shared-dto";
 import { NextFunction, Request, Response, Router } from "express";
 import { HttpException } from "../lib/errors";
-import { getAllQueuesForAdmin } from "../lib/models/queue";
+import { getAllQueuesForAdmin, Queue } from "../lib/models/queue";
 
 function createAdminRouter() {
   const adminRouter = Router();
@@ -20,6 +24,30 @@ function createAdminRouter() {
         });
       } catch (e) {
         return next(new HttpException(500, `invalid adminId`));
+      }
+    },
+  );
+
+  adminRouter.get(
+    "/singleQueue",
+    async (
+      req: Request<unknown, GETSingleQueueRes, unknown, GETSingleQueueReq>,
+      res: Response<GETSingleQueueRes, unknown>,
+      next: NextFunction,
+    ) => {
+      const { queueId } = req.query;
+      if (typeof queueId !== "string") {
+        return next(new HttpException(400, "queueId must be a string"));
+      }
+
+      const adminId = req.user._id;
+      try {
+        const qDoc = await Queue.findOne({ adminId, queueId });
+        return res.json({
+          queue: qDoc,
+        });
+      } catch (e) {
+        return next(new HttpException(500, `invalid queue id for admin`));
       }
     },
   );
