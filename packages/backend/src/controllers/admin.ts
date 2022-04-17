@@ -1,4 +1,5 @@
 import {
+  GETAdminInfoRes,
   GETQueueRes,
   GETSingleQueueReq,
   GETSingleQueueRes,
@@ -48,6 +49,25 @@ function createAdminRouter() {
         });
       } catch (e) {
         return next(new HttpException(500, `invalid queue id for admin`));
+      }
+    },
+  );
+
+  adminRouter.get(
+    "/info",
+    async (
+      req: Request<unknown, unknown, unknown, unknown>,
+      res: Response<GETAdminInfoRes, unknown>,
+      next: NextFunction,
+    ) => {
+      const { email, firstName, lastName } = req.user;
+      try {
+        return res.json({
+          name: `${firstName} ${lastName}`,
+          email,
+        });
+      } catch (e) {
+        return next(new HttpException(500, `invalid admin session`));
       }
     },
   );
