@@ -1,4 +1,9 @@
-import { GETQueueRes, POSTCreateReq, POSTCreateRes } from "@lyne/shared-dto";
+import {
+  DELETEQueueReq,
+  GETQueueRes,
+  POSTCreateReq,
+  POSTCreateRes,
+} from "@lyne/shared-dto";
 import { config } from "../config";
 
 export async function getAllQueues() {
@@ -31,4 +36,22 @@ export async function createQueue(payload: POSTCreateReq) {
 
   const { queueId } = (await resp.json()) as POSTCreateRes;
   return queueId;
+}
+
+export async function deleteQueue(payload: DELETEQueueReq) {
+  const { hostUrl } = config;
+  const resp = await fetch(`${hostUrl}/api/queue/delete`, {
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(payload),
+  });
+
+  if (resp.status !== 200) {
+    throw new Error((await resp.json()).message);
+  }
+
+  return 200;
 }
