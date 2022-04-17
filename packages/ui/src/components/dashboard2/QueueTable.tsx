@@ -1,7 +1,8 @@
 import { Button, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
 import DeleteButton from "./DeleteButton";
+import UserInfoRow from "./UserInfoRow";
 
-import JsonData from "./testData.json";
+import JsonData from "../dashboard2/testData.json";
 export default function QueueTable({
   deleteUserEnabled,
   deleteQueueId,
@@ -21,11 +22,19 @@ export default function QueueTable({
 */
   }
 
-  let tableData;
+  this.state = {
+    userList: [],
+  };
 
   const getAllUsers = async (queueId = "") => {
     try {
-      await getData("http://localhost:5000/api/queue/all", queueId);
+      const data = await getData(
+        "http://localhost:5000/api/queue/all",
+        queueId,
+      );
+      this.setState({
+        userList: data.data,
+      });
     } catch (err) {
       console.log("Error: ", err);
     }
@@ -43,12 +52,23 @@ export default function QueueTable({
       },
       body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
-    tableData = response.json();
     return response.json(); // parses JSON response into native JavaScript objects
   };
 
-  const DisplayData = tableData.map((info, index) => {
+  const DisplayData = this.state.userList.map((info, index) => {
+    getAllUsers(deleteQueueId);
     return (
+      <UserInfoRow
+        key={info.userId}
+        userPlace={index + 1}
+        userName={info.name}
+        userPhoneNumber={info.phoneNumber}
+        userJoinQTime={info.joinQTime}
+        deleteUserId={info.userId}
+        toggleDeleteUser={this.deleteUserEnabled}
+        deleteQueueId={this.deleteQueueId}
+      ></UserInfoRow>
+      /*
       <Tr>
         <Td>{index + 1}</Td>
         <Td>{info.name}</Td>
@@ -62,6 +82,7 @@ export default function QueueTable({
           ></DeleteButton>
         </Td>
       </Tr>
+      */
     );
   });
 

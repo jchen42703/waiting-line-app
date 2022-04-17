@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Box, Button, Flex } from "@chakra-ui/react";
-import QueueTable from "../../components/QueueTable";
-import JsonData from "../../components/testData.json";
-import DeleteButton from "../../components/DeleteButton";
+import QueueTable from "../../components/dashboard2/QueueTable";
+import JsonData from "../../components/dashboard2/testData.json";
+import DeleteButton from "../../components/dashboard2/DeleteButton";
 import AdminNavBar from "../../components/AdminNavBar";
 
 export default function QueueDashboard() {
