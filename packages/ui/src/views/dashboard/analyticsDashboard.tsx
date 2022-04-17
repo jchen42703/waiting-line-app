@@ -41,11 +41,7 @@ const AnalyticsDashboard = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchUsers(queueId);
-    }, 5000); // call every second
-
-    return () => clearInterval(interval);
+    fetchUsers(queueId);
   }, []);
 
   if (queuedUsers == null) {

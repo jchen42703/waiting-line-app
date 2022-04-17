@@ -12,7 +12,7 @@ const Layout = ({ queuedUsers }) => {
       pt="1%"
       grid-template-rows="auto auto "
       grid-template-columns="auto auto "
-      gap="5%"
+      gap="10%"
     >
       <GridItem colStart={1} colEnd={3} rowStart={1} rowEnd={2}>
         <QueueInfoWidget></QueueInfoWidget>

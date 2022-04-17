@@ -9,13 +9,15 @@ import {
   Modal,
   ModalOverlay,
   ModalHeader,
-  ModalCloseButton,
+  Text,
   ModalContent,
   ModalBody,
   ModalFooter,
   useClipboard,
   Input,
   HStack,
+  OrderedList,
+  ListItem,
   Center,
   Image,
   useDisclosure,
@@ -64,11 +66,11 @@ export const QR = () => {
             </ModalBody>
             <Center>
               <ModalFooter>
-                <Button bg="#ADD8E6" variant="outline">
-                  <a href={qrLink} download>
-                    Download
-                  </a>
-                </Button>
+                <OrderedList>
+                  <ListItem>Right-click on the QR code.</ListItem>
+                  <ListItem>Click "Save image as..."</ListItem>
+                  <ListItem>Save the image to a safe location.</ListItem>
+                </OrderedList>
               </ModalFooter>
             </Center>
           </ModalContent>
@@ -78,8 +80,8 @@ export const QR = () => {
   };
 
   return (
-    <Box boxShadow="xs" w="80%" h="100%" rounded="md">
-      <VStack pt="5%" spacing="3%">
+    <Box boxShadow="xs" w="80%" h="110%" rounded="md">
+      <VStack pt="5%" spacing="2%">
         <Heading fontSize={"2xl"}>Share Link</Heading>
         <HStack>
           <Flex>
