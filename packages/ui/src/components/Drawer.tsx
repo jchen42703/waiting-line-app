@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -21,10 +21,26 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { getAdminMetadata } from "../lib/services/admin.service";
 
 export default function NavDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
+
+  const [adminMetadata, setAdminMetadata] = useState({
+    name: "",
+    email: "",
+  });
+
+  useEffect(() => {
+    console.log("get admin metadata");
+    const initializeAdminInfo = async () => {
+      const adminData = await getAdminMetadata();
+      setAdminMetadata(adminData);
+    };
+
+    initializeAdminInfo();
+  }, []);
 
   return (
     <>
@@ -45,7 +61,7 @@ export default function NavDrawer() {
         <DrawerContent>
           <DrawerCloseButton />
           <DrawerHeader borderBottomWidth="1px">
-            Create a new account
+            {adminMetadata.name} {adminMetadata.email}
           </DrawerHeader>
 
           <DrawerBody>
