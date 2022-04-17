@@ -64,9 +64,24 @@ interface DELETEDeleteUserRes {
   queue: IQueue;
 }
 
+interface POSTEditQueueReq {
+  queueId: string;
+  queueName?: string;
+  description?: number;
+  liveTime?: number;
+  closeTime?: number;
+  repeatCycle?: RepeatCycle;
+}
+
+interface POSTEditQueueRes {
+  queue: IQueue;
+}
+
 export {
   POSTCreateReq,
   POSTCreateRes,
+  POSTEditQueueReq,
+  POSTEditQueueRes,
   POSTJoinReq,
   POSTJoinRes,
   POSTPopReq,
