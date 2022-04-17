@@ -18,6 +18,9 @@ export async function createQueue(payload: POSTCreateReq) {
   const { hostUrl } = config;
   const resp = await fetch(`${hostUrl}/api/queue/create`, {
     method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
     credentials: "include",
     body: JSON.stringify(payload),
   });
