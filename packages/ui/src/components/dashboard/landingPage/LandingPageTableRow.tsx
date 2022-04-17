@@ -1,13 +1,7 @@
-import {
-  Link as RouteLink,
-  useLocation,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
-import { Button, Tr, Td } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+import { Flex, Tr, Td, CloseButton, toCSSObject } from "@chakra-ui/react";
 import { RepeatCycle } from "@lyne/shared-dto";
 import _ from "lodash";
-import { Link } from "@chakra-ui/react";
 import StatusCircle from "./StatusCircle";
 import CenteredTableCell from "../../tables/CenteredTableCell";
 
@@ -20,6 +14,8 @@ interface LandingPageTableRowProps {
   liveTime: number;
   closeTime?: number;
   repeatCycle?: RepeatCycle | null;
+  canDelete: boolean;
+  onDelete: (queueId: string) => void;
 }
 
 const LandingPageTableRow = ({
@@ -31,6 +27,8 @@ const LandingPageTableRow = ({
   closeTime,
   repeatCycle,
   status,
+  canDelete,
+  onDelete,
 }: LandingPageTableRowProps) => {
   const navigate = useNavigate();
   const createDate = new Date(timeCreated).toLocaleDateString();
@@ -43,7 +41,9 @@ const LandingPageTableRow = ({
     : "N/A";
 
   const routeToQueue = () => {
-    navigate(`/dashboard/queue/${queueId}`);
+    if (!canDelete) {
+      navigate(`/dashboard/queue/${queueId}`);
+    }
   };
 
   return (
@@ -58,8 +58,20 @@ const LandingPageTableRow = ({
         <CenteredTableCell text={liveDate}></CenteredTableCell>
         <CenteredTableCell text={closeDate}></CenteredTableCell>
         <CenteredTableCell text={cycleMode}></CenteredTableCell>
-        <Td>
-          <StatusCircle status={status}></StatusCircle>
+        <Td onClick={canDelete ? () => onDelete(queueId) : () => undefined}>
+          {canDelete ? (
+            <Flex justifyContent="center" alignItems={"center"}>
+              <CloseButton
+                size={"sm"}
+                width={"100%"}
+                height={"100%"}
+                _hover={{ bg: "transparent" }}
+                _active={{ bg: "transparent" }}
+              ></CloseButton>
+            </Flex>
+          ) : (
+            <StatusCircle status={status}></StatusCircle>
+          )}
         </Td>
       </Tr>
     </>
