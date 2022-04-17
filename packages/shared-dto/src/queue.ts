@@ -43,6 +43,7 @@ interface GETProgressRes {
   currPlace: number;
   total: number;
 }
+
 interface GETAllReq {
   queueId: string;
 }
