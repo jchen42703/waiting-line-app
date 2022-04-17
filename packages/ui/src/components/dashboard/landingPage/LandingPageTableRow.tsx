@@ -40,16 +40,19 @@ const LandingPageTableRow = ({
     ? _.startCase(repeatCycle.toLocaleLowerCase())
     : "N/A";
 
-  const routeToQueue = () => {
+  // Either navigate to the appropriate queue page or delete the queue based on the canDelete prop
+  const onClick = () => {
     if (!canDelete) {
       navigate(`/dashboard/queue/${queueId}`);
+    } else {
+      onDelete(queueId);
     }
   };
 
   return (
     <>
       <Tr
-        onClick={routeToQueue}
+        onClick={onClick}
         className="cursor-pointer hover:bg-slate-400 active:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-300"
       >
         <CenteredTableCell text={queueName}></CenteredTableCell>
@@ -58,7 +61,7 @@ const LandingPageTableRow = ({
         <CenteredTableCell text={liveDate}></CenteredTableCell>
         <CenteredTableCell text={closeDate}></CenteredTableCell>
         <CenteredTableCell text={cycleMode}></CenteredTableCell>
-        <Td onClick={canDelete ? () => onDelete(queueId) : () => undefined}>
+        <Td>
           {canDelete ? (
             <Flex justifyContent="center" alignItems={"center"}>
               <CloseButton
