@@ -12,6 +12,10 @@ interface POSTCreateRes {
   queueId: string;
 }
 
+interface DELETEQueueReq {
+  queueId: string;
+}
+
 interface POSTJoinReq {
   queueId: string;
   name: string;
@@ -70,6 +74,7 @@ export {
   GETProgressRes,
   GETAllReq,
   GETAllRes,
+  DELETEQueueReq,
   DELETEDeleteUserReq,
   DELETEDeleteUserRes,
 };

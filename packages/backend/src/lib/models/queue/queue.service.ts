@@ -16,6 +16,16 @@ async function getQueue(query: { queueId: string; adminId?: string }) {
   return qDoc;
 }
 
+async function deleteQueue(query: { queueId: string; adminId?: string }) {
+  const qDoc = await Queue.deleteOne(query);
+
+  if (!qDoc) {
+    throw new Error("queue not found");
+  }
+
+  return qDoc;
+}
+
 /**
  * Gets all users from a speciifc queue through its queueId
  * @param queueId
@@ -112,6 +122,7 @@ const getAllQueuesForAdmin = async (adminId: string) => {
 
 export {
   addUserToQueue,
+  deleteQueue,
   getQueue,
   getUserProgress,
   popFirstFromQueue,
