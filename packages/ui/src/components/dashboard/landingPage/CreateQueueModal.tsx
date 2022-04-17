@@ -14,11 +14,14 @@ import {
   Select,
   FormErrorMessage,
   Spacer,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createQueue } from "../../../lib/services/queue.service";
 import { RepeatCycle } from "@lyne/shared-dto";
+import { useNavigate } from "react-router-dom";
+import _ from "lodash";
 
 type CreateQueueFormValues = {
   name: string;
@@ -30,8 +33,10 @@ type CreateQueueFormValues = {
   repeatCycle: string;
 };
 
-const CreateQueueModal = ({ isOpen, onClose, onCreate }) => {
+const CreateQueueModal = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const toast = useToast(); // A toast to show some errors
 
   const {
     handleSubmit,
@@ -73,16 +78,33 @@ const CreateQueueModal = ({ isOpen, onClose, onCreate }) => {
       ? repeatCycle
       : undefined;
 
-    const createdQueueId = await createQueue({
-      queueName: name,
-      description,
-      liveTime: liveTimestamp,
-      closeTime: closeTimestamp,
-      repeatCycle: parsedRepeatCycle as RepeatCycle,
-    });
-    setLoading(false);
-    console.log("createdQ: ", createdQueueId);
-    onCreate();
+    try {
+      await createQueue({
+        queueName: name,
+        description,
+        liveTime: liveTimestamp,
+        closeTime: closeTimestamp,
+        repeatCycle: parsedRepeatCycle as RepeatCycle,
+      });
+      navigate(0);
+    } catch (e) {
+      setLoading(false);
+      if (_.isError(e)) {
+        // Sentry log if we are not broke
+        // Otherwise console.log for debug
+        console.log(e);
+      }
+      // Show error message on 400 (operational errors)
+      // Don't show error messages on 500 (server)
+      toast({
+        position: "top",
+        status: "error",
+        description:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
+        duration: 8000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
