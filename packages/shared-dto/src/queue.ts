@@ -55,6 +55,14 @@ interface GETAllRes {
   users: IUser[];
 }
 
+interface GETQueueInfoReq {
+  queueId: string;
+}
+
+interface GETQueueInfoRes {
+  queue: IQueue;
+}
+
 interface DELETEDeleteUserReq {
   userId: string;
   queueId: string;
@@ -90,6 +98,8 @@ export {
   GETProgressRes,
   GETAllReq,
   GETAllRes,
+  GETQueueInfoReq,
+  GETQueueInfoRes,
   DELETEQueueReq,
   DELETEDeleteUserReq,
   DELETEDeleteUserRes,
