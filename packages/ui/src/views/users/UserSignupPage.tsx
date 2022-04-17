@@ -74,13 +74,19 @@ export default function UserSignupPage() {
       });
       const respBody = await resp.json();
       console.log("respbody: ", respBody);
-      setRedirectState({
-        shouldRedirect: true,
-        userId: respBody.userId,
-        name: data.name,
-        mail: data.mail,
-        phone: data.phoneNumber,
-      });
+
+      if (respBody.message == "could not find queue") {
+        throw new Error("Could not find the queue! ");
+        // need to check if the user is in the cban list
+      } else {
+        setRedirectState({
+          shouldRedirect: true,
+          userId: respBody.userId,
+          name: data.name,
+          mail: data.mail,
+          phone: data.phoneNumber,
+        });
+      }
     } catch (e) {
       setLoading(false);
       let message; // string
@@ -100,8 +106,7 @@ export default function UserSignupPage() {
       toast({
         position: "top",
         status: "error",
-        description:
-          "Woops! Looks like something went wrong with our servers. Please try again.",
+        description: "Woops! " + e.message + "Please try again.",
         duration: 9000,
         isClosable: true,
       });
@@ -131,7 +136,7 @@ export default function UserSignupPage() {
           <Stack align={"center"}>
             <Heading fontSize={"4xl"}>Sign up to join the line</Heading>
             <Text align={"center"} fontSize={"xl"} color={"gray.600"}>
-              Please fill out this form to join queue {queueId}
+              Please fill out this form to join queue
             </Text>
           </Stack>
           <Box rounded={"lg"} bg={"brand.primary-light"} boxShadow={"lg"} p={8}>

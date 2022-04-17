@@ -99,8 +99,8 @@ export default function UserWaitingStatus(props: { joinTime: Date }) {
     }
   };
 
-  // update the state every minutes
-  const fiveSec = 60000;
+  // update the state every five Seconds
+  const fiveSec = 5000;
   var updateCount = 1;
   useEffect(() => {
     getStatus();
