@@ -15,6 +15,7 @@ import type {
   IUser,
   DELETEDeleteUserReq,
   DELETEDeleteUserRes,
+  DELETEQueueReq,
 } from "@lyne/shared-dto";
 import { HttpException } from "../lib/errors";
 import {
@@ -23,6 +24,7 @@ import {
   popFirstFromQueue,
   Queue,
   getAllUsers,
+  deleteQueue,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -84,6 +86,38 @@ function createQueueRouter() {
       }
 
       res.json({ queueId: qId });
+    },
+  );
+
+  queueRouter.delete(
+    "/delete",
+    async (
+      req: Request<unknown, unknown, DELETEQueueReq, unknown>,
+      res: Response<unknown, unknown>,
+      next: NextFunction,
+    ) => {
+      const adminId = req.user._id;
+      // validation
+      if (!adminId || typeof adminId !== "string") {
+        return next(new HttpException(400, "adminId must be a string"));
+      }
+
+      const { queueId } = req.body;
+
+      if (typeof queueId !== "string") {
+        return next(new HttpException(400, "queueId must be a string"));
+      }
+
+      try {
+        const deletedResult = await deleteQueue({ queueId, adminId });
+        if (!deletedResult) {
+          throw Error("failed to delete");
+        }
+      } catch {
+        return next(new HttpException(500, `Could not create queue`));
+      }
+
+      res.sendStatus(200);
     },
   );
 
