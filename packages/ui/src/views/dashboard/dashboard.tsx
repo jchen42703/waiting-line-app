@@ -1,7 +1,7 @@
 import { Flex, Heading } from "@chakra-ui/react";
 import { Fragment } from "react";
 import AdminNavBar from "../../components/AdminNavBar";
-import AllQueuesTable from "../../components/dashboard/landingPage/AllQueuesTable";
+import QueueTableManager from "../../components/dashboard/landingPage/QueueTableManager";
 
 export default function Dashboard() {
   return (
@@ -17,7 +17,7 @@ export default function Dashboard() {
         <Heading as="h1" marginBottom={"5"}>
           Queue Manager Dashboard
         </Heading>
-        <AllQueuesTable></AllQueuesTable>
+        <QueueTableManager></QueueTableManager>
       </Flex>
     </Fragment>
   );

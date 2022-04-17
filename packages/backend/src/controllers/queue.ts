@@ -26,7 +26,7 @@ import {
 } from "../lib/models/queue";
 
 function createQueueRouter() {
-  const queueRouter: Router = Router();
+  const queueRouter = Router();
 
   // Initializes a queue that holds the user data.
   // The queue is a document inside of the mongodb database collection.
@@ -42,7 +42,29 @@ function createQueueRouter() {
       if (!adminId || typeof adminId !== "string") {
         return next(new HttpException(400, "adminId must be a string"));
       }
-      const { queueName, description } = req.body;
+
+      const { queueName, description, liveTime, closeTime, repeatCycle } =
+        req.body;
+
+      if (typeof queueName !== "string") {
+        return next(new HttpException(400, "queueName must be a string"));
+      }
+
+      if (typeof description !== "string") {
+        return next(new HttpException(400, "description must be a string"));
+      }
+
+      if (typeof liveTime !== "number") {
+        return next(new HttpException(400, "liveTime must be a number"));
+      }
+
+      if (closeTime !== undefined && typeof closeTime !== "number") {
+        return next(new HttpException(400, "closeTime must be a number"));
+      }
+
+      if (repeatCycle !== undefined && typeof repeatCycle !== "string") {
+        return next(new HttpException(400, "repeatCycle must be a number"));
+      }
 
       const qId = `q-${randomUUID()}`;
       try {
@@ -51,17 +73,14 @@ function createQueueRouter() {
           queueName,
           description,
           timeCreated: Date.now(),
-          liveTime: null,
-          closeTime: null,
-          repeatCycle: null,
+          liveTime,
+          closeTime,
+          repeatCycle,
           adminId,
-          canJoin: true,
           queue: [],
         });
-      } catch (e) {
-        return next(
-          new HttpException(500, `Could not create queue for ${adminId}`),
-        );
+      } catch {
+        return next(new HttpException(500, `Could not create queue`));
       }
 
       res.json({ queueId: qId });
@@ -217,7 +236,7 @@ function createQueueRouter() {
       }
 
       // 3. Only extract queueId for the adminId
-      const { adminId } = req.signedCookies;
+      const adminId = req.user._id;
       // Finding a queue with the specified queueId + the specified adminId
       // Then delete a user with userId in that queue
       // Then return the new queue.
