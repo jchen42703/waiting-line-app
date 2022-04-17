@@ -15,7 +15,15 @@ import {
 import TableHeader from "../../tables/TableHeader";
 import { IQueue } from "@lyne/shared-dto";
 
-const AllQueuesTable = ({ queueList }: { queueList: IQueue[] }) => {
+const AllQueuesTable = ({
+  queueList,
+  canDelete,
+  onDelete,
+}: {
+  queueList: IQueue[];
+  canDelete: boolean;
+  onDelete: (queueId: string) => void;
+}) => {
   return (
     <>
       <Box border="2px solid" borderColor="gray.100" borderRadius="md">
@@ -62,6 +70,8 @@ const AllQueuesTable = ({ queueList }: { queueList: IQueue[] }) => {
                   closeTime,
                   repeatCycle,
                   status,
+                  canDelete,
+                  onDelete,
                 };
 
                 return (

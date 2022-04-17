@@ -1,21 +1,31 @@
-import { RepeatCycle } from "@lyne/shared-dto";
 import {
   Button,
   Flex,
   TableContainer,
   Text,
   useDisclosure,
+  useBoolean,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import AllQueuesTable from "./AllQueuesTable";
 import CreateQueueModal from "./CreateQueueModal";
 import { getAllQueues } from "../../../lib/services/queue.service";
 import { getCurrentFormattedTime } from "../../../lib/time";
-import { useNavigate } from "react-router-dom";
+import DeleteQueueModal from "./DeleteQueueModal";
 
 const QueueTableManager = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenDeleteQModal,
+    onOpen: onOpenDeleteQModal,
+    onClose: onCloseDeleteQModal,
+  } = useDisclosure();
+
   const [queueList, setQueueList] = useState([]);
+
+  const toDeleteQueueId = useRef("");
+  const [canDelete, toggleCanDelete] = useBoolean(false);
+
   useEffect(() => {
     (async () => {
       const queues = await getAllQueues();
@@ -24,9 +34,19 @@ const QueueTableManager = () => {
     })();
   }, []);
 
+  const onDelete = (queueId: string) => {
+    toDeleteQueueId.current = queueId;
+    onOpenDeleteQModal();
+  };
+
   return (
     <>
       <CreateQueueModal isOpen={isOpen} onClose={onClose}></CreateQueueModal>
+      <DeleteQueueModal
+        isOpen={isOpenDeleteQModal}
+        onClose={onCloseDeleteQModal}
+        queueId={toDeleteQueueId.current}
+      ></DeleteQueueModal>
       <TableContainer minHeight={"80vh"} marginX={"16"} marginBottom="16">
         <Flex
           flexDir={"row"}
@@ -41,10 +61,14 @@ const QueueTableManager = () => {
             <Button marginRight={"5"} onClick={onOpen}>
               Create Queue
             </Button>
-            <Button>Delete Queue</Button>
+            <Button onClick={toggleCanDelete.toggle}>Delete Queue</Button>
           </Flex>
         </Flex>
-        <AllQueuesTable queueList={queueList}></AllQueuesTable>
+        <AllQueuesTable
+          queueList={queueList}
+          canDelete={canDelete}
+          onDelete={onDelete}
+        ></AllQueuesTable>
       </TableContainer>
     </>
   );
