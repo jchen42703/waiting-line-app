@@ -30,7 +30,7 @@ type CreateQueueFormValues = {
   repeatCycle: string;
 };
 
-const CreateQueueModal = ({ isOpen, onClose }) => {
+const CreateQueueModal = ({ isOpen, onClose, onCreate }) => {
   const [loading, setLoading] = useState(false);
 
   const {
@@ -48,6 +48,8 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
     closeTime,
     repeatCycle,
   }: CreateQueueFormValues) => {
+    setLoading(true);
+
     // TODO: This might not work on some browsers. Test later
     const liveTimestamp = new Date(`${liveDate} ${liveTime}`).getTime();
     let closeTimestamp: number;
@@ -78,7 +80,9 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
       closeTime: closeTimestamp,
       repeatCycle: parsedRepeatCycle as RepeatCycle,
     });
+    setLoading(false);
     console.log("createdQ: ", createdQueueId);
+    onCreate();
   };
 
   return (

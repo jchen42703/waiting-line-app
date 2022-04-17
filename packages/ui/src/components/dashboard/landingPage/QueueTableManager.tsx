@@ -11,10 +11,11 @@ import AllQueuesTable from "./AllQueuesTable";
 import CreateQueueModal from "./CreateQueueModal";
 import { getAllQueues } from "../../../lib/services/queue.service";
 import { getCurrentFormattedTime } from "../../../lib/time";
+import { useNavigate } from "react-router-dom";
 
 const QueueTableManager = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const navigate = useNavigate();
   const [queueList, setQueueList] = useState([]);
   useEffect(() => {
     (async () => {
@@ -26,7 +27,11 @@ const QueueTableManager = () => {
 
   return (
     <>
-      <CreateQueueModal isOpen={isOpen} onClose={onClose}></CreateQueueModal>
+      <CreateQueueModal
+        isOpen={isOpen}
+        onClose={onClose}
+        onCreate={() => navigate(0)}
+      ></CreateQueueModal>
       <TableContainer minHeight={"80vh"} marginX={"16"} marginBottom="16">
         <Flex
           flexDir={"row"}
