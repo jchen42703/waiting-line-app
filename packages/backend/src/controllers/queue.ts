@@ -11,8 +11,6 @@ import type {
   GETProgressRes,
   GETAllReq,
   GETAllRes,
-  GETQueueInfoReq,
-  GETQueueInfoRes,
   IQueue,
   IUser,
   DELETEDeleteUserReq,
@@ -30,7 +28,6 @@ import {
   getAllUsers,
   deleteQueue,
   editQueueMetadata,
-  getQueue,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -314,26 +311,6 @@ function createQueueRouter() {
 
         return res.json({
           users: usersInQueue,
-        });
-      } catch (e) {
-        return next(new HttpException(500, `invalid queueId`));
-      }
-    },
-  );
-
-  queueRouter.get(
-    "/queue-info",
-    async (
-      req: Request<unknown, GETQueueInfoRes, unknown, GETQueueInfoReq>,
-      res: Response<GETQueueInfoRes, unknown>,
-      next: NextFunction,
-    ) => {
-      const { queueId } = req.query;
-
-      try {
-        const qDoc: IQueue = await getQueue({ queueId });
-        return res.json({
-          queue: qDoc,
         });
       } catch (e) {
         return next(new HttpException(500, `invalid queueId`));
