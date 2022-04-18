@@ -16,9 +16,9 @@ import { config } from "../../../../lib/config";
 import { useState } from "react";
 
 const QueueInfoWidget = ({ queueInfo }) => {
-  // errors
   const toast = useToast();
 
+  // store user changes
   const [inputs, setInputs] = useState({
     queueName: "",
     description: "",
@@ -27,7 +27,7 @@ const QueueInfoWidget = ({ queueInfo }) => {
     closeTime: "",
   });
 
-  // add to our state
+  // update the inputs
   const onChange = (e) => {
     if (e == "Daily" || e == "Monthly" || e == "Weekly") {
       setInputs({ ...inputs, ["repeatCycle"]: e });
@@ -36,7 +36,7 @@ const QueueInfoWidget = ({ queueInfo }) => {
     }
   };
 
-  // parse information
+  // parse inputs
   const { queueName, description, liveTime, repeatCycle, closeTime } = inputs;
 
   // update info
@@ -68,6 +68,7 @@ const QueueInfoWidget = ({ queueInfo }) => {
           },
           body: JSON.stringify(newQueue),
         });
+        return res.json();
       }
     } catch (err) {
       console.error(err.message);
