@@ -98,7 +98,7 @@ const QueueInfoWidget = ({ queueInfo }) => {
             defaultValue={queueInfo.queueName}
             name="queueName"
             onChange={(e) => onChange(e)}
-            pb="1%"
+            pb="2%"
           />
           <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
             {" "}
@@ -112,7 +112,7 @@ const QueueInfoWidget = ({ queueInfo }) => {
             defaultValue={queueInfo.description}
             name="description"
             onChange={onChange}
-            pb="1%"
+            pb="2%"
           />
           <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
             {" "}
@@ -127,7 +127,7 @@ const QueueInfoWidget = ({ queueInfo }) => {
             defaultValue={queueInfo.liveTime}
             name="liveTime"
             onChange={(e) => onChange(e)}
-            pb="1%"
+            pb="2%"
           />
           <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
             {" "}
@@ -138,20 +138,16 @@ const QueueInfoWidget = ({ queueInfo }) => {
             variant="unstyled"
             isRequired
             fontWeight="bold"
-            pb="1%"
+            pb="2%"
             name="closeTime"
             defaultValue={queueInfo.closeTime}
             onChange={(e) => onChange(e)}
           />
           <FormLabel fontSize="lg" fontWeight="bold" textAlign="center">
             {" "}
-            repeatCycle
+            repeatCycle : {queueInfo.repeatCycle}
           </FormLabel>
-          <RadioGroup
-            name="repeatCycle"
-            onChange={(e) => onChange(e)}
-            value={queueInfo.repeatCycle}
-          >
+          <RadioGroup name="repeatCycle" onChange={(e) => onChange(e)}>
             <Stack direction="row" justifyContent="center">
               <Radio value="Daily">Daily</Radio>
               <Radio value="Weekly">Weekly</Radio>
@@ -162,7 +158,7 @@ const QueueInfoWidget = ({ queueInfo }) => {
           <FormHelperText textAlign="center">
             Click and edit the information.{" "}
           </FormHelperText>
-          <Center pt="1%">
+          <Center pt="2%" pb="2%">
             <button>Submit changes...</button>
           </Center>
         </FormControl>
