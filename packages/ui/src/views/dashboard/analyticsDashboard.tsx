@@ -11,6 +11,7 @@ import { useToast } from "@chakra-ui/react";
 const AnalyticsDashboard = () => {
   const { queueId } = useParams();
   const [queuedUsers, setQueuedUsers] = useState([]);
+  const [queueInfo, setQueueInfo] = useState({});
 
   const toast = useToast(); // A toast to show some errors
 
@@ -40,18 +41,38 @@ const AnalyticsDashboard = () => {
     }
   };
 
+  // get metadata of queue
+  const fetchQueueInfo = async (queueId) => {
+    try {
+      const res = await fetch(
+        `${config.hostUrl}/api/admin/singleQueue?queueId=${queueId}`,
+        {
+          method: "GET",
+          cache: "no-cache",
+          credentials: "include",
+        },
+      );
+
+      const { queue } = await res.json();
+      setQueueInfo(queue);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   useEffect(() => {
     fetchUsers(queueId);
+    fetchQueueInfo(queueId);
   }, []);
 
-  if (queuedUsers == null) {
+  if (queuedUsers == null || queueInfo == null) {
     return <Navigate to="/dashboard"></Navigate>;
   }
 
   return (
     <>
       <AdminNavBar></AdminNavBar>
-      <Layout queuedUsers={queuedUsers}></Layout>
+      <Layout queueInfo={queueInfo} queuedUsers={queuedUsers}></Layout>
     </>
   );
 };

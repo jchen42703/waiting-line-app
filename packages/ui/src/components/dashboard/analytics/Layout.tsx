@@ -5,7 +5,7 @@ import BanWidget from "./widgets/BanWidget";
 import QueueInfoWidget from "./widgets/QueueInfoWidget";
 import QueueListWidget from "./widgets/QueueListWidget";
 
-const Layout = ({ queuedUsers }) => {
+const Layout = ({ queuedUsers, queueInfo }) => {
   return (
     <Grid
       pl="1%"
@@ -15,7 +15,7 @@ const Layout = ({ queuedUsers }) => {
       gap="10%"
     >
       <GridItem colStart={1} colEnd={3} rowStart={1} rowEnd={2}>
-        <QueueInfoWidget></QueueInfoWidget>
+        <QueueInfoWidget queueInfo={queueInfo}></QueueInfoWidget>
       </GridItem>
       <GridItem colStart={1} colEnd={3} rowStart={2} rowEnd={3}>
         <QueueListWidget queuedUsers={queuedUsers}></QueueListWidget>
