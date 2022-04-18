@@ -9,7 +9,6 @@ import {
   Modal,
   ModalOverlay,
   ModalHeader,
-  Text,
   ModalContent,
   ModalBody,
   ModalFooter,
@@ -24,6 +23,8 @@ import {
 } from "@chakra-ui/react";
 import { config } from "../../../lib/config";
 import { useParams } from "react-router-dom";
+//@ts-ignore
+import qrImage from "../../media/analytics/qr.svg";
 
 export const QR = () => {
   const { queueId } = useParams();
@@ -80,10 +81,11 @@ export const QR = () => {
   };
 
   return (
-    <Box boxShadow="xs" w="80%" h="110%" rounded="md">
-      <VStack pt="5%" spacing="2%">
+    <Box boxShadow="xs" w="80%" h="100%" rounded="md">
+      <VStack pt="25%" spacing="2%">
         <Heading fontSize={"2xl"}>Share Link</Heading>
-        <HStack>
+        <Image boxSize="150" src={qrImage}></Image>
+        <HStack pt="5%">
           <Flex>
             <Input value={url} borderRadius="0px" isReadOnly w="80%"></Input>
             <Button bg="#ADD8E6" borderRadius="0px" onClick={onCopy}>
