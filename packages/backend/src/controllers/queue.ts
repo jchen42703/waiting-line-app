@@ -319,7 +319,7 @@ function createQueueRouter() {
   );
 
   queueRouter.delete(
-    "/delete",
+    "/deleteUser",
     async (
       req: Request<unknown, DELETEDeleteUserRes, DELETEDeleteUserReq, unknown>,
       res: Response<DELETEDeleteUserRes, unknown>,
