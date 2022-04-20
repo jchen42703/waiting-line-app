@@ -29,7 +29,7 @@ interface POSTJoinRes {
 
 interface POSTPopReq {
   queueId: string;
-  userId: string;
+  userId?: string;
 }
 
 interface POSTPopRes {

@@ -12,4 +12,9 @@ interface GETQueueRes {
   queues: IQueue[];
 }
 
-export { GETQueueRes, GETSingleQueueReq, GETSingleQueueRes };
+interface GETAdminInfoRes {
+  name: string;
+  email: string;
+}
+
+export { GETQueueRes, GETSingleQueueReq, GETSingleQueueRes, GETAdminInfoRes };

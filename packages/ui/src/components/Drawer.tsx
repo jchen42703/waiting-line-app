@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerBody,
@@ -7,24 +7,49 @@ import {
   DrawerOverlay,
   DrawerContent,
   DrawerCloseButton,
-  Box,
   Button,
   Stack,
-  FormLabel,
-  Input,
-  InputGroup,
-  InputLeftAddon,
-  InputRightAddon,
-  Select,
-  Textarea,
   useDisclosure,
   IconButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
+import { getAdminMetadata } from "../lib/services/admin.service";
+import { getAllQueues } from "../lib/services/queue.service";
+import { IQueue } from "@lyne/shared-dto";
+import { useNavigate } from "react-router-dom";
 
 export default function NavDrawer() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const firstField = React.useRef();
+  const navigate = useNavigate();
+
+  const [adminMetadata, setAdminMetadata] = useState({
+    name: "",
+    email: "",
+  });
+
+  const [queueList, setQueueList] = useState([]);
+
+  useEffect(() => {
+    console.log("get admin metadata");
+    const initializeAdminInfo = async () => {
+      const adminData = await getAdminMetadata();
+      setAdminMetadata(adminData);
+    };
+
+    const getQueueData = async () => {
+      const queues = await getAllQueues();
+      setQueueList(queues);
+    };
+
+    initializeAdminInfo();
+
+    getQueueData();
+  }, []);
+
+  const onQueueButtonClick = (queueId: string) => {
+    navigate(`/dashboard/queue/${queueId}`);
+  };
 
   return (
     <>
@@ -44,55 +69,26 @@ export default function NavDrawer() {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader borderBottomWidth="1px">
-            Create a new account
+          <DrawerHeader borderBottomWidth="1px" fontSize={"md"}>
+            {adminMetadata.name} {adminMetadata.email}
           </DrawerHeader>
 
+          <DrawerHeader borderBottomWidth="1px">Your Queues</DrawerHeader>
+
           <DrawerBody>
-            <Stack spacing="24px">
-              <Box>
-                <FormLabel htmlFor="username">Name</FormLabel>
-                <Input
-                  ref={firstField}
-                  id="username"
-                  placeholder="Please enter user name"
-                />
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="url">Url</FormLabel>
-                <InputGroup>
-                  <InputLeftAddon>http://</InputLeftAddon>
-                  <Input
-                    type="url"
-                    id="url"
-                    placeholder="Please enter domain"
-                  />
-                  <InputRightAddon>.com</InputRightAddon>
-                </InputGroup>
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="owner">Select Owner</FormLabel>
-                <Select id="owner" defaultValue="segun">
-                  <option value="segun">Segun Adebayo</option>
-                  <option value="kola">Kola Tioluwani</option>
-                </Select>
-              </Box>
-
-              <Box>
-                <FormLabel htmlFor="desc">Description</FormLabel>
-                <Textarea id="desc" />
-              </Box>
+            <Stack spacing="24px" marginBottom={"4"}>
+              {queueList.map(({ queueId, queueName }: IQueue) => {
+                return (
+                  <Button
+                    key={queueId}
+                    onClick={() => onQueueButtonClick(queueId)}
+                  >
+                    {queueName}
+                  </Button>
+                );
+              })}
             </Stack>
           </DrawerBody>
-
-          <DrawerFooter borderTopWidth="1px">
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Submit</Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>

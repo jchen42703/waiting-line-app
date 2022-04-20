@@ -40,7 +40,7 @@ function createAuthRouter() {
 
   authRouter.get("/logout", (req: Request, res: Response) => {
     req.logout();
-    res.redirect(CLIENT_URL);
+    res.json({ success: true });
   });
 
   // Controls /api/auth/google --> opens up the login prompt

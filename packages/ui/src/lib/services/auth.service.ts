@@ -1,3 +1,5 @@
+import { config } from "../config";
+
 /**
  *
  * @returns true if admin is logged in, false if not
@@ -12,4 +14,12 @@ export async function adminIsLoggedIn() {
     //   If there's a server, error, just default to not logged in
     return false;
   }
+}
+
+export async function logout() {
+  const { hostUrl } = config;
+  const resp = await fetch(`${hostUrl}/api/auth/logout`, {
+    credentials: "include",
+  });
+  return resp;
 }

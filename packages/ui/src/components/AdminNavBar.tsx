@@ -1,14 +1,8 @@
-import {
-  Box,
-  Flex,
-  useColorModeValue,
-  IconButton,
-  Button,
-} from "@chakra-ui/react";
-import { SettingsIcon } from "@chakra-ui/icons";
+import { Box, Flex, Button, useToast } from "@chakra-ui/react";
 import NavDrawer from "./Drawer";
-import { Link as RouteLink, useLocation } from "react-router-dom";
+import { Link as RouteLink, useLocation, useNavigate } from "react-router-dom";
 import { Link } from "@chakra-ui/react";
+import { logout } from "../lib/services/auth.service";
 
 /**
  * The navigation bar that opens up a side bar with the queues
@@ -16,16 +10,37 @@ import { Link } from "@chakra-ui/react";
  * @returns
  */
 export default function AdminNavBar() {
-  // this needs to be here because react hooks must be called in the same order
-  // in every render
-  // const navBg = useColorModeValue("gray.100", "gray.900");
+  const toast = useToast();
+
+  const navigate = useNavigate();
+
+  const onLogout = async () => {
+    try {
+      const res = await logout();
+      if (res.status !== 200) {
+        throw Error(`Response: ${res.status}`);
+      } else {
+        navigate(0);
+      }
+    } catch (e) {
+      toast({
+        position: "top",
+        status: "error",
+        description:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
 
   // conditionally render based on route
   // navbar should only render for admin routes
   const location = useLocation();
 
   if (
-    location.pathname.match("/users/*") ||
+    // ^/users to not match /dashboard/users/
+    location.pathname.match("^/users/*") ||
     location.pathname.match("/login/*")
   ) {
     return null;
@@ -54,14 +69,7 @@ export default function AdminNavBar() {
             </Link>
           </Flex>
 
-          {/* To maintain compatibility w/chakra ui attributes */}
-          <Link as={RouteLink} to="/settings">
-            <IconButton
-              aria-label={"settings"}
-              icon={<SettingsIcon />}
-              bg="transparent"
-            ></IconButton>
-          </Link>
+          <Button onClick={onLogout}>Log Out</Button>
         </Flex>
       </Box>
     </>
