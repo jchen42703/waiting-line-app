@@ -6,18 +6,19 @@ import {
   Container,
   SimpleGrid,
 } from "@chakra-ui/react";
-import GoogleButton from "../../components/GoogleButton"
-import FacebookButton from "../../components/FacebookButton"
+import GoogleButton from "../../components/GoogleButton";
+import FacebookButton from "../../components/FacebookButton";
 
-import HeroImage from "../../components/HeroImage"
+import HeroImage from "../../components/HeroImage";
+import { config } from "../../lib/config";
 
 const Login = () => {
   const google = () => {
-    window.open("http://localhost:5000/api/auth/google", "_self");
+    window.open(`${config.hostUrl}/api/auth/google`, "_self");
   };
 
   const facebook = () => {
-    window.open("http://localhost:5000/api/auth/facebook", "_self");
+    window.open(`${config.hostUrl}/api/auth/facebook`, "_self");
   };
 
   return (
