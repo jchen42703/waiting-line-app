@@ -6,7 +6,9 @@ import { config } from "../config";
  */
 export async function adminIsLoggedIn() {
   try {
-    const resp = await fetch("http://localhost:5000/api/session/verify", {
+    const { hostUrl } = config;
+
+    const resp = await fetch(`${hostUrl}/api/session/verify`, {
       credentials: "include",
     });
     return resp.status === 200;

@@ -27,6 +27,7 @@ server {
     location /api/ {
         proxy_pass http://localhost:5000/api/;
         proxy_http_version 1.1;
+        proxy_set_header Host $host
     }
     location / {
         proxy_pass http://localhost:3000;
