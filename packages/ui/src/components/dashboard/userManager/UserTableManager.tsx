@@ -9,9 +9,9 @@ import {
 import { IQueue } from "@lyne/shared-dto";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getQueue } from "../../lib/services/queue.service";
-import { popUser } from "../../lib/services/user.service";
-import BackButton from "../BackButton";
+import { getQueue } from "../../../lib/services/queue.service";
+import { popUser } from "../../../lib/services/user.service";
+import BackButton from "../../BackButton";
 import DeleteUserModal from "./DeleteUserModal";
 import UserTable from "./UserTable";
 
@@ -73,7 +73,12 @@ const UserTableManager = () => {
         userId={toDeleteUserId.current}
         name={toDeleteUserName.current}
       ></DeleteUserModal>
-      <TableContainer minHeight={"80vh"} marginX={"16"} marginBottom="16">
+      <TableContainer
+        minHeight={"80vh"}
+        marginX={"16"}
+        marginBottom="16"
+        marginTop={"3"}
+      >
         <Flex flexDir={"row"} justifyContent={"center"} alignItems={"center"}>
           <BackButton></BackButton>
 
@@ -102,7 +107,6 @@ const UserTableManager = () => {
           </Flex>
         </Flex>
         <UserTable
-          queueId={queueId}
           userList={queue.queue}
           canDelete={canDelete}
           onDelete={onDelete}

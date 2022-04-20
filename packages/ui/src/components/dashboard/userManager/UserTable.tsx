@@ -1,15 +1,13 @@
 import { Box, Table, Thead, Tr, Tbody } from "@chakra-ui/react";
-import TableHeader from "../../components/tables/TableHeader";
+import TableHeader from "../../tables/TableHeader";
 import { IUser } from "@lyne/shared-dto";
 import { UserInfoProps, UserInfoRow } from "./UserInfoRow";
 
 const UserTable = ({
-  queueId,
   userList,
   canDelete,
   onDelete,
 }: {
-  queueId: string;
   userList: IUser[];
   canDelete: boolean;
   onDelete: (userId: string, name: string) => void;
@@ -41,7 +39,6 @@ const UserTable = ({
               ) => {
                 const opts: UserInfoProps = {
                   userId,
-                  queueId,
                   name,
                   email,
                   place: index + 1,

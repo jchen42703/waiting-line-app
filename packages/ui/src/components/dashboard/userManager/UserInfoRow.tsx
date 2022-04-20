@@ -1,19 +1,8 @@
-import {
-  Button,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  CloseButton,
-  Flex,
-} from "@chakra-ui/react";
-import CenteredTableCell from "../tables/CenteredTableCell";
+import { Tr, Td, CloseButton, Flex } from "@chakra-ui/react";
+import CenteredTableCell from "../../tables/CenteredTableCell";
 
 export interface UserInfoProps {
   userId: string;
-  queueId: string;
   place: number;
   name: string;
   email: string;
@@ -25,7 +14,6 @@ export interface UserInfoProps {
 
 export function UserInfoRow({
   userId,
-  queueId,
   place,
   name,
   email,

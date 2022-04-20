@@ -11,10 +11,9 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
-// import { deleteQueue } from "../../../lib/services/queue.service";
 import { useNavigate } from "react-router-dom";
 import _ from "lodash";
-import { deleteUser } from "../../lib/services/user.service";
+import { deleteUser } from "../../../lib/services/user.service";
 
 const DeleteUserModal = ({
   isOpen,

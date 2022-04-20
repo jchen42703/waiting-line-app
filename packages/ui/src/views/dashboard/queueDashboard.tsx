@@ -6,7 +6,7 @@ import { getQueue } from "../../lib/services/queue.service";
 import { IQueue } from "@lyne/shared-dto";
 import BackButton from "../../components/BackButton";
 import { popUser } from "../../lib/services/user.service";
-import UserTableManager from "../../components/dashboard2/UserTableManager";
+import UserTableManager from "../../components/dashboard/userManager/UserTableManager";
 
 export default function QueueDashboard() {
   return (
