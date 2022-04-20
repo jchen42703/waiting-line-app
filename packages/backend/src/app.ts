@@ -9,7 +9,9 @@ import errorMiddleware from "./middlewares/error";
 import { oneDay, oneMinute, oneWeek } from "./lib/time";
 
 const allowedOrigin =
-  process.env.NODE_ENV === "production" ? "N/A" : "http://localhost:3000";
+  process.env.NODE_ENV === "production"
+    ? "https://waitinglyne.com"
+    : "http://localhost:3000";
 
 export function createMainServer() {
   const app = express();
