@@ -1,13 +1,29 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 import QueueTable from "../../components/dashboard2/QueueTable";
 import JsonData from "../../components/dashboard2/testData.json";
 import DeleteButton from "../../components/dashboard2/DeleteButton";
 import AdminNavBar from "../../components/AdminNavBar";
+import { getQueue } from "../../lib/services/queue.service";
+import { IQueue } from "@lyne/shared-dto";
+import BackButton from "../../components/BackButton";
 
 export default function QueueDashboard() {
   let { queueId } = useParams();
+
+  const [queue, setQueue] = useState<IQueue>({
+    queueId,
+    adminId: undefined,
+    queueName: undefined,
+    description: undefined,
+    timeCreated: undefined,
+    liveTime: undefined,
+    closeTime: undefined,
+    repeatCycle: undefined,
+    queue: undefined,
+  });
+
   // let queueData = JsonData;
   // let firstUser = queueData[0]["userId"]; // needs to be changed, prob unnecessary
   console.log(queueId);
@@ -40,31 +56,49 @@ export default function QueueDashboard() {
     return response.json(); // parses JSON response into native JavaScript objects
   };
 
+  useEffect(() => {
+    const initializeQueue = async () => {
+      const fetchedQ = await getQueue({ queueId });
+      console.log(fetchedQ);
+      setQueue(fetchedQ);
+    };
+    initializeQueue();
+  }, []);
+
   return (
     <>
-      <AdminNavBar />
+      <AdminNavBar></AdminNavBar>
+
       <Flex flexDirection={"column"} justifyContent={"center"} my="3" mx="16">
         {/* Header + Buttons */}
-        <Flex flexDirection={"row"} justifyContent={"space-between"}>
-          {/* <Box>
-            <h1>Queue Dashboard</h1>
-          </Box> */}
-          <Flex flexDirection={"column"} align={"center"}>
-            <Flex flexDirection={"row"} align={"left"}>
-              <Button>&lt;-</Button>
-              <Box>Queue Name</Box>
-            </Flex>
-            <Box>Users</Box>
-          </Flex>
+        <Flex flexDir={"row"} justifyContent={"center"} alignItems={"center"}>
+          <BackButton></BackButton>
 
-          <Flex flexDirection={"row"}>
+          <Flex
+            flexDir={"row"}
+            justifyContent={"center"}
+            my="2"
+            // This makes the heading centered while the back button is left
+            margin={"0 auto"}
+          >
+            <Heading>{queue.queueName}</Heading>
+          </Flex>
+        </Flex>
+
+        <Flex
+          flexDir={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          my="2"
+        >
+          <Heading size="md">Users in Queue</Heading>
+          <Flex flexDir={"row"}>
             <Button onClick={() => handleNextUser()}>Next User</Button>
-            <Button onClick={() => handleToggle()}>
+            <Button onClick={() => handleToggle()} marginLeft="5">
               {deleteToggleState ? "Cancel" : "Delete User"}
             </Button>
           </Flex>
         </Flex>
-        {/* Queue table goes here */}
         <QueueTable
           deleteUserEnabled={deleteToggleState}
           deleteQueueId={queueId}

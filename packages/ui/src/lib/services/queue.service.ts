@@ -1,6 +1,8 @@
 import {
   DELETEQueueReq,
   GETQueueRes,
+  GETSingleQueueReq,
+  GETSingleQueueRes,
   POSTCreateReq,
   POSTCreateRes,
 } from "@lyne/shared-dto";
@@ -54,4 +56,20 @@ export async function deleteQueue(payload: DELETEQueueReq) {
   }
 
   return 200;
+}
+
+export async function getQueue(query: GETSingleQueueReq) {
+  const { hostUrl } = config;
+  const resp = await fetch(
+    `${hostUrl}/api/admin/singleQueue?queueId=${query.queueId}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  if (resp.status !== 200) {
+    throw new Error((await resp.json()).message);
+  }
+  const { queue } = (await resp.json()) as GETSingleQueueRes;
+  return queue;
 }

@@ -3,6 +3,7 @@ import DeleteButton from "./DeleteButton";
 import UserInfoRow from "./UserInfoRow";
 
 import JsonData from "../dashboard2/testData.json";
+import { useState } from "react";
 export default function QueueTable({
   deleteUserEnabled,
   deleteQueueId,
@@ -10,8 +11,7 @@ export default function QueueTable({
   deleteUserEnabled: boolean;
   deleteQueueId: string;
 }) {
-  {
-    /*
+  /*
   const handleDeleteUser = async () => {
     try {
       await postData("http://localhost:5000/api/queue/pop", queueId);
@@ -20,11 +20,7 @@ export default function QueueTable({
     }
   };
 */
-  }
-
-  this.state = {
-    userList: [],
-  };
+  const [userList, setUserList] = useState([]);
 
   const getAllUsers = async (queueId = "") => {
     try {
@@ -32,9 +28,7 @@ export default function QueueTable({
         "http://localhost:5000/api/queue/all",
         queueId,
       );
-      this.setState({
-        userList: data.data,
-      });
+      setUserList(data.data);
     } catch (err) {
       console.log("Error: ", err);
     }
@@ -55,7 +49,7 @@ export default function QueueTable({
     return response.json(); // parses JSON response into native JavaScript objects
   };
 
-  const DisplayData = this.state.userList.map((info, index) => {
+  const DisplayData = userList.map((info, index) => {
     getAllUsers(deleteQueueId);
     return (
       <UserInfoRow
