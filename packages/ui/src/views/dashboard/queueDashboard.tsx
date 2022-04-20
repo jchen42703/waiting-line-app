@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import QueueTable from "../../components/dashboard2/QueueTable";
-import JsonData from "../../components/dashboard2/testData.json";
-import DeleteButton from "../../components/dashboard2/DeleteButton";
 import AdminNavBar from "../../components/AdminNavBar";
 import { getQueue } from "../../lib/services/queue.service";
 import { IQueue } from "@lyne/shared-dto";
 import BackButton from "../../components/BackButton";
+import { popUser } from "../../lib/services/user.service";
 
 export default function QueueDashboard() {
   let { queueId } = useParams();
@@ -24,6 +23,8 @@ export default function QueueDashboard() {
     queue: undefined,
   });
 
+  const [poppedUser, setPoppedUser] = useState({});
+
   // let queueData = JsonData;
   // let firstUser = queueData[0]["userId"]; // needs to be changed, prob unnecessary
   console.log(queueId);
@@ -35,35 +36,20 @@ export default function QueueDashboard() {
 
   const handleNextUser = async () => {
     try {
-      await postData("http://localhost:5000/api/queue/pop", queueId);
+      const popped = await popUser({ queueId, userId: undefined });
+      setPoppedUser(popped);
     } catch (err) {
       console.log("Error:", err);
     }
   };
 
-  const postData = async (url = "", data = {}) => {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: "POST", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
-    return response.json(); // parses JSON response into native JavaScript objects
-  };
-
   useEffect(() => {
     const initializeQueue = async () => {
       const fetchedQ = await getQueue({ queueId });
-      console.log(fetchedQ);
       setQueue(fetchedQ);
     };
     initializeQueue();
-  }, []);
+  }, [poppedUser]);
 
   return (
     <>
@@ -99,10 +85,7 @@ export default function QueueDashboard() {
             </Button>
           </Flex>
         </Flex>
-        <QueueTable
-          deleteUserEnabled={deleteToggleState}
-          deleteQueueId={queueId}
-        />
+        <QueueTable deleteUserEnabled={deleteToggleState} queueId={queueId} />
       </Flex>
     </>
   );

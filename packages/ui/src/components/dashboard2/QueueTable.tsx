@@ -1,84 +1,31 @@
 import { Button, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
-import DeleteButton from "./DeleteButton";
 import UserInfoRow from "./UserInfoRow";
 
-import JsonData from "../dashboard2/testData.json";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getAllUsers } from "../../lib/services/user.service";
+import { IUser } from "@lyne/shared-dto";
+
 export default function QueueTable({
   deleteUserEnabled,
-  deleteQueueId,
+  queueId,
 }: {
   deleteUserEnabled: boolean;
-  deleteQueueId: string;
+  queueId: string;
 }) {
-  /*
-  const handleDeleteUser = async () => {
-    try {
-      await postData("http://localhost:5000/api/queue/pop", queueId);
-    } catch (err) {
-      console.log("Error: ", err);
-    }
-  };
-*/
-  const [userList, setUserList] = useState([]);
+  const [userList, setUserList] = useState<IUser[]>([]);
 
-  const getAllUsers = async (queueId = "") => {
+  const setAllUsers = async () => {
     try {
-      const data = await getData(
-        "http://localhost:5000/api/queue/all",
-        queueId,
-      );
-      setUserList(data.data);
+      const users = await getAllUsers({ queueId });
+      setUserList(users.users);
     } catch (err) {
       console.log("Error: ", err);
     }
   };
 
-  const getData = async (url = "", data = {}) => {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: "GET", // *GET, POST, PUT, DELETE, etc.
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
-    return response.json(); // parses JSON response into native JavaScript objects
-  };
-
-  const DisplayData = userList.map((info, index) => {
-    getAllUsers(deleteQueueId);
-    return (
-      <UserInfoRow
-        key={info.userId}
-        userPlace={index + 1}
-        userName={info.name}
-        userPhoneNumber={info.phoneNumber}
-        userJoinQTime={info.joinQTime}
-        deleteUserId={info.userId}
-        toggleDeleteUser={this.deleteUserEnabled}
-        deleteQueueId={this.deleteQueueId}
-      ></UserInfoRow>
-      /*
-      <Tr>
-        <Td>{index + 1}</Td>
-        <Td>{info.name}</Td>
-        <Td>{info.phoneNumber}</Td>
-        <Td>{info.joinQTime}</Td>
-        <Td>
-          <DeleteButton
-            deleteUserEnabled={this.deleteUserEnabled}
-            deleteUserId={info.userId}
-            deleteQueueId={this.deleteQueueId}
-          ></DeleteButton>
-        </Td>
-      </Tr>
-      */
-    );
-  });
+  useEffect(() => {
+    setAllUsers();
+  }, []);
 
   return (
     <div>
@@ -92,7 +39,25 @@ export default function QueueTable({
             <Th>{deleteUserEnabled ? "" : "Delete User"}</Th>
           </Tr>
         </Thead>
-        <Tbody>{DisplayData}</Tbody>
+        <Tbody>
+          {userList.map(({ userId, name, phoneNumber, joinQTime }, index) => {
+            if (!userId) {
+              return <></>;
+            }
+            return (
+              <UserInfoRow
+                key={userId}
+                userPlace={index + 1}
+                userName={name}
+                userPhoneNumber={phoneNumber}
+                userJoinQTime={joinQTime.toString()}
+                deleteUserId={userId}
+                toggleDeleteUser={deleteUserEnabled}
+                deleteQueueId={queueId}
+              ></UserInfoRow>
+            );
+          })}
+        </Tbody>
       </Table>
     </div>
   );
