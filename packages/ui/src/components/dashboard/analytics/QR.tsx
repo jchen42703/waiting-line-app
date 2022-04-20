@@ -48,14 +48,17 @@ export const QR = () => {
 
     return (
       <>
-        <Button
-          onClick={onOpen}
-          leftIcon={<IoMdAddCircleOutline />}
-          bg="#ADD8E6"
-          variant="solid"
-        >
-          Generate QRCode
-        </Button>
+        <Box pb="8%">
+          <Button
+            onClick={onOpen}
+            leftIcon={<IoMdAddCircleOutline />}
+            bg="#ADD8E6"
+            variant="solid"
+            size="sm"
+          >
+            Generate QRCode
+          </Button>
+        </Box>
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
@@ -81,12 +84,12 @@ export const QR = () => {
   };
 
   return (
-    <Box boxShadow="xs" w="80%" h="100%" rounded="md">
-      <VStack pt="25%" spacing="2%">
+    <Box boxShadow="xs" w="80%" rounded="md">
+      <VStack mt="12%" pt="3%" spacing="2%">
         <Heading fontSize={"2xl"}>Share Link</Heading>
         <Image boxSize="150" src={qrImage}></Image>
         <HStack pt="5%">
-          <Flex>
+          <Flex pb="5%">
             <Input value={url} borderRadius="0px" isReadOnly w="80%"></Input>
             <Button bg="#ADD8E6" borderRadius="0px" onClick={onCopy}>
               {hasCopied ? "Copied" : "Copy"}
