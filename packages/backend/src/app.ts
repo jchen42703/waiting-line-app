@@ -10,7 +10,7 @@ import { oneDay, oneMinute, oneWeek } from "./lib/time";
 
 const allowedOrigin =
   process.env.NODE_ENV === "production"
-    ? "https://waitinglyne.com"
+    ? "https://waitinglyne.org"
     : "http://localhost:3000";
 
 export function createMainServer() {
