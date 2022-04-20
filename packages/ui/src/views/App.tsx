@@ -42,16 +42,12 @@ export default function App() {
             element={<AuthGuard protectedElement={<Dashboard />} />}
           />
           <Route
-            path="dashboard/:queueId"
+            path="dashboard/users/:queueId"
             element={<AuthGuard protectedElement={<QueueDashboard />} />}
           />
           <Route
             path="dashboard/queue/:queueId"
             element={<AuthGuard protectedElement={<AnalyticsDashboard />} />}
-          />
-          <Route
-            path="settings"
-            element={<AuthGuard protectedElement={<SettingsPage />} />}
           />
         </Routes>{" "}
       </BrowserRouter>

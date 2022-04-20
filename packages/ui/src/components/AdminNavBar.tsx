@@ -39,7 +39,8 @@ export default function AdminNavBar() {
   const location = useLocation();
 
   if (
-    location.pathname.match("/users/*") ||
+    // ^/users to not match /dashboard/users/
+    location.pathname.match("^/users/*") ||
     location.pathname.match("/login/*")
   ) {
     return null;
