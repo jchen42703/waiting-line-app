@@ -4,13 +4,15 @@ import { IUser } from "@lyne/shared-dto";
 import { UserInfoProps, UserInfoRow } from "./UserInfoRow";
 
 const UserTable = ({
+  queueId,
   userList,
   canDelete,
   onDelete,
 }: {
+  queueId: string;
   userList: IUser[];
   canDelete: boolean;
-  onDelete: () => void;
+  onDelete: (userId: string, queueId: string) => void;
 }) => {
   return (
     <>
@@ -38,6 +40,8 @@ const UserTable = ({
                 index,
               ) => {
                 const opts: UserInfoProps = {
+                  userId,
+                  queueId,
                   name,
                   email,
                   place: index + 1,

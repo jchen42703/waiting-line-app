@@ -12,18 +12,20 @@ import {
 import CenteredTableCell from "../tables/CenteredTableCell";
 
 export interface UserInfoProps {
+  userId: string;
+  queueId: string;
   place: number;
   name: string;
   email: string;
   phoneNumber: string;
   joinQTime: number;
-  // userId: string;
-  // queueId: string;
   canDelete: boolean;
-  onDelete: () => void;
+  onDelete: (userId: string, queueId: string) => void;
 }
 
 export function UserInfoRow({
+  userId,
+  queueId,
   place,
   name,
   email,
@@ -44,7 +46,10 @@ export function UserInfoRow({
     : "N/A";
 
   return (
-    <Tr>
+    <Tr
+      className="cursor-pointer hover:bg-slate-400 active:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-300"
+      onClick={() => onDelete(userId, queueId)}
+    >
       <CenteredTableCell text={place.toString()}></CenteredTableCell>
       <CenteredTableCell text={name}></CenteredTableCell>
       <CenteredTableCell text={email}></CenteredTableCell>
@@ -59,13 +64,10 @@ export function UserInfoRow({
               height={"100%"}
               _hover={{ bg: "transparent" }}
               _active={{ bg: "transparent" }}
-              onClick={onDelete}
             ></CloseButton>
           </Flex>
         ) : (
           <></>
-          // <h1>do something</h1>
-          // <StatusCircle status={status}></StatusCircle>
         )}
       </Td>
     </Tr>

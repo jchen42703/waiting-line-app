@@ -2,23 +2,19 @@ import {
   Button,
   Flex,
   TableContainer,
-  Text,
-  useDisclosure,
   useBoolean,
   Heading,
 } from "@chakra-ui/react";
-import { IQueue, IUser } from "@lyne/shared-dto";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { IQueue } from "@lyne/shared-dto";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getQueue } from "../../lib/services/queue.service";
-import { getAllUsers, popUser } from "../../lib/services/user.service";
+import { popUser } from "../../lib/services/user.service";
 import BackButton from "../BackButton";
 import UserTable from "./UserTable";
 
 const UserTableManager = () => {
   let { queueId } = useParams();
-
-  const navigate = useNavigate();
 
   const [queue, setQueue] = useState<IQueue>({
     queueId,
@@ -29,10 +25,9 @@ const UserTableManager = () => {
     liveTime: undefined,
     closeTime: undefined,
     repeatCycle: undefined,
-    queue: undefined,
+    queue: [],
   });
 
-  const [poppedUser, setPoppedUser] = useState({});
   const [canDelete, toggleCanDelete] = useBoolean(false);
 
   // The callback used to delete a user
@@ -40,38 +35,22 @@ const UserTableManager = () => {
     console.log("debug onDelete");
   };
 
-  useEffect(() => {
-    const initializeQueue = async () => {
-      const fetchedQ = await getQueue({ queueId });
-      setQueue(fetchedQ);
-    };
-    initializeQueue();
-  }, [poppedUser]);
-
-  const [userList, setUserList] = useState<IUser[]>([]);
+  const refreshQueue = async () => {
+    const fetchedQ = await getQueue({ queueId });
+    setQueue(fetchedQ);
+  };
 
   const nextUser = async () => {
     try {
       const popped = await popUser({ queueId, userId: undefined });
-      setPoppedUser(popped);
-      navigate(0);
+      await refreshQueue();
     } catch (err) {
       console.log("Error:", err);
-    }
-    // navigate
-  };
-
-  const setAllUsers = async () => {
-    try {
-      const users = await getAllUsers({ queueId });
-      setUserList(users.users);
-    } catch (err) {
-      console.log("Error: ", err);
     }
   };
 
   useEffect(() => {
-    setAllUsers();
+    refreshQueue();
   }, []);
 
   return (
@@ -105,7 +84,8 @@ const UserTableManager = () => {
           </Flex>
         </Flex>
         <UserTable
-          userList={userList}
+          queueId={queueId}
+          userList={queue.queue}
           canDelete={canDelete}
           onDelete={onDelete}
         ></UserTable>
