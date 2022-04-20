@@ -46,7 +46,7 @@ const UsersTable = ({ queuedUsers }) => {
 
 const QueueListWidget = ({ queuedUsers }) => {
   return (
-    <Box boxShadow="xs" rounded="lg" bg="white" height="100%" w="90%">
+    <Box boxShadow="xs" rounded="lg" bg="white" height="100%" w="100%">
       <VStack>
         <Heading pt="5%" pb="5%" fontSize={"2xl"}>
           Users

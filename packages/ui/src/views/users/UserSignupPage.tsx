@@ -54,7 +54,7 @@ export default function UserSignupPage() {
     const data = {
       queueId,
       name: formData.name,
-      mail: formData.email,
+      email: formData.email,
       phoneNumber: formData.phone,
     };
 
@@ -83,7 +83,7 @@ export default function UserSignupPage() {
           shouldRedirect: true,
           userId: respBody.userId,
           name: data.name,
-          mail: data.mail,
+          mail: data.email,
           phone: data.phoneNumber,
         });
       }
