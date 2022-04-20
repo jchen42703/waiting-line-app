@@ -1,15 +1,6 @@
-import {
-  Box,
-  Button,
-  Flex,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Tbody,
-} from "@chakra-ui/react";
+import { Box, Table, Thead, Tr, Tbody } from "@chakra-ui/react";
 import TableHeader from "../../components/tables/TableHeader";
-import { IQueue, IUser } from "@lyne/shared-dto";
+import { IUser } from "@lyne/shared-dto";
 import { UserInfoProps, UserInfoRow } from "./UserInfoRow";
 
 const UserTable = ({
@@ -34,6 +25,7 @@ const UserTable = ({
             <Tr>
               <TableHeader text="Place"></TableHeader>
               <TableHeader text="Name"></TableHeader>
+              <TableHeader text="Email"></TableHeader>
               <TableHeader text="Phone Number"></TableHeader>
               <TableHeader text="Join Time"></TableHeader>
               <TableHeader text="Action"></TableHeader>
@@ -42,24 +34,12 @@ const UserTable = ({
           <Tbody>
             {userList.map(
               (
-                {
-                  userId,
-                  name,
-                  email,
-                  phoneNumber,
-                  joinQTime,
-                }: // queueId,
-                // queueName,
-                // queue,
-                // timeCreated,
-                // repeatCycle,
-                // liveTime,
-                // closeTime,
-                IUser,
+                { userId, name, email, phoneNumber, joinQTime }: IUser,
                 index,
               ) => {
                 const opts: UserInfoProps = {
                   name,
+                  email,
                   place: index + 1,
                   phoneNumber,
                   joinQTime,

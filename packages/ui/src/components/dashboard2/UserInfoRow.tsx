@@ -10,11 +10,11 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import CenteredTableCell from "../tables/CenteredTableCell";
-import DeleteButton from "./DeleteButton";
 
 export interface UserInfoProps {
   place: number;
   name: string;
+  email: string;
   phoneNumber: string;
   joinQTime: number;
   // userId: string;
@@ -26,6 +26,7 @@ export interface UserInfoProps {
 export function UserInfoRow({
   place,
   name,
+  email,
   phoneNumber,
   joinQTime,
   canDelete,
@@ -46,6 +47,7 @@ export function UserInfoRow({
     <Tr>
       <CenteredTableCell text={place.toString()}></CenteredTableCell>
       <CenteredTableCell text={name}></CenteredTableCell>
+      <CenteredTableCell text={email}></CenteredTableCell>
       <CenteredTableCell text={phoneNumber}></CenteredTableCell>
       <CenteredTableCell text={joinDate}></CenteredTableCell>
       <Td>
