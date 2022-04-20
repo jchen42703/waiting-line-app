@@ -61,7 +61,9 @@ const QueueTableManager = () => {
             <Button marginRight={"5"} onClick={onOpen}>
               Create Queue
             </Button>
-            <Button onClick={toggleCanDelete.toggle}>Delete Queue</Button>
+            <Button onClick={toggleCanDelete.toggle}>
+              {canDelete ? "Cancel" : "Delete Queue"}
+            </Button>
           </Flex>
         </Flex>
         <AllQueuesTable

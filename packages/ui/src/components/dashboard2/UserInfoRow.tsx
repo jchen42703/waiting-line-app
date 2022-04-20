@@ -1,35 +1,70 @@
-import { Button, Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import {
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  CloseButton,
+  Flex,
+} from "@chakra-ui/react";
+import CenteredTableCell from "../tables/CenteredTableCell";
 import DeleteButton from "./DeleteButton";
 
-export default function UserInfoRow({
-  userPlace,
-  userName,
-  userPhoneNumber,
-  userJoinQTime,
-  deleteUserId,
-  deleteQueueId,
-  toggleDeleteUser,
-}: {
-  userPlace: number;
-  userName: string;
-  userPhoneNumber: string;
-  userJoinQTime: string;
-  deleteUserId: string;
-  deleteQueueId: string;
-  toggleDeleteUser: boolean;
-}) {
+export interface UserInfoProps {
+  place: number;
+  name: string;
+  phoneNumber: string;
+  joinQTime: number;
+  // userId: string;
+  // queueId: string;
+  canDelete: boolean;
+  onDelete: () => void;
+}
+
+export function UserInfoRow({
+  place,
+  name,
+  phoneNumber,
+  joinQTime,
+  canDelete,
+  onDelete,
+}: UserInfoProps) {
+  const joinDate = joinQTime
+    ? new Date(joinQTime).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+      })
+    : "N/A";
+
   return (
     <Tr>
-      <Td>{userPlace}</Td>
-      <Td>{userName}</Td>
-      <Td>{userPhoneNumber}</Td>
-      <Td>{userJoinQTime}</Td>
+      <CenteredTableCell text={place.toString()}></CenteredTableCell>
+      <CenteredTableCell text={name}></CenteredTableCell>
+      <CenteredTableCell text={phoneNumber}></CenteredTableCell>
+      <CenteredTableCell text={joinDate}></CenteredTableCell>
       <Td>
-        <DeleteButton
-          deleteUserEnabled={toggleDeleteUser}
-          deleteUserId={deleteUserId}
-          deleteQueueId={deleteQueueId}
-        ></DeleteButton>
+        {canDelete ? (
+          <Flex justifyContent="center" alignItems={"center"}>
+            <CloseButton
+              size={"sm"}
+              width={"100%"}
+              height={"100%"}
+              _hover={{ bg: "transparent" }}
+              _active={{ bg: "transparent" }}
+              onClick={onDelete}
+            ></CloseButton>
+          </Flex>
+        ) : (
+          <></>
+          // <h1>do something</h1>
+          // <StatusCircle status={status}></StatusCircle>
+        )}
       </Td>
     </Tr>
   );
