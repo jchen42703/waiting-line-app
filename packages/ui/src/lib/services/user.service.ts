@@ -1,4 +1,11 @@
-import { GETAllReq, GETAllRes, POSTPopReq, POSTPopRes } from "@lyne/shared-dto";
+import {
+  DELETEDeleteUserReq,
+  DELETEDeleteUserRes,
+  GETAllReq,
+  GETAllRes,
+  POSTPopReq,
+  POSTPopRes,
+} from "@lyne/shared-dto";
 import { config } from "../config";
 
 export const getAllUsers = async (payload: GETAllReq) => {
@@ -29,4 +36,18 @@ export const popUser = async (payload: POSTPopReq) => {
   });
   const respBody = await resp.json();
   return respBody as POSTPopRes;
+};
+
+export const deleteUser = async (payload: DELETEDeleteUserReq) => {
+  const { hostUrl } = config;
+  const resp = await fetch(`${hostUrl}/api/queue/deleteUser`, {
+    method: "DELETE",
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+  const respBody = await resp.json();
+  return respBody as DELETEDeleteUserRes;
 };

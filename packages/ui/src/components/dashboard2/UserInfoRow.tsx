@@ -20,7 +20,7 @@ export interface UserInfoProps {
   phoneNumber: string;
   joinQTime: number;
   canDelete: boolean;
-  onDelete: (userId: string, queueId: string) => void;
+  onDelete: (userId: string, name: string) => void;
 }
 
 export function UserInfoRow({
@@ -48,7 +48,7 @@ export function UserInfoRow({
   return (
     <Tr
       className="cursor-pointer hover:bg-slate-400 active:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-300"
-      onClick={() => onDelete(userId, queueId)}
+      onClick={() => onDelete(userId, name)}
     >
       <CenteredTableCell text={place.toString()}></CenteredTableCell>
       <CenteredTableCell text={name}></CenteredTableCell>

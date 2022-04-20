@@ -12,7 +12,7 @@ const UserTable = ({
   queueId: string;
   userList: IUser[];
   canDelete: boolean;
-  onDelete: (userId: string, queueId: string) => void;
+  onDelete: (userId: string, name: string) => void;
 }) => {
   return (
     <>

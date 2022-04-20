@@ -4,17 +4,20 @@ import {
   TableContainer,
   useBoolean,
   Heading,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { IQueue } from "@lyne/shared-dto";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getQueue } from "../../lib/services/queue.service";
 import { popUser } from "../../lib/services/user.service";
 import BackButton from "../BackButton";
+import DeleteUserModal from "./DeleteUserModal";
 import UserTable from "./UserTable";
 
 const UserTableManager = () => {
   let { queueId } = useParams();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [queue, setQueue] = useState<IQueue>({
     queueId,
@@ -29,20 +32,28 @@ const UserTableManager = () => {
   });
 
   const [canDelete, toggleCanDelete] = useBoolean(false);
+  const toDeleteUserId = useRef("");
+  const toDeleteUserName = useRef("");
 
-  // The callback used to delete a user
-  const onDelete = () => {
+  // The callback used to open the modal to delete the user
+  const onDelete = (userId: string, userName: string) => {
     console.log("debug onDelete");
+    toDeleteUserId.current = userId;
+    toDeleteUserName.current = userName;
+    onOpen();
   };
 
   const refreshQueue = async () => {
     const fetchedQ = await getQueue({ queueId });
+    if (!fetchedQ.queue) {
+      fetchedQ.queue = [];
+    }
     setQueue(fetchedQ);
   };
 
   const nextUser = async () => {
     try {
-      const popped = await popUser({ queueId, userId: undefined });
+      await popUser({ queueId, userId: undefined });
       await refreshQueue();
     } catch (err) {
       console.log("Error:", err);
@@ -55,6 +66,13 @@ const UserTableManager = () => {
 
   return (
     <>
+      <DeleteUserModal
+        isOpen={isOpen}
+        onClose={onClose}
+        queueId={queueId}
+        userId={toDeleteUserId.current}
+        name={toDeleteUserName.current}
+      ></DeleteUserModal>
       <TableContainer minHeight={"80vh"} marginX={"16"} marginBottom="16">
         <Flex flexDir={"row"} justifyContent={"center"} alignItems={"center"}>
           <BackButton></BackButton>
