@@ -343,20 +343,15 @@ function createQueueRouter() {
 
       // 3. Only extract queueId for the adminId
       const adminId = req.user._id;
-      // Finding a queue with the specified queueId + the specified adminId
-      // Then delete a user with userId in that queue
-      // Then return the new queue.
       const newQueue: IQueue = await Queue.findOneAndUpdate(
         { queueId, adminId },
-        { $pull: { userId } },
+        { $pull: { queue: { userId } } },
         { new: true },
       );
 
-      // Check:
-      // 1. what happens when userId is invalid for a specified admin/queue
-      // - then what is the value of newQueue? And return an error if newQueue is invalid
-      // 2. what happens when queueId is invalid for a specified admin
-      // - then what is the value of newQueue? And return an error if newQueue is invalid
+      if (newQueue === null) {
+        return next(new HttpException(400, "QueueId or UserId is invalid"));
+      }
 
       res.json({ queue: newQueue });
     },
