@@ -7,6 +7,7 @@ export const userSchema = new Schema({
   email: String,
   phoneNumber: String,
   exitQTime: Number,
+  status: String,
 });
 
 export const User = model("User", userSchema);
