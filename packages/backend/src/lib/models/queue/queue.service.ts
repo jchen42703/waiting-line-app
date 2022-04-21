@@ -73,9 +73,48 @@ async function getAllUsers(queueId: string, adminId: string) {
  */
 async function getUserProgress(queueId: string, userId: string) {
   const qDoc: IQueue = await getQueue({ queueId });
-  const qLength: number = qDoc.queue.length;
+  // Check ban list
   let currPlace = -1;
   let userStatus: UserInQueueStatus;
+  const banListLength = qDoc.bannedUsers.length;
+  for (let i = 0; i < banListLength; i++) {
+    const qDocUser: IUser = qDoc.bannedUsers[i];
+    if (qDocUser.userId === userId) {
+      currPlace = i + 1; // + 1 because i is 0 indexed
+      userStatus = qDocUser.status;
+      break;
+    }
+  }
+
+  if (userStatus === "banned") {
+    return {
+      currPlace: -1,
+      qLength: qDoc.queue.length,
+      userStatus,
+    };
+  }
+
+  // Check popped list
+  const popListLength = qDoc.poppedUsers.length;
+  for (let i = 0; i < popListLength; i++) {
+    const qDocUser: IUser = qDoc.poppedUsers[i];
+    if (qDocUser.userId === userId) {
+      currPlace = i + 1; // + 1 because i is 0 indexed
+      userStatus = qDocUser.status;
+      break;
+    }
+  }
+
+  if (userStatus === "popped") {
+    return {
+      currPlace: -1,
+      qLength: qDoc.queue.length,
+      userStatus,
+    };
+  }
+
+  // Check queue
+  const qLength: number = qDoc.queue.length;
   // Get the user's current spot in line
   for (let i = 0; i < qLength; i++) {
     const qDocUser: IUser = qDoc.queue[i];
@@ -147,7 +186,27 @@ const getAllQueuesForAdmin = async (adminId: string) => {
   return admin;
 };
 
+const addToPoppedList = async (
+  queueId: string,
+  adminId: string,
+  user: IUser,
+) => {
+  const outDoc = await Queue.findOneAndUpdate(
+    {
+      queueId,
+      adminId,
+    },
+    {
+      $push: {
+        poppedUsers: user,
+      },
+    },
+  );
+  return outDoc;
+};
+
 export {
+  addToPoppedList,
   addUserToQueue,
   deleteQueue,
   editQueueMetadata,

@@ -39,6 +39,8 @@ export interface IQueue {
   repeatCycle: RepeatCycle | null;
   // users in queue
   queue: IUser[];
+  poppedUsers: IUser[];
+  bannedUsers: IUser[];
 }
 
 export interface IAdmin {

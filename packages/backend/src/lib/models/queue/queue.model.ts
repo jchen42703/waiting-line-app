@@ -13,6 +13,8 @@ export const queueSchema = new Schema(
     repeatCycle: String,
     adminId: String,
     queue: [userSchema],
+    poppedUsers: [userSchema],
+    bannedUsers: [userSchema],
   },
   { collection: "queues" },
 );
