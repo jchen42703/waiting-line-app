@@ -1,4 +1,4 @@
-import { Tr, Td, CloseButton, Flex } from "@chakra-ui/react";
+import { Tr, Td, Button, CloseButton, Flex } from "@chakra-ui/react";
 import CenteredTableCell from "../../tables/CenteredTableCell";
 
 export interface UserInfoProps {
@@ -10,6 +10,7 @@ export interface UserInfoProps {
   joinQTime: number;
   canDelete: boolean;
   onDelete: (userId: string, name: string) => void;
+  onNotify: (userId: string) => void;
 }
 
 export function UserInfoRow({
@@ -21,6 +22,7 @@ export function UserInfoRow({
   joinQTime,
   canDelete,
   onDelete,
+  onNotify,
 }: UserInfoProps) {
   const joinDate = joinQTime
     ? new Date(joinQTime).toLocaleDateString("en-US", {
@@ -38,7 +40,7 @@ export function UserInfoRow({
       return onDelete(userId, name);
     }
 
-    return;
+    return onNotify(userId);
   };
 
   return (
@@ -63,7 +65,7 @@ export function UserInfoRow({
             ></CloseButton>
           </Flex>
         ) : (
-          <></>
+          <Button>Notify</Button>
         )}
       </Td>
     </Tr>
