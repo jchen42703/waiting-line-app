@@ -28,6 +28,7 @@ import {
   getAllUsers,
   deleteQueue,
   editQueueMetadata,
+  addToPoppedList,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -83,6 +84,8 @@ function createQueueRouter() {
           repeatCycle,
           adminId,
           queue: [],
+          poppedUsers: [],
+          bannedUsers: [],
         });
       } catch {
         return next(new HttpException(500, `Could not create queue`));
@@ -256,6 +259,18 @@ function createQueueRouter() {
 
         // sucess
         const poppedUser: IUser = poppedFromQ.queue[0];
+        poppedUser.status = "popped";
+        // get progress will search this list
+        const out = await addToPoppedList(queueId, adminId, poppedUser);
+        if (!out) {
+          return next(
+            new HttpException(
+              500,
+              `Could not pop for user ${poppedUser.userId}`,
+            ),
+          );
+        }
+
         return res.json({ userId: poppedUser.userId });
       } catch (e) {
         return next(new HttpException(500, `Could not pop for ${queueId}`));
