@@ -5,12 +5,13 @@ import {
   useBoolean,
   Heading,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { IQueue } from "@lyne/shared-dto";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getQueue } from "../../../lib/services/queue.service";
-import { popUser } from "../../../lib/services/user.service";
+import { notifyUser, popUser } from "../../../lib/services/user.service";
 import BackButton from "../../BackButton";
 import DeleteUserModal from "./DeleteUserModal";
 import UserTable from "./UserTable";
@@ -18,6 +19,7 @@ import UserTable from "./UserTable";
 const UserTableManager = () => {
   let { queueId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
   const [queue, setQueue] = useState<IQueue>({
     queueId,
@@ -41,6 +43,20 @@ const UserTableManager = () => {
     toDeleteUserId.current = userId;
     toDeleteUserName.current = userName;
     onOpen();
+  };
+
+  const onNotify = async (userId: string) => {
+    const success = await notifyUser({ queueId, userId });
+    if (!success) {
+      toast({
+        position: "top",
+        status: "error",
+        description:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   };
 
   const refreshQueue = async () => {
@@ -110,6 +126,7 @@ const UserTableManager = () => {
           userList={queue.queue}
           canDelete={canDelete}
           onDelete={onDelete}
+          onNotify={onNotify}
         ></UserTable>
       </TableContainer>
     </>

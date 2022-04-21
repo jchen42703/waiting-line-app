@@ -7,10 +7,12 @@ const UserTable = ({
   userList,
   canDelete,
   onDelete,
+  onNotify,
 }: {
   userList: IUser[];
   canDelete: boolean;
   onDelete: (userId: string, name: string) => void;
+  onNotify: (userId: string) => void;
 }) => {
   return (
     <>
@@ -46,6 +48,7 @@ const UserTable = ({
                   joinQTime,
                   canDelete,
                   onDelete,
+                  onNotify,
                 };
 
                 return <UserInfoRow key={userId} {...opts}></UserInfoRow>;
