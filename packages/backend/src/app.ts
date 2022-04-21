@@ -15,6 +15,8 @@ const allowedOrigin = ["https://waitinglyne.org", "http://localhost:3000"];
 
 export function createMainServer() {
   const app = express();
+  app.enable("trust proxy");
+
   app.use(express.json());
   app.use(
     cors({
