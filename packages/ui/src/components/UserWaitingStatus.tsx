@@ -86,12 +86,15 @@ export default function UserWaitingStatus(props: { joinTime: Date }) {
           case "banned":
             status = "error";
             description = "You have been banned by the queue administrator.";
+            break;
           case "popped":
             status = "success";
             description = "You're up! It's now your turn!";
+            break;
           case "notified":
             status = "warning";
             description = "Heads up! It's almost your turn!";
+            break;
           default:
             status = "error";
             description = "Server error! Please refresh your page.";
@@ -102,7 +105,7 @@ export default function UserWaitingStatus(props: { joinTime: Date }) {
           position: "top",
           status,
           description,
-          duration: 9000,
+          duration: 100 * 100 * 1000,
           isClosable: true,
         });
       }

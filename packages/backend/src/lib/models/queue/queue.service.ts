@@ -78,7 +78,7 @@ async function getUserProgress(queueId: string, userId: string) {
   let userStatus: UserInQueueStatus;
   const banListLength = qDoc.bannedUsers.length;
   for (let i = 0; i < banListLength; i++) {
-    const qDocUser: IUser = qDoc.bannedUsers[i];
+    const qDocUser = qDoc.bannedUsers[i];
     if (qDocUser.userId === userId) {
       currPlace = i + 1; // + 1 because i is 0 indexed
       userStatus = qDocUser.status;
@@ -88,7 +88,7 @@ async function getUserProgress(queueId: string, userId: string) {
 
   if (userStatus === "banned") {
     return {
-      currPlace: -1,
+      currPlace: 0,
       qLength: qDoc.queue.length,
       userStatus,
     };
@@ -97,7 +97,7 @@ async function getUserProgress(queueId: string, userId: string) {
   // Check popped list
   const popListLength = qDoc.poppedUsers.length;
   for (let i = 0; i < popListLength; i++) {
-    const qDocUser: IUser = qDoc.poppedUsers[i];
+    const qDocUser = qDoc.poppedUsers[i];
     if (qDocUser.userId === userId) {
       currPlace = i + 1; // + 1 because i is 0 indexed
       userStatus = qDocUser.status;
@@ -107,7 +107,7 @@ async function getUserProgress(queueId: string, userId: string) {
 
   if (userStatus === "popped") {
     return {
-      currPlace: -1,
+      currPlace: 0,
       qLength: qDoc.queue.length,
       userStatus,
     };
@@ -117,7 +117,7 @@ async function getUserProgress(queueId: string, userId: string) {
   const qLength: number = qDoc.queue.length;
   // Get the user's current spot in line
   for (let i = 0; i < qLength; i++) {
-    const qDocUser: IUser = qDoc.queue[i];
+    const qDocUser = qDoc.queue[i];
     if (qDocUser.userId === userId) {
       currPlace = i + 1; // + 1 because i is 0 indexed
       userStatus = qDocUser.status;
