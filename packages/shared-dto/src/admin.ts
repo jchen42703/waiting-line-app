@@ -17,4 +17,15 @@ interface GETAdminInfoRes {
   email: string;
 }
 
-export { GETQueueRes, GETSingleQueueReq, GETSingleQueueRes, GETAdminInfoRes };
+interface POSTNotifyUserReq {
+  userId: string;
+  queueId: string;
+}
+
+export {
+  GETQueueRes,
+  GETSingleQueueReq,
+  GETSingleQueueRes,
+  GETAdminInfoRes,
+  POSTNotifyUserReq,
+};

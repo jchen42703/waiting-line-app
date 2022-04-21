@@ -3,10 +3,11 @@ import {
   GETQueueRes,
   GETSingleQueueReq,
   GETSingleQueueRes,
+  POSTNotifyUserReq,
 } from "@lyne/shared-dto";
 import { NextFunction, Request, Response, Router } from "express";
 import { HttpException } from "../lib/errors";
-import { getAllQueuesForAdmin, Queue } from "../lib/models/queue";
+import { getAllQueuesForAdmin, notifyUser, Queue } from "../lib/models/queue";
 
 function createAdminRouter() {
   const adminRouter = Router();
@@ -68,6 +69,41 @@ function createAdminRouter() {
         });
       } catch (e) {
         return next(new HttpException(500, `invalid admin session`));
+      }
+    },
+  );
+
+  adminRouter.post(
+    "/notifyUser",
+    async (
+      req: Request<unknown, unknown, POSTNotifyUserReq, unknown>,
+      res: Response<POSTNotifyUserReq, unknown>,
+      next: NextFunction,
+    ) => {
+      const { queueId, userId } = req.body;
+      if (!queueId || typeof queueId !== "string") {
+        return next(new HttpException(400, "queueId must be a string"));
+      }
+
+      if (typeof userId !== "string") {
+        return next(new HttpException(400, "userId must be a string"));
+      }
+
+      const adminId = req.user._id;
+      try {
+        const newQ = await notifyUser(queueId, adminId, userId);
+        if (!newQ || newQ.modifiedCount === 0) {
+          return next(
+            new HttpException(
+              500,
+              `Could not notify user ${userId} for ${queueId}`,
+            ),
+          );
+        }
+
+        return res.sendStatus(200);
+      } catch (e) {
+        return next(new HttpException(500, `Could not pop for ${queueId}`));
       }
     },
   );
