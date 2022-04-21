@@ -205,6 +205,23 @@ const addToPoppedList = async (
   return outDoc;
 };
 
+const notifyUser = async (queueId: string, adminId: string, userId: string) => {
+  const updateResult = await Queue.updateOne(
+    {
+      queueId,
+      adminId,
+      queue: { $elemMatch: { userId } },
+    },
+    {
+      $set: {
+        "queue.$.status": "notified",
+      },
+    },
+    { new: true },
+  );
+  return updateResult;
+};
+
 export {
   addToPoppedList,
   addUserToQueue,
@@ -215,4 +232,5 @@ export {
   popFirstFromQueue,
   getAllUsers,
   getAllQueuesForAdmin,
+  notifyUser,
 };
