@@ -7,8 +7,9 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
+import { GETProgressRes } from "@lyne/shared-dto";
 import { config } from "../lib/config";
 
 export default function UserWaitingStatus(props: { joinTime: Date }) {
@@ -24,6 +25,8 @@ export default function UserWaitingStatus(props: { joinTime: Date }) {
     estWaitingTime: 15,
     waitingTimeJoined: props.joinTime.toLocaleString("en-US"),
   });
+
+  const userQStatus = useRef("waiting");
 
   var lastUpdated = new Date();
 
@@ -63,7 +66,7 @@ export default function UserWaitingStatus(props: { joinTime: Date }) {
           "Content-Type": "application/json",
         },
       });
-      const respBody = await resp.json();
+      const respBody = (await resp.json()) as GETProgressRes;
 
       setStatus({
         placeInQ: respBody.currPlace,
@@ -71,6 +74,38 @@ export default function UserWaitingStatus(props: { joinTime: Date }) {
         estWaitingTime: 15,
         waitingTimeJoined: props.joinTime.toLocaleString("en-US"),
       });
+
+      // On status change, push a toast notification.
+      if (userQStatus.current !== respBody.status) {
+        userQStatus.current = respBody.status;
+        let status: "error" | "success" | "warning" | "info";
+        let description: string;
+        switch (userQStatus.current) {
+          case "waiting":
+            break;
+          case "banned":
+            status = "error";
+            description = "You have been banned by the queue administrator.";
+          case "popped":
+            status = "success";
+            description = "You're up! It's now your turn!";
+          case "notified":
+            status = "warning";
+            description = "Heads up! It's almost your turn!";
+          default:
+            status = "error";
+            description = "Server error! Please refresh your page.";
+            break;
+        }
+
+        toast({
+          position: "top",
+          status,
+          description,
+          duration: 9000,
+          isClosable: true,
+        });
+      }
 
       console.log("respbody: ", respBody);
     } catch (e) {
