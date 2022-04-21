@@ -33,6 +33,10 @@ export function createMainServer() {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
         maxAge: oneDay,
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "https://waitinglyne.org"
+            : undefined,
       },
       store: MongoStore.create({
         mongoUrl: process.env.MONGO_URI,
