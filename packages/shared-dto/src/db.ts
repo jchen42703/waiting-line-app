@@ -1,3 +1,10 @@
+export type UserInQueueStatus =
+  | "banned"
+  | "notified"
+  | "popped"
+  | "deleted"
+  | "waiting";
+
 export interface IUser {
   userId: string;
   // user metadata
@@ -5,6 +12,7 @@ export interface IUser {
   email: string;
   phoneNumber: string;
   joinQTime: number;
+  status: UserInQueueStatus;
 }
 
 export enum RepeatCycle {

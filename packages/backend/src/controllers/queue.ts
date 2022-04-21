@@ -213,6 +213,7 @@ function createQueueRouter() {
         name,
         email,
         phoneNumber,
+        status: "waiting",
       };
 
       try {
@@ -273,7 +274,10 @@ function createQueueRouter() {
       const { queueId, userId } = req.query;
       // Gets the queue that the queried user should be in
       try {
-        const { currPlace, qLength } = await getUserProgress(queueId, userId);
+        const { currPlace, qLength, userStatus } = await getUserProgress(
+          queueId,
+          userId,
+        );
 
         if (currPlace === -1) {
           return next(
@@ -289,6 +293,7 @@ function createQueueRouter() {
           queueId,
           currPlace,
           total: qLength,
+          status: userStatus,
         });
       } catch (e) {
         return next(new HttpException(500, `invalid queueId`));
