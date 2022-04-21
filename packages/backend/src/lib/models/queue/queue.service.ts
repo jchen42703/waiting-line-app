@@ -1,4 +1,9 @@
-import { IQueue, IUser, RepeatCycle } from "@lyne/shared-dto";
+import {
+  IQueue,
+  IUser,
+  RepeatCycle,
+  UserInQueueStatus,
+} from "@lyne/shared-dto";
 import { Queue } from "./queue.model";
 
 /**
@@ -70,11 +75,13 @@ async function getUserProgress(queueId: string, userId: string) {
   const qDoc: IQueue = await getQueue({ queueId });
   const qLength: number = qDoc.queue.length;
   let currPlace = -1;
+  let userStatus: UserInQueueStatus;
   // Get the user's current spot in line
   for (let i = 0; i < qLength; i++) {
     const qDocUser: IUser = qDoc.queue[i];
     if (qDocUser.userId === userId) {
       currPlace = i + 1; // + 1 because i is 0 indexed
+      userStatus = qDocUser.status;
       break;
     }
   }
@@ -82,6 +89,7 @@ async function getUserProgress(queueId: string, userId: string) {
   return {
     currPlace,
     qLength,
+    userStatus,
   };
 }
 

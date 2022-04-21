@@ -1,4 +1,4 @@
-import { IQueue, IUser, RepeatCycle } from "./db";
+import { IQueue, IUser, RepeatCycle, UserInQueueStatus } from "./db";
 
 interface POSTCreateReq {
   queueName: string;
@@ -46,6 +46,7 @@ interface GETProgressRes {
   userId: string;
   currPlace: number;
   total: number;
+  status: UserInQueueStatus;
 }
 
 interface GETAllReq {
