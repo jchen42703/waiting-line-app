@@ -33,10 +33,18 @@ export function UserInfoRow({
       })
     : "N/A";
 
+  const onRowClick = () => {
+    if (canDelete) {
+      return onDelete(userId, name);
+    }
+
+    return;
+  };
+
   return (
     <Tr
       className="cursor-pointer hover:bg-slate-400 active:bg-slate-500 focus:outline-none focus:ring focus:ring-slate-300"
-      onClick={() => onDelete(userId, name)}
+      onClick={() => onRowClick()}
     >
       <CenteredTableCell text={place.toString()}></CenteredTableCell>
       <CenteredTableCell text={name}></CenteredTableCell>
