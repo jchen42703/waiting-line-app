@@ -92,7 +92,9 @@ function createAdminRouter() {
       const adminId = req.user._id;
       try {
         const newQ = await notifyUser(queueId, adminId, userId);
-        if (!newQ || newQ.modifiedCount === 0) {
+        // newQ.modifiedCount === 0 is okay if admin already notified user
+        // TODO: improve the workflow tbh
+        if (!newQ) {
           return next(
             new HttpException(
               500,
