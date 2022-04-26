@@ -29,6 +29,7 @@ import {
   deleteQueue,
   editQueueMetadata,
   addToPoppedList,
+  banUser,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -374,6 +375,39 @@ function createQueueRouter() {
       }
 
       res.json({ queue: newQueue });
+    },
+  );
+
+  queueRouter.post(
+    "/banUser",
+    async (
+      req: Request<unknown, { success: boolean }, DELETEDeleteUserReq, unknown>,
+      res: Response<{ success: boolean }, unknown>,
+      next: NextFunction,
+    ) => {
+      const { queueId, userId } = req.body;
+      if (!queueId) {
+        return next(new HttpException(400, "You need a queueId"));
+      }
+
+      if (!userId) {
+        return next(new HttpException(400, "You need a userId"));
+      }
+      if (typeof queueId !== "string") {
+        return next(new HttpException(400, "QueueId needs to be string"));
+      }
+
+      if (typeof userId !== "string") {
+        return next(new HttpException(400, "userId needs to be string"));
+      }
+
+      const adminId = req.user._id;
+      try {
+        await banUser({ queueId, adminId, userId });
+        return res.json({ success: true });
+      } catch (e) {
+        return next(new HttpException(500, e.message));
+      }
     },
   );
   return queueRouter;

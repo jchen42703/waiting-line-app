@@ -222,9 +222,63 @@ const notifyUser = async (queueId: string, adminId: string, userId: string) => {
   return updateResult;
 };
 
+async function banUser({
+  queueId,
+  adminId,
+  userId,
+}: {
+  queueId: string;
+  adminId: string;
+  userId: string;
+}) {
+  const oldQueue = await Queue.findOneAndUpdate<IQueue>(
+    { queueId, adminId },
+    { $pull: { queue: { userId } } },
+    { new: false },
+  );
+
+  console.log("old q: \n", oldQueue);
+  if (!oldQueue) {
+    throw new Error("queue not found");
+  }
+
+  // Get banned user
+  let bannedUser: IUser;
+  for (const user of oldQueue.queue) {
+    if (user.userId === userId) {
+      bannedUser = user;
+      break;
+    }
+  }
+
+  console.log("banned user: ", bannedUser);
+  if (!bannedUser) {
+    throw new Error("Banning failed");
+  }
+
+  const outDoc = await Queue.findOneAndUpdate<IQueue>(
+    {
+      queueId,
+      adminId,
+    },
+    {
+      $push: {
+        bannedUsers: bannedUser,
+      },
+    },
+  );
+
+  if (!bannedUser) {
+    throw new Error("Adding to ban list failed");
+  }
+
+  return outDoc;
+}
+
 export {
   addToPoppedList,
   addUserToQueue,
+  banUser,
   deleteQueue,
   editQueueMetadata,
   getQueue,
