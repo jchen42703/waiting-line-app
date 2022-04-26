@@ -15,6 +15,7 @@ export const queueSchema = new Schema(
     queue: [userSchema],
     poppedUsers: [userSchema],
     bannedUsers: [userSchema],
+    advanceNotice: Number,
   },
   { collection: "queues" },
 );

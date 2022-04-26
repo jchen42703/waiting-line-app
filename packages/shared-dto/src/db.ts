@@ -41,6 +41,7 @@ export interface IQueue {
   queue: IUser[];
   poppedUsers: IUser[];
   bannedUsers: IUser[];
+  advanceNotice: number;
 }
 
 export interface IAdmin {

@@ -51,8 +51,14 @@ function createQueueRouter() {
         return next(new HttpException(400, "adminId must be a string"));
       }
 
-      const { queueName, description, liveTime, closeTime, repeatCycle } =
-        req.body;
+      const {
+        queueName,
+        description,
+        liveTime,
+        closeTime,
+        repeatCycle,
+        advanceNotice,
+      } = req.body;
 
       if (typeof queueName !== "string") {
         return next(new HttpException(400, "queueName must be a string"));
@@ -88,6 +94,7 @@ function createQueueRouter() {
           queue: [],
           poppedUsers: [],
           bannedUsers: [],
+          advanceNotice,
         });
       } catch {
         return next(new HttpException(500, `Could not create queue`));
