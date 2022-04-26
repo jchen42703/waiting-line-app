@@ -254,6 +254,8 @@ async function banUser({
     throw new Error("Banning failed");
   }
 
+  bannedUser.status = "banned";
+
   const outDoc = await Queue.findOneAndUpdate<IQueue>(
     {
       queueId,

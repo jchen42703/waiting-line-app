@@ -232,6 +232,12 @@ function createQueueRouter() {
         }
       }
 
+      // Check if the queue is open
+      const currTime = Date.now();
+      if (currTime < queue.liveTime || currTime >= queue.closeTime) {
+        return next(new HttpException(401, "queue is not live"));
+      }
+
       // Otherwise, add to queue
       try {
         const qDoc: IQueue = await addUserToQueue({ queueId, user });
