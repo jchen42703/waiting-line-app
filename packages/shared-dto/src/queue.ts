@@ -73,6 +73,7 @@ interface POSTEditQueueReq {
   liveTime?: number;
   closeTime?: number;
   repeatCycle?: RepeatCycle;
+  advanceNotice?: number;
 }
 
 interface POSTEditQueueRes {

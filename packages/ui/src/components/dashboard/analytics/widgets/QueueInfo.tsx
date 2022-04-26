@@ -12,6 +12,8 @@ const QueueInfo = ({ queueInfo }) => {
         <Text>{new Date(queueInfo.liveTime).toLocaleDateString()}</Text>
         <Heading size="md">Close Time</Heading>
         <Text>{new Date(queueInfo.closeTime).toLocaleDateString()}</Text>
+        <Heading size="md">Advance Notice</Heading>
+        <Text>{queueInfo.advanceNotice}</Text>
         <Heading size="md">Repeat Cycle</Heading>
         <Text>{queueInfo.repeatCycle}</Text>
       </VStack>

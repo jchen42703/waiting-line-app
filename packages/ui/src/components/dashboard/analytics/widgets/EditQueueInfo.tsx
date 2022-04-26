@@ -24,6 +24,7 @@ const EditQueueInfo = ({ queueInfo }) => {
     liveTime: "",
     repeatCycle: "",
     closeTime: "",
+    advanceNotice: "",
   });
 
   // update the inputs
@@ -33,12 +34,17 @@ const EditQueueInfo = ({ queueInfo }) => {
     } else {
       setInputs({ ...inputs, [e.target.name]: e.target.value });
     }
-
-    console.log(inputs);
   };
 
   // parse inputs
-  const { queueName, description, liveTime, repeatCycle, closeTime } = inputs;
+  const {
+    queueName,
+    description,
+    liveTime,
+    repeatCycle,
+    closeTime,
+    advanceNotice,
+  } = inputs;
 
   // update info
   const onSubmitForm = async (e) => {
@@ -49,6 +55,15 @@ const EditQueueInfo = ({ queueInfo }) => {
         toast({
           title: "Invalid changes!",
           description: "Live time can't be greater than close time",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+      if (Number(advanceNotice) > queueInfo.queue.length) {
+        toast({
+          title: "Invalid changes!",
+          description: "Advance notice is greater than number of users",
           status: "error",
           duration: 2000,
           isClosable: true,
@@ -65,6 +80,7 @@ const EditQueueInfo = ({ queueInfo }) => {
           closeTime:
             new Date(closeTime.replace("-", "/")).getTime() ||
             queueInfo.closeTime,
+          advanceNotice: Number(advanceNotice),
         };
 
         console.log(newQueue);
@@ -108,7 +124,6 @@ const EditQueueInfo = ({ queueInfo }) => {
           </Heading>
           <Textarea
             fontWeight="bold"
-            isRequired
             textAlign="center"
             variant="unstyled"
             defaultValue={queueInfo.description}
@@ -122,7 +137,6 @@ const EditQueueInfo = ({ queueInfo }) => {
           </Heading>
           <Input
             fontWeight="bold"
-            isRequired
             textAlign="center"
             variant="unstyled"
             type="date"
@@ -137,11 +151,23 @@ const EditQueueInfo = ({ queueInfo }) => {
           <Input
             textAlign="center"
             variant="unstyled"
-            isRequired
             fontWeight="bold"
             pb="2%"
             type="date"
             name="closeTime"
+            onChange={(e) => onChange(e)}
+          />
+          <Heading fontSize="lg" fontWeight="bold" textAlign="center">
+            {" "}
+            Advance Notice
+          </Heading>
+          <Input
+            textAlign="center"
+            variant="unstyled"
+            fontWeight="bold"
+            pb="2%"
+            type="number"
+            name="advanceNotice"
             onChange={(e) => onChange(e)}
           />
           <Heading fontSize="lg" fontWeight="bold" textAlign="center">
