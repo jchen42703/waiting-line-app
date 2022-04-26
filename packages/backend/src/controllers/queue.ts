@@ -156,6 +156,7 @@ function createQueueRouter() {
         liveTime,
         closeTime,
         repeatCycle,
+        advanceNotice,
       } = req.body;
 
       if (typeof queueId !== "string") {
@@ -182,12 +183,16 @@ function createQueueRouter() {
         return next(new HttpException(400, "repeatCycle must be a string"));
       }
 
+      if (advanceNotice && typeof advanceNotice !== "number") {
+        return next(new HttpException(400, "advanceNotice must be a number"));
+      }
       const updateParams = {
         queueName,
         description,
         liveTime,
         closeTime,
         repeatCycle,
+        advanceNotice,
       };
       try {
         const qDoc = await editQueueMetadata(
