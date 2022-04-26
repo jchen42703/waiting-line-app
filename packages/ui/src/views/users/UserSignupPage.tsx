@@ -108,6 +108,9 @@ export default function UserSignupPage() {
       if (message.includes("banned")) {
         displayMessage =
           "You have been banned by the queue administrator! Please contact them for more information.";
+      } else if (message.includes("not live")) {
+        displayMessage =
+          "Queue is not live. Please try again later or contact the queue administrator for more information.";
       } else {
         displayMessage = "Woops! " + e.message + "Please try again.";
       }
