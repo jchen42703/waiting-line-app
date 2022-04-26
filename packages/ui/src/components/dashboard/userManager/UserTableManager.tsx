@@ -177,6 +177,17 @@ const UserTableManager = () => {
           </Flex>
           <UserTable userList={queue.poppedUsers} mode={undefined}></UserTable>
         </TableContainer>
+        <TableContainer marginX={"16"} marginBottom="16" marginTop={"3"}>
+          <Flex
+            flexDir={"row"}
+            justifyContent={"space-between"}
+            alignItems="center"
+            marginBottom={"5"}
+          >
+            <Heading size="md">Banned Users</Heading>
+          </Flex>
+          <UserTable userList={queue.bannedUsers} mode={undefined}></UserTable>
+        </TableContainer>
       </Flex>
     </>
   );

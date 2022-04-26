@@ -33,7 +33,7 @@ const UserTable = ({
               <TableHeader text="Email"></TableHeader>
               <TableHeader text="Phone Number"></TableHeader>
               <TableHeader text="Join Time"></TableHeader>
-              {onNotify && onDelete && (
+              {onNotify && onDelete && onBan && (
                 <TableHeader text="Action"></TableHeader>
               )}
             </Tr>
