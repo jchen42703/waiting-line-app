@@ -31,6 +31,8 @@ const UserTableManager = () => {
     closeTime: undefined,
     repeatCycle: undefined,
     queue: [],
+    poppedUsers: [],
+    bannedUsers: [],
   });
 
   const [canDelete, toggleCanDelete] = useBoolean(false);
@@ -89,46 +91,59 @@ const UserTableManager = () => {
         userId={toDeleteUserId.current}
         name={toDeleteUserName.current}
       ></DeleteUserModal>
-      <TableContainer
-        minHeight={"80vh"}
-        marginX={"16"}
-        marginBottom="16"
-        marginTop={"3"}
-      >
-        <Flex flexDir={"row"} justifyContent={"center"} alignItems={"center"}>
-          <BackButton></BackButton>
+      <Flex flexDir="column" minHeight={"80vh"}>
+        <TableContainer marginX={"16"} marginBottom="16" marginTop={"3"}>
+          <Flex flexDir={"row"} justifyContent={"center"} alignItems={"center"}>
+            <BackButton></BackButton>
 
+            <Flex
+              flexDir={"row"}
+              justifyContent={"center"}
+              my="2"
+              // This makes the heading centered while the back button is left
+              margin={"0 auto"}
+            >
+              <Heading>{queue.queueName}</Heading>
+            </Flex>
+          </Flex>
           <Flex
             flexDir={"row"}
-            justifyContent={"center"}
-            my="2"
-            // This makes the heading centered while the back button is left
-            margin={"0 auto"}
+            justifyContent={"space-between"}
+            alignItems="center"
+            marginBottom={"5"}
           >
-            <Heading>{queue.queueName}</Heading>
+            <Heading size="md">Users in Queue</Heading>
+            <Flex flexDir={"row"} justifyContent={"right"} width={"100%"}>
+              <Button onClick={() => nextUser()}>Next User</Button>
+              <Button onClick={toggleCanDelete.toggle} marginLeft="5">
+                {canDelete ? "Cancel" : "Delete User"}
+              </Button>
+            </Flex>
           </Flex>
-        </Flex>
-        <Flex
-          flexDir={"row"}
-          justifyContent={"space-between"}
-          alignItems="center"
-          marginBottom={"5"}
-        >
-          <Heading size="md">Users in Queue</Heading>
-          <Flex flexDir={"row"} justifyContent={"right"} width={"100%"}>
-            <Button onClick={() => nextUser()}>Next User</Button>
-            <Button onClick={toggleCanDelete.toggle} marginLeft="5">
-              {canDelete ? "Cancel" : "Delete User"}
-            </Button>
+          <UserTable
+            userList={queue.queue}
+            canDelete={canDelete}
+            onDelete={onDelete}
+            onNotify={onNotify}
+          ></UserTable>
+        </TableContainer>
+        <TableContainer marginX={"16"} marginBottom="16" marginTop={"3"}>
+          <Flex
+            flexDir={"row"}
+            justifyContent={"space-between"}
+            alignItems="center"
+            marginBottom={"5"}
+          >
+            <Heading size="md">Previous Users</Heading>
           </Flex>
-        </Flex>
-        <UserTable
-          userList={queue.queue}
-          canDelete={canDelete}
-          onDelete={onDelete}
-          onNotify={onNotify}
-        ></UserTable>
-      </TableContainer>
+          <UserTable
+            userList={queue.poppedUsers}
+            canDelete={false}
+            onDelete={undefined}
+            onNotify={undefined}
+          ></UserTable>
+        </TableContainer>
+      </Flex>
     </>
   );
 };

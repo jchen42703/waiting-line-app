@@ -53,21 +53,23 @@ export function UserInfoRow({
       <CenteredTableCell text={email}></CenteredTableCell>
       <CenteredTableCell text={phoneNumber}></CenteredTableCell>
       <CenteredTableCell text={joinDate}></CenteredTableCell>
-      <Td>
-        {canDelete ? (
-          <Flex justifyContent="center" alignItems={"center"}>
-            <CloseButton
-              size={"sm"}
-              width={"100%"}
-              height={"100%"}
-              _hover={{ bg: "transparent" }}
-              _active={{ bg: "transparent" }}
-            ></CloseButton>
-          </Flex>
-        ) : (
-          <Button>Notify</Button>
-        )}
-      </Td>
+      {onNotify && onDelete && (
+        <Td>
+          {canDelete ? (
+            <Flex justifyContent="center" alignItems={"center"}>
+              <CloseButton
+                size={"sm"}
+                width={"100%"}
+                height={"100%"}
+                _hover={{ bg: "transparent" }}
+                _active={{ bg: "transparent" }}
+              ></CloseButton>
+            </Flex>
+          ) : (
+            <Button>Notify</Button>
+          )}
+        </Td>
+      )}
     </Tr>
   );
 }
