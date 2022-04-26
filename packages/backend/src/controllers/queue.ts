@@ -30,6 +30,7 @@ import {
   editQueueMetadata,
   addToPoppedList,
   banUser,
+  getQueue,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -220,6 +221,18 @@ function createQueueRouter() {
         status: "waiting",
       };
 
+      // Check if user is banned
+      const queue = await getQueue({ queueId });
+      for (const bannedUser of queue.bannedUsers) {
+        if (
+          user.email === bannedUser.email ||
+          user.phoneNumber === bannedUser.phoneNumber
+        ) {
+          return next(new HttpException(401, "user is banned"));
+        }
+      }
+
+      // Otherwise, add to queue
       try {
         const qDoc: IQueue = await addUserToQueue({ queueId, user });
         if (!qDoc) {

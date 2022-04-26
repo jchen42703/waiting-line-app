@@ -237,7 +237,6 @@ async function banUser({
     { new: false },
   );
 
-  console.log("old q: \n", oldQueue);
   if (!oldQueue) {
     throw new Error("queue not found");
   }
@@ -251,7 +250,6 @@ async function banUser({
     }
   }
 
-  console.log("banned user: ", bannedUser);
   if (!bannedUser) {
     throw new Error("Banning failed");
   }
