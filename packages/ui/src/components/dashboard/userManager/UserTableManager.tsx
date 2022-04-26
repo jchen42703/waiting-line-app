@@ -2,7 +2,6 @@ import {
   Button,
   Flex,
   TableContainer,
-  useBoolean,
   Heading,
   useDisclosure,
   useToast,
@@ -11,8 +10,13 @@ import { IQueue } from "@lyne/shared-dto";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getQueue } from "../../../lib/services/queue.service";
-import { notifyUser, popUser } from "../../../lib/services/user.service";
+import {
+  banUser,
+  notifyUser,
+  popUser,
+} from "../../../lib/services/user.service";
 import BackButton from "../../BackButton";
+import { ActionModes } from "./AdminAction";
 import DeleteUserModal from "./DeleteUserModal";
 import UserTable from "./UserTable";
 
@@ -35,7 +39,8 @@ const UserTableManager = () => {
     bannedUsers: [],
   });
 
-  const [canDelete, toggleCanDelete] = useBoolean(false);
+  // const [canDelete, toggleCanDelete] = useBoolean(false);
+  const [actionMode, setActionMode] = useState<ActionModes>("notify");
   const toDeleteUserId = useRef("");
   const toDeleteUserName = useRef("");
 
@@ -59,6 +64,22 @@ const UserTableManager = () => {
         isClosable: true,
       });
     }
+  };
+
+  const onBan = async (userId: string) => {
+    const success = await banUser({ queueId, userId });
+    if (!success) {
+      toast({
+        position: "top",
+        status: "error",
+        description:
+          "Woops! Looks like something went wrong with our servers. Please try again.",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+
+    await refreshQueue();
   };
 
   const refreshQueue = async () => {
@@ -115,16 +136,34 @@ const UserTableManager = () => {
             <Heading size="md">Users in Queue</Heading>
             <Flex flexDir={"row"} justifyContent={"right"} width={"100%"}>
               <Button onClick={() => nextUser()}>Next User</Button>
-              <Button onClick={toggleCanDelete.toggle} marginLeft="5">
-                {canDelete ? "Cancel" : "Delete User"}
+              <Button
+                onClick={() =>
+                  actionMode === "delete"
+                    ? setActionMode("notify")
+                    : setActionMode("delete")
+                }
+                marginLeft="5"
+              >
+                {actionMode === "delete" ? "Cancel" : "Delete User"}
+              </Button>
+              <Button
+                onClick={() =>
+                  actionMode === "ban"
+                    ? setActionMode("notify")
+                    : setActionMode("ban")
+                }
+                marginLeft="5"
+              >
+                {actionMode === "ban" ? "Cancel" : "Ban User"}
               </Button>
             </Flex>
           </Flex>
           <UserTable
             userList={queue.queue}
-            canDelete={canDelete}
+            mode={actionMode}
             onDelete={onDelete}
             onNotify={onNotify}
+            onBan={onBan}
           ></UserTable>
         </TableContainer>
         <TableContainer marginX={"16"} marginBottom="16" marginTop={"3"}>
@@ -136,12 +175,7 @@ const UserTableManager = () => {
           >
             <Heading size="md">Previous Users</Heading>
           </Flex>
-          <UserTable
-            userList={queue.poppedUsers}
-            canDelete={false}
-            onDelete={undefined}
-            onNotify={undefined}
-          ></UserTable>
+          <UserTable userList={queue.poppedUsers} mode={undefined}></UserTable>
         </TableContainer>
       </Flex>
     </>
