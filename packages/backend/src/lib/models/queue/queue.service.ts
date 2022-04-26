@@ -125,7 +125,7 @@ async function getUserProgress(queueId: string, userId: string) {
     }
   }
 
-  if (qDoc.advanceNotice === currPlace) {
+  if (currPlace <= qDoc.advanceNotice) {
     userStatus = "notified";
   }
 
