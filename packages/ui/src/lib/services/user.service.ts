@@ -65,3 +65,17 @@ export const notifyUser = async (payload: POSTNotifyUserReq) => {
   });
   return resp.status === 200;
 };
+
+export const banUser = async (payload: DELETEDeleteUserReq) => {
+  const { hostUrl } = config;
+  const resp = await fetch(`${hostUrl}/api/queue/banUser`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  return resp.status === 200;
+};

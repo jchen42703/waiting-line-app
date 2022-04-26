@@ -73,20 +73,19 @@ export default function UserSignupPage() {
         body: JSON.stringify(data), // body data type must match "Content-Type" header
       });
       const respBody = await resp.json();
-      console.log("respbody: ", respBody);
+      console.log("join respbody: ", respBody.message);
 
-      if (respBody.message == "could not find queue") {
-        throw new Error("Could not find the queue! ");
-        // need to check if the user is in the cban list
-      } else {
-        setRedirectState({
-          shouldRedirect: true,
-          userId: respBody.userId,
-          name: data.name,
-          mail: data.email,
-          phone: data.phoneNumber,
-        });
+      if (resp.status !== 200) {
+        throw new Error(respBody.message);
       }
+
+      setRedirectState({
+        shouldRedirect: true,
+        userId: respBody.userId,
+        name: data.name,
+        mail: data.email,
+        phone: data.phoneNumber,
+      });
     } catch (e) {
       setLoading(false);
       let message; // string
@@ -103,10 +102,23 @@ export default function UserSignupPage() {
 
       // Show error message on 400 (operational errors)
       // Don't show error messages on 500 (server)
+
+      // Display message
+      let displayMessage: string;
+      if (message.includes("banned")) {
+        displayMessage =
+          "You have been banned by the queue administrator! Please contact them for more information.";
+      } else if (message.includes("not live")) {
+        displayMessage =
+          "Queue is not live. Please try again later or contact the queue administrator for more information.";
+      } else {
+        displayMessage = "Woops! " + e.message + "Please try again.";
+      }
+
       toast({
         position: "top",
         status: "error",
-        description: "Woops! " + e.message + "Please try again.",
+        description: displayMessage,
         duration: 9000,
         isClosable: true,
       });

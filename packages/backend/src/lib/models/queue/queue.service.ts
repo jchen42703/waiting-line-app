@@ -125,6 +125,10 @@ async function getUserProgress(queueId: string, userId: string) {
     }
   }
 
+  if (currPlace <= qDoc.advanceNotice) {
+    userStatus = "notified";
+  }
+
   return {
     currPlace,
     qLength,
@@ -222,9 +226,63 @@ const notifyUser = async (queueId: string, adminId: string, userId: string) => {
   return updateResult;
 };
 
+async function banUser({
+  queueId,
+  adminId,
+  userId,
+}: {
+  queueId: string;
+  adminId: string;
+  userId: string;
+}) {
+  const oldQueue = await Queue.findOneAndUpdate<IQueue>(
+    { queueId, adminId },
+    { $pull: { queue: { userId } } },
+    { new: false },
+  );
+
+  if (!oldQueue) {
+    throw new Error("queue not found");
+  }
+
+  // Get banned user
+  let bannedUser: IUser;
+  for (const user of oldQueue.queue) {
+    if (user.userId === userId) {
+      bannedUser = user;
+      break;
+    }
+  }
+
+  if (!bannedUser) {
+    throw new Error("Banning failed");
+  }
+
+  bannedUser.status = "banned";
+
+  const outDoc = await Queue.findOneAndUpdate<IQueue>(
+    {
+      queueId,
+      adminId,
+    },
+    {
+      $push: {
+        bannedUsers: bannedUser,
+      },
+    },
+  );
+
+  if (!bannedUser) {
+    throw new Error("Adding to ban list failed");
+  }
+
+  return outDoc;
+}
+
 export {
   addToPoppedList,
   addUserToQueue,
+  banUser,
   deleteQueue,
   editQueueMetadata,
   getQueue,

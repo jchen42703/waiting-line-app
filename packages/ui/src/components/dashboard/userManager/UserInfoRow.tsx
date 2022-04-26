@@ -1,5 +1,6 @@
 import { Tr, Td, Button, CloseButton, Flex } from "@chakra-ui/react";
 import CenteredTableCell from "../../tables/CenteredTableCell";
+import { ActionModes, AdminAction } from "./AdminAction";
 
 export interface UserInfoProps {
   userId: string;
@@ -8,9 +9,10 @@ export interface UserInfoProps {
   email: string;
   phoneNumber: string;
   joinQTime: number;
-  canDelete: boolean;
-  onDelete: (userId: string, name: string) => void;
-  onNotify: (userId: string) => void;
+  mode: ActionModes;
+  onDelete?: (userId: string, name: string) => void;
+  onNotify?: (userId: string) => void;
+  onBan?: (userId: string) => void;
 }
 
 export function UserInfoRow({
@@ -20,9 +22,10 @@ export function UserInfoRow({
   email,
   phoneNumber,
   joinQTime,
-  canDelete,
+  mode,
   onDelete,
   onNotify,
+  onBan,
 }: UserInfoProps) {
   const joinDate = joinQTime
     ? new Date(joinQTime).toLocaleDateString("en-US", {
@@ -36,11 +39,17 @@ export function UserInfoRow({
     : "N/A";
 
   const onRowClick = () => {
-    if (canDelete) {
+    if (mode === "delete" && onDelete) {
       return onDelete(userId, name);
     }
 
-    return onNotify(userId);
+    if (mode === "ban" && onBan) {
+      return onBan(userId);
+    }
+
+    if (mode === "notify" && onNotify) {
+      return onNotify(userId);
+    }
   };
 
   return (
@@ -53,20 +62,13 @@ export function UserInfoRow({
       <CenteredTableCell text={email}></CenteredTableCell>
       <CenteredTableCell text={phoneNumber}></CenteredTableCell>
       <CenteredTableCell text={joinDate}></CenteredTableCell>
-      <Td>
-        {canDelete ? (
-          <Flex justifyContent="center" alignItems={"center"}>
-            <CloseButton
-              size={"sm"}
-              width={"100%"}
-              height={"100%"}
-              _hover={{ bg: "transparent" }}
-              _active={{ bg: "transparent" }}
-            ></CloseButton>
-          </Flex>
-        ) : (
-          <Button>Notify</Button>
-        )}
+      <Td textAlign={"center"}>
+        <AdminAction
+          onDelete={onDelete}
+          onNotify={onNotify}
+          onBan={onBan}
+          mode={mode}
+        ></AdminAction>
       </Td>
     </Tr>
   );

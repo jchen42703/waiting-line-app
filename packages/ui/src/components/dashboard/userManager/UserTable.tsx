@@ -2,17 +2,20 @@ import { Box, Table, Thead, Tr, Tbody } from "@chakra-ui/react";
 import TableHeader from "../../tables/TableHeader";
 import { IUser } from "@lyne/shared-dto";
 import { UserInfoProps, UserInfoRow } from "./UserInfoRow";
+import { ActionModes } from "./AdminAction";
 
 const UserTable = ({
   userList,
-  canDelete,
+  mode,
   onDelete,
   onNotify,
+  onBan,
 }: {
   userList: IUser[];
-  canDelete: boolean;
-  onDelete: (userId: string, name: string) => void;
-  onNotify: (userId: string) => void;
+  mode: ActionModes;
+  onDelete?: (userId: string, name: string) => void;
+  onNotify?: (userId: string) => void;
+  onBan?: (userId: string) => void;
 }) => {
   return (
     <>
@@ -30,7 +33,9 @@ const UserTable = ({
               <TableHeader text="Email"></TableHeader>
               <TableHeader text="Phone Number"></TableHeader>
               <TableHeader text="Join Time"></TableHeader>
-              <TableHeader text="Action"></TableHeader>
+              {onNotify && onDelete && onBan && (
+                <TableHeader text="Action"></TableHeader>
+              )}
             </Tr>
           </Thead>
           <Tbody>
@@ -46,9 +51,10 @@ const UserTable = ({
                   place: index + 1,
                   phoneNumber,
                   joinQTime,
-                  canDelete,
+                  mode,
                   onDelete,
                   onNotify,
+                  onBan,
                 };
 
                 return <UserInfoRow key={userId} {...opts}></UserInfoRow>;

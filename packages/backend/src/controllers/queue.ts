@@ -29,6 +29,8 @@ import {
   deleteQueue,
   editQueueMetadata,
   addToPoppedList,
+  banUser,
+  getQueue,
 } from "../lib/models/queue";
 
 function createQueueRouter() {
@@ -49,8 +51,14 @@ function createQueueRouter() {
         return next(new HttpException(400, "adminId must be a string"));
       }
 
-      const { queueName, description, liveTime, closeTime, repeatCycle } =
-        req.body;
+      const {
+        queueName,
+        description,
+        liveTime,
+        closeTime,
+        repeatCycle,
+        advanceNotice,
+      } = req.body;
 
       if (typeof queueName !== "string") {
         return next(new HttpException(400, "queueName must be a string"));
@@ -86,6 +94,7 @@ function createQueueRouter() {
           queue: [],
           poppedUsers: [],
           bannedUsers: [],
+          advanceNotice,
         });
       } catch {
         return next(new HttpException(500, `Could not create queue`));
@@ -219,6 +228,24 @@ function createQueueRouter() {
         status: "waiting",
       };
 
+      // Check if user is banned
+      const queue = await getQueue({ queueId });
+      for (const bannedUser of queue.bannedUsers) {
+        if (
+          user.email === bannedUser.email ||
+          user.phoneNumber === bannedUser.phoneNumber
+        ) {
+          return next(new HttpException(401, "user is banned"));
+        }
+      }
+
+      // Check if the queue is open
+      const currTime = Date.now();
+      if (currTime < queue.liveTime || currTime >= queue.closeTime) {
+        return next(new HttpException(401, "queue is not live"));
+      }
+
+      // Otherwise, add to queue
       try {
         const qDoc: IQueue = await addUserToQueue({ queueId, user });
         if (!qDoc) {
@@ -374,6 +401,39 @@ function createQueueRouter() {
       }
 
       res.json({ queue: newQueue });
+    },
+  );
+
+  queueRouter.post(
+    "/banUser",
+    async (
+      req: Request<unknown, { success: boolean }, DELETEDeleteUserReq, unknown>,
+      res: Response<{ success: boolean }, unknown>,
+      next: NextFunction,
+    ) => {
+      const { queueId, userId } = req.body;
+      if (!queueId) {
+        return next(new HttpException(400, "You need a queueId"));
+      }
+
+      if (!userId) {
+        return next(new HttpException(400, "You need a userId"));
+      }
+      if (typeof queueId !== "string") {
+        return next(new HttpException(400, "QueueId needs to be string"));
+      }
+
+      if (typeof userId !== "string") {
+        return next(new HttpException(400, "userId needs to be string"));
+      }
+
+      const adminId = req.user._id;
+      try {
+        await banUser({ queueId, adminId, userId });
+        return res.json({ success: true });
+      } catch (e) {
+        return next(new HttpException(500, e.message));
+      }
     },
   );
   return queueRouter;

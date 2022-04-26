@@ -31,6 +31,7 @@ type CreateQueueFormValues = {
   closeDate: string;
   closeTime: string;
   repeatCycle: string;
+  advanceNotice: number;
 };
 
 const CreateQueueModal = ({ isOpen, onClose }) => {
@@ -52,6 +53,7 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
     closeDate,
     closeTime,
     repeatCycle,
+    advanceNotice,
   }: CreateQueueFormValues) => {
     setLoading(true);
 
@@ -85,6 +87,7 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
         liveTime: liveTimestamp,
         closeTime: closeTimestamp,
         repeatCycle: parsedRepeatCycle as RepeatCycle,
+        advanceNotice,
       });
       navigate(0);
     } catch (e) {
@@ -201,6 +204,17 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
                     <option>Weekly</option>
                     <option>Monthly</option>
                   </Select>
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor="advanceNotice" defaultValue={5}>
+                    Auto-Notify Place
+                  </FormLabel>
+                  <Input
+                    id="advanceNotice"
+                    placeholder="Every user before this spot number in the queue is notified."
+                    {...register("advanceNotice", {})}
+                  />
                 </FormControl>
 
                 <Spacer />
