@@ -44,7 +44,7 @@ const Layout = ({ queuedUsers, queueInfo }) => {
         <QR />
       </GridItem>
       <GridItem colStart={3} colEnd={4} rowStart={2} rowEnd={2}>
-        <BanWidget></BanWidget>
+        <BanWidget queueInfo={queueInfo}></BanWidget>
       </GridItem>
     </Grid>
   );

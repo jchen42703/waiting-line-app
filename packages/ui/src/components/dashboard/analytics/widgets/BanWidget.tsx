@@ -12,17 +12,20 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { NotAllowedIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // @ts-ignore
 import ban from "../../../media/analytics/ban.svg";
 
-const BanWidget = () => {
+const BanWidget = ({ queueInfo }) => {
   // banned users
   const [bannedUsers, setBannedUsers] = useState([]);
 
-  // get all banner users
-  const getBannedUsers = () => {};
+  useEffect(() => {
+    if (bannedUsers.length != 0) {
+      setBannedUsers(queueInfo.bannedUsers);
+    }
+  });
 
   const BannedTable = () => {
     if (bannedUsers.length == 0) {
