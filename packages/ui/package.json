@@ -47,7 +47,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npx jest",
+    "test:coverage": "npx jest --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {},

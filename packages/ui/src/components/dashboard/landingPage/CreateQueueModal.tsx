@@ -39,11 +39,7 @@ const CreateQueueModal = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const toast = useToast(); // A toast to show some errors
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<CreateQueueFormValues>();
+  const { handleSubmit, register } = useForm<CreateQueueFormValues>();
 
   const onSubmit = async ({
     name,

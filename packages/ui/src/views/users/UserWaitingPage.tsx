@@ -1,9 +1,6 @@
 import { Box, Flex, Heading, Spacer, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { config } from "../../lib/config";
 import { useParams } from "react-router-dom";
 import UserWaitingStatus from "../../components/UserWaitingStatus";
-import { join } from "path";
 
 export default function UserWaitingPage() {
   const { queueId, userId } = useParams();

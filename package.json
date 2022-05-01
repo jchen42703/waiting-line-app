@@ -13,6 +13,8 @@
   ],
   "scripts": {
     "start": "lerna run --parallel start",
+    "test": "lerna run --parallel test",
+    "test:coverage": "lerna run --parallel test:coverage",
     "format": "prettier --write .",
     "lint": "eslint --ext .js,.ts,.tsx"
   },
