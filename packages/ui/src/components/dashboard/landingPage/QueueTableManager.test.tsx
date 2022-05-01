@@ -1,5 +1,5 @@
 // import type { IQueue } from "@lyne/shared-dto";
-import { render, screen, cleanup, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import { config } from "../../../lib/config";
@@ -105,7 +105,6 @@ describe("QueueTableManager", () => {
   });
 
   afterEach(() => {
-    cleanup();
     server.close();
   });
 
@@ -127,5 +126,37 @@ describe("QueueTableManager", () => {
     const deleteButtonElement = screen.getByText("Delete Queue");
     fireEvent.click(deleteButtonElement);
     expect(screen.getByText(/Cancel/i)).toBeInTheDocument();
+  });
+
+  it("should open the delete queue modal properly", async () => {
+    render(<QueueTableManager />);
+    expect(await screen.findByText("Test")).toBeInTheDocument();
+
+    const deleteButtonElement = screen.getByText("Delete Queue");
+    fireEvent.click(deleteButtonElement);
+    // Click the X button
+    const allCells = screen.getAllByRole("gridcell");
+    const deleteButtonCell = allCells[allCells.length - 1];
+    fireEvent.click(within(deleteButtonCell).getByRole("button"));
+    // Should open the model on click
+    expect(
+      screen.getByText(
+        /Click "Delete" to confirm that you want to delete the queue./i,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("should open the create queue modal properly", async () => {
+    render(<QueueTableManager />);
+    expect(await screen.findByText("Test")).toBeInTheDocument();
+
+    const createButton = screen.getByText("Create Queue");
+    fireEvent.click(createButton);
+    // Should open the create queue model on click
+    expect(screen.getByText(/Auto-Notify Place/i)).toBeInTheDocument();
+
+    // const closeModalButton = screen.getByText("Close");
+    // fireEvent.click(closeModalButton);
+    // expect(screen.queryByText(/Auto-Notify Place/i)).toBeNull();
   });
 });
