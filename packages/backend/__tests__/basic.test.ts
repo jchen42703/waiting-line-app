@@ -1,6 +1,14 @@
+import { expect } from "chai";
+import mongoose from "mongoose";
 import { createMainServer } from "../src/app";
 
-test("basic test", () => {
-  const app = createMainServer();
-  expect(app).not.toBeUndefined();
+describe("basic test", () => {
+  it("start server", () => {
+    const app = createMainServer();
+    expect(app.path()).equal("");
+  });
+
+  afterEach(() => {
+    mongoose.connection.close();
+  });
 });
