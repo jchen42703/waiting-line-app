@@ -19,6 +19,8 @@
     "lint": "eslint --ext .js,.ts,.tsx"
   },
   "devDependencies": {
+    "@swc/core": "^1.2.66",
+    "@swc/helpers": "^0.2.12",
     "@types/node": "^16.4.2",
     "@typescript-eslint/eslint-plugin": "^4.29.3",
     "@typescript-eslint/parser": "^4.29.3",

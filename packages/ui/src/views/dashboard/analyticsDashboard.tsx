@@ -27,7 +27,7 @@ const AnalyticsDashboard = () => {
 
       const { users } = await res.json();
       setQueuedUsers(users);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err.message);
     }
   };
@@ -46,7 +46,7 @@ const AnalyticsDashboard = () => {
 
       const { queue } = await res.json();
       setQueueInfo(queue);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err.message);
     }
   };

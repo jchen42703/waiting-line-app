@@ -35,6 +35,7 @@
     "packages/frontend",
     "**/*/dist",
     "jest.config.js",
-    "**/*/build"
+    "**/*/build",
+    "coverage"
   ]
 }

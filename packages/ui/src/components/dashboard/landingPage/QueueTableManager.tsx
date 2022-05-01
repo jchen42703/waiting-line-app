@@ -12,6 +12,7 @@ import CreateQueueModal from "./CreateQueueModal";
 import { getAllQueues } from "../../../lib/services/queue.service";
 import { getCurrentFormattedTime } from "../../../lib/time";
 import DeleteQueueModal from "./DeleteQueueModal";
+import { IQueue } from "@lyne/shared-dto";
 
 const QueueTableManager = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -21,7 +22,7 @@ const QueueTableManager = () => {
     onClose: onCloseDeleteQModal,
   } = useDisclosure();
 
-  const [queueList, setQueueList] = useState([]);
+  const [queueList, setQueueList] = useState<IQueue[]>([]);
 
   const toDeleteQueueId = useRef("");
   const [canDelete, toggleCanDelete] = useBoolean(false);

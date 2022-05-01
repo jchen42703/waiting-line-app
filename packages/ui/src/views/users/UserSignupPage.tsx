@@ -86,7 +86,7 @@ export default function UserSignupPage() {
         mail: data.email,
         phone: data.phoneNumber,
       });
-    } catch (e) {
+    } catch (e: any) {
       setLoading(false);
       let message; // string
       if (e instanceof Error) {
@@ -187,7 +187,7 @@ export default function UserSignupPage() {
                       placeholder="Phone number"
                       as={InputMask}
                       mask="(***) ***-****"
-                      maskChar={null}
+                      // maskChar={null}
                       {...register("phone", {
                         validate: (v) =>
                           validator.isMobilePhone(v) === true ||
