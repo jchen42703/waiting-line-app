@@ -9,12 +9,17 @@
     "isolatedModules": true,
     "composite": true,
     "noEmit": false,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "tsBuildInfoFile": "../../.build-cache/ui.tsbuildinfo",
     "outDir": "./dist",
     "typeRoots": ["src/@types/assets"]
   },
-  "include": ["src/**/*.ts", "tailwind.config.js", "__tests__/**/*.test.ts"],
+  "include": [
+    "src/**/*.tsx",
+    "src/**/*.ts",
+    "tailwind.config.js",
+    "__tests__/**/*.test.ts"
+  ],
   "exclude": ["node_modules", "typings", "dist", "build"],
   "references": [
     {

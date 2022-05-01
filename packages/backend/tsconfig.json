@@ -7,7 +7,7 @@
     "tsBuildInfoFile": "../../.build-cache/backend.tsbuildinfo",
     "outDir": "./dist",
     "noUnusedParameters": false,
-    "typeRoots": ["src/@types"]
+    "typeRoots": ["src/@types", "./node_modules/@types"]
   },
   "references": [
     {

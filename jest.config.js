@@ -78,7 +78,7 @@ module.exports = {
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-  // modulePathIgnorePatterns: [],
+  modulePathIgnorePatterns: ["<rootDir>/dist/"],
 
   // Activates notifications for test results
   // notify: false,
@@ -174,4 +174,11 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+
+  // Uncomment when switching to @swc/jest
+  // transform: { '^.+\\.(t|j)sx?$': ['@swc/jest'] },
+  // A map from regular expressions to paths to transformers
+  transform: {
+    "^.+\\.tsx?$": "ts-jest",
+  },
 };
