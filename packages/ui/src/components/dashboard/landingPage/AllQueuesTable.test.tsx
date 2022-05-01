@@ -1,7 +1,5 @@
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import type { IQueue } from "@lyne/shared-dto";
 import { render, screen, cleanup, fireEvent } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
 import AllQueuesTable from "./AllQueuesTable";
 
 // pay attention to write it at the top level of your file
@@ -19,22 +17,6 @@ describe("AllQueuesTable", () => {
   afterEach(() => cleanup());
 
   test("renders queue table normally", () => {
-    const theme = extendTheme({
-      colors: {
-        brand: {
-          // light: "#F4F1DE",
-          // red: "#E07A5F",
-          // navy: "#3D405B",
-          // blue: "#81B29A",
-          // peach: "#F2CC8F",
-          "primary-light": "#F7F5F2",
-          navy: "#8D8DAA",
-          grey: "#DFDFDE",
-          secondary: "#F56D91",
-        },
-      },
-    });
-
     const queueList: IQueue[] = [
       {
         queueId: "open-q-id",
@@ -73,15 +55,11 @@ describe("AllQueuesTable", () => {
     ];
 
     render(
-      <BrowserRouter>
-        <ChakraProvider resetCSS={true} theme={theme}>
-          <AllQueuesTable
-            queueList={queueList}
-            canDelete={false}
-            onDelete={onDelete}
-          />
-        </ChakraProvider>
-      </BrowserRouter>,
+      <AllQueuesTable
+        queueList={queueList}
+        canDelete={false}
+        onDelete={onDelete}
+      />,
     );
     const opneQueueNameElement = screen.getByText(/open queue/i);
     expect(opneQueueNameElement).toBeInTheDocument();
@@ -95,22 +73,6 @@ describe("AllQueuesTable", () => {
   });
 
   test("renders queue table with deletable queues", () => {
-    const theme = extendTheme({
-      colors: {
-        brand: {
-          // light: "#F4F1DE",
-          // red: "#E07A5F",
-          // navy: "#3D405B",
-          // blue: "#81B29A",
-          // peach: "#F2CC8F",
-          "primary-light": "#F7F5F2",
-          navy: "#8D8DAA",
-          grey: "#DFDFDE",
-          secondary: "#F56D91",
-        },
-      },
-    });
-
     const queueList: IQueue[] = [
       {
         queueId: "open q-id",
@@ -149,15 +111,11 @@ describe("AllQueuesTable", () => {
     ];
 
     render(
-      <BrowserRouter>
-        <ChakraProvider resetCSS={true} theme={theme}>
-          <AllQueuesTable
-            queueList={queueList}
-            canDelete={true}
-            onDelete={onDelete}
-          />
-        </ChakraProvider>
-      </BrowserRouter>,
+      <AllQueuesTable
+        queueList={queueList}
+        canDelete={true}
+        onDelete={onDelete}
+      />,
     );
     // try deleting
     const openQueueNameElement = screen.getByText(/open queue/i);
