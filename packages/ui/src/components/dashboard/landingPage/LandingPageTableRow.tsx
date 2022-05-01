@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { Flex, Tr, Td, CloseButton, toCSSObject } from "@chakra-ui/react";
+import { Flex, Tr, Td, CloseButton } from "@chakra-ui/react";
 import { RepeatCycle } from "@lyne/shared-dto";
 import _ from "lodash";
 import StatusCircle from "./StatusCircle";
 import CenteredTableCell from "../../tables/CenteredTableCell";
 
-interface LandingPageTableRowProps {
+export interface LandingPageTableRowProps {
   queueId: string;
   queueName: string;
   numUsers: string;
@@ -18,7 +18,7 @@ interface LandingPageTableRowProps {
   onDelete: (queueId: string) => void;
 }
 
-const LandingPageTableRow = ({
+export const LandingPageTableRow = ({
   queueId,
   queueName,
   numUsers,
@@ -80,5 +80,3 @@ const LandingPageTableRow = ({
     </>
   );
 };
-
-export { LandingPageTableRow, LandingPageTableRowProps };

@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  TableContainer,
-  Table,
-  Thead,
-  Tr,
-  Tbody,
-} from "@chakra-ui/react";
+import { Box, Table, Thead, Tr, Tbody } from "@chakra-ui/react";
 import {
   LandingPageTableRow,
   LandingPageTableRowProps,

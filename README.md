@@ -1,8 +1,36 @@
-# waiting-line-app
+# Lyne
 
-App for queuing users with a simple scan of a QR code
+Web app for queuing users with a simple scan of a QR code
 
-# Migrating from the Previous Repository
+# Getting Started
+
+We recommend that you use Node 16.13.2 and Yarn 1.22.17.
+
+```bash
+yarn install
+```
+
+To run the entire application, do:
+
+```bash
+yarn start
+```
+
+This will start both the backend and frontend.
+
+To run tests, do:
+
+```bash
+yarn test
+```
+
+To run with coverage, do:
+
+```bash
+yarn test:coverage
+```
+
+## Migrating from the Previous Repository
 
 Start off by installing lerna and nuking your old code:
 

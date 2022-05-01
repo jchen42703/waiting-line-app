@@ -37,6 +37,7 @@ const UserTableManager = () => {
     queue: [],
     poppedUsers: [],
     bannedUsers: [],
+    advanceNotice: 1,
   });
 
   // const [canDelete, toggleCanDelete] = useBoolean(false);

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Drawer,
   DrawerBody,
-  DrawerFooter,
   DrawerHeader,
   DrawerOverlay,
   DrawerContent,

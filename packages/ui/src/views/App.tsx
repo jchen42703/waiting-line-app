@@ -1,12 +1,11 @@
 import "../styles/styles.scss";
 import "focus-visible/dist/focus-visible";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import Home from "./home/Home";
 import Login from "./auth/Login";
 import Dashboard from "./dashboard/dashboard";
 import QueueDashboard from "./dashboard/queueDashboard";
-import SettingsPage from "./settings/settings";
 import UserSignupPage from "./users/UserSignupPage";
 import UserWaitingPage from "./users/UserWaitingPage";
 import AuthGuard from "../components/auth/AuthGuard";
