@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { NextFunction, Request, Response, Router } from "express";
 import { randomUUID } from "crypto";
 import type {

@@ -1,6 +1,5 @@
 import { RepeatCycle } from "@lyne/shared-dto";
 import supertest from "supertest";
-import mongoose from "mongoose";
 import { randomUUID } from "crypto";
 import { before } from "mocha";
 import { createMainServer } from "../src/app";
@@ -10,8 +9,6 @@ describe("POST /api/queue/create", () => {
   before(async () => {
     await initMongoConnection();
   });
-
-  console.log(mongoose.connection.readyState);
 
   const app = createMainServer();
   const serverListener = app.listen(5000, () => {});
@@ -77,6 +74,23 @@ describe("POST /api/queue/create", () => {
       .send({
         queueId,
       })
+      .expect(200);
+  });
+
+  // eslint-disable-next-line jest/no-done-callback
+  it("should join a queue", async () => {
+    // First, create a queue
+    const payload = {
+      queueId: "q-326d4295-0bf7-4724-b9aa-17820572f4c0",
+      name: "Test user",
+      email: "testemail@gmail.com",
+      phoneNumber: "718-888-8888",
+    };
+
+    await supertest(app)
+      .post("/api/queue/join")
+      .set("Accept", "application/json")
+      .send(payload)
       .expect(200);
   });
 
