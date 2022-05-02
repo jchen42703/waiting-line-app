@@ -1,9 +1,10 @@
-import { connect } from "mongoose";
+import { connect, connection } from "mongoose";
 import { logger } from "../log";
+import { sleep } from "../time";
 
 // Creates and returns a mongoose.Connection
 export async function initMongoConnection() {
-  connect(process.env.MONGO_URI, {
+  await connect(process.env.MONGO_URI, {
     autoIndex: true,
   })
     .then(() => {
@@ -14,4 +15,10 @@ export async function initMongoConnection() {
         `MongoDB connection error. Please make sure MongoDB is running: ${err}`,
       );
     });
+
+  let ready = connection.readyState;
+  if (ready !== 1) {
+    await sleep(500);
+    ready = connection.readyState;
+  }
 }
