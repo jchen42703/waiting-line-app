@@ -5,7 +5,7 @@ import { before } from "mocha";
 import { createMainServer } from "../src/app";
 import { initMongoConnection } from "../src/lib/db/mongodb";
 
-describe("POST /api/queue/create", () => {
+describe("Queue Routes", () => {
   before(async () => {
     await initMongoConnection();
   });
@@ -79,7 +79,6 @@ describe("POST /api/queue/create", () => {
 
   // eslint-disable-next-line jest/no-done-callback
   it("should join a queue", async () => {
-    // First, create a queue
     const payload = {
       queueId: "q-326d4295-0bf7-4724-b9aa-17820572f4c0",
       name: "Test user",
@@ -92,6 +91,38 @@ describe("POST /api/queue/create", () => {
       .set("Accept", "application/json")
       .send(payload)
       .expect(200);
+  });
+
+  // eslint-disable-next-line jest/no-done-callback
+  it("should be able to pop a user from a queue", async () => {
+    // First, create a queue
+    const queue = {
+      queueName: `mocha-${randomUUID()}`,
+      description: "test",
+      liveTime: 123123,
+      closeTime: 21312321,
+      repeatCycle: RepeatCycle.DAILY,
+      advanceNotice: 2,
+    };
+
+    const createResp = await supertest(app)
+      .post(`/api/queue/create`)
+      .set("Accept", "application/json")
+      .set("Cookie", [`connect.sid=${process.env.SESSION_COOKIE}`])
+      .send(queue)
+      .expect(200);
+
+    const { queueId } = createResp.body;
+
+    // 400 since queue will be empty
+    await supertest(app)
+      .post(`/api/queue/pop`)
+      .set("Accept", "application/json")
+      .set("Cookie", [`connect.sid=${process.env.SESSION_COOKIE}`])
+      .send({
+        queueId,
+      })
+      .expect(400);
   });
 
   // afterEach(() => {
