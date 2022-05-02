@@ -22,8 +22,8 @@ describe("UserWaitingPage", () => {
   afterEach(() => cleanup());
 
   it("should display the user's registration in formation", async () => {
-    window.location.search =
-      "http://localhost:3000/users/q-326d4295-0bf7-4724-b9aa-17820572f4c0";
+    // window.location.search =
+    //   "http://localhost:3000/users/q-326d4295-0bf7-4724-b9aa-17820572f4c0";
     render(<UserWaitingPage />, { wrapper: MemoryRouter });
 
     expect(screen.getByText("Registration Information")).toBeInTheDocument();
