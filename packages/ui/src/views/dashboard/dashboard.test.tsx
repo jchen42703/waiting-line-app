@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import UserWaitingPage from "./UserWaitingPage";
+import Dashboard from "./dashboard";
 
 // pay attention to write it at the top level of your file
 const mockedUsedNavigate = jest.fn();
@@ -21,11 +21,10 @@ describe("UserWaitingPage", () => {
   beforeEach(() => jest.resetAllMocks());
   afterEach(() => cleanup());
 
-  it("should display the user's registration in formation", async () => {
-    window.location.search =
-      "http://localhost:3000/users/q-326d4295-0bf7-4724-b9aa-17820572f4c0";
-    render(<UserWaitingPage />, { wrapper: MemoryRouter });
+  it("should display the table and the queue manager dashboard header", async () => {
+    render(<Dashboard />, { wrapper: MemoryRouter });
 
-    expect(screen.getByText("Registration Information")).toBeInTheDocument();
+    expect(screen.getByText("Queue Manager Dashboard")).toBeInTheDocument();
+    expect(screen.getByRole("table")).toBeInTheDocument();
   });
 });

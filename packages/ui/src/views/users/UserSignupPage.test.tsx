@@ -3,7 +3,12 @@ import UserSignupPage from "./UserSignupPage";
 
 // pay attention to write it at the top level of your file
 const mockedUsedNavigate = jest.fn();
-const mockedUseParams = jest.fn();
+const mockedUseParams = jest.fn(() => {
+  return {
+    queueId: "q-test",
+  };
+});
+
 jest.mock("react-router-dom", () => ({
   ...(jest.requireActual("react-router-dom") as any),
   useNavigate: () => mockedUsedNavigate,

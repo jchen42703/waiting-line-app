@@ -33,6 +33,9 @@ const QueueTableManager = () => {
       console.log(queues);
       setQueueList(queues);
     })();
+    return () => {
+      setQueueList([]);
+    };
   }, []);
 
   const onDelete = (queueId: string) => {
