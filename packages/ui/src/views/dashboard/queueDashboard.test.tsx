@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import Dashboard from "./dashboard";
+import QueueDashboard from "./queueDashboard";
 
 // pay attention to write it at the top level of your file
 const mockedUsedNavigate = jest.fn();
@@ -17,14 +17,17 @@ jest.mock("react-router-dom", () => ({
   useParams: () => mockedUseParams,
 }));
 
-describe("Dashboard", () => {
+describe("QueueDashboard", () => {
   beforeEach(() => jest.resetAllMocks());
   afterEach(() => cleanup());
 
-  it("should display the table and the queue manager dashboard header", async () => {
-    render(<Dashboard />, { wrapper: MemoryRouter });
+  it("should display the table and the user manager dashboard header", async () => {
+    render(<QueueDashboard />, { wrapper: MemoryRouter });
 
-    expect(screen.getByText("Queue Manager Dashboard")).toBeInTheDocument();
-    expect(screen.getByRole("table")).toBeInTheDocument();
+    expect(screen.getByText("Users in Queue")).toBeInTheDocument();
+    // User table
+    // popped users table
+    // Ban users table
+    expect(screen.getAllByRole("table")).toHaveLength(3);
   });
 });
