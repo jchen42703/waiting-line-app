@@ -22,7 +22,7 @@ interface POSTNotifyUserReq {
   queueId: string;
 }
 
-export {
+export type {
   GETQueueRes,
   GETSingleQueueReq,
   GETSingleQueueRes,

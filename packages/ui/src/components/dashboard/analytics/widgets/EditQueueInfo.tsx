@@ -29,7 +29,7 @@ const EditQueueInfo = ({ queueInfo }) => {
 
   // update the inputs
   const onChange = (e) => {
-    if (e == "Daily" || e == "Monthly" || e == "Weekly") {
+    if (e === "Daily" || e === "Monthly" || e === "Weekly") {
       setInputs({ ...inputs, ["repeatCycle"]: e });
     } else {
       setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -95,7 +95,7 @@ const EditQueueInfo = ({ queueInfo }) => {
         console.log(res);
         return res.json();
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err.message);
     }
   };

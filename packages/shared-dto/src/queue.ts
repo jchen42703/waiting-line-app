@@ -80,7 +80,7 @@ interface POSTEditQueueRes {
   queue: IQueue;
 }
 
-export {
+export type {
   POSTCreateReq,
   POSTCreateRes,
   POSTEditQueueReq,

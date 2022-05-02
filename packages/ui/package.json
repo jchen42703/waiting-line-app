@@ -12,6 +12,8 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^16.4.2",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
     "focus-visible": "^5.2.0",
@@ -31,14 +33,11 @@
     "web-vitals": "^2.1.0"
   },
   "devDependencies": {
-    "jest": "^27.0.1",
-    "ts-jest": "^27.0.4",
-    "@swc/core": "^1.2.66",
-    "@swc/helpers": "^0.2.12",
-    "@types/jest": "^26.0.24",
     "@babel/eslint-parser": "^7.17.0",
+    "@types/react-input-mask": "^3.0.1",
     "@types/validator": "^13.7.2",
     "eslint-config-react-app": "^7.0.0",
+    "msw": "^0.39.2",
     "postcss": "^8.4.6",
     "sass": "^1.48.0",
     "stylelint-config-recommended": "^7.0.0",
@@ -47,11 +46,16 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "npx jest",
-    "test:coverage": "npx jest --coverage",
+    "test": "react-scripts test --watchAll=false --no-cache",
+    "test:coverage": "react-scripts test --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
-  "eslintConfig": {},
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",

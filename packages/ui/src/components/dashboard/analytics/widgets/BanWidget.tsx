@@ -22,13 +22,13 @@ const BanWidget = ({ queueInfo }) => {
   const [bannedUsers, setBannedUsers] = useState([]);
 
   useEffect(() => {
-    if (bannedUsers.length != 0) {
+    if (bannedUsers.length !== 0) {
       setBannedUsers(queueInfo.bannedUsers);
     }
   });
 
   const BannedTable = () => {
-    if (bannedUsers.length == 0) {
+    if (bannedUsers.length === 0) {
       return <Image boxSize="150" src={ban}></Image>;
     }
 

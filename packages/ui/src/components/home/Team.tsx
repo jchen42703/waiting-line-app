@@ -156,7 +156,7 @@ export default function Team() {
         mx={"auto"}
       >
         {members.map((cardInfo, index) => (
-          <MemberCard {...cardInfo} index={index} />
+          <MemberCard key={index} {...cardInfo} index={index} />
         ))}
       </SimpleGrid>
       <Box></Box>
